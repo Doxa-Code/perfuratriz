@@ -18,6 +18,16 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type NCM = $Result.DefaultSelection<Prisma.$NCMPayload>
+/**
+ * Model Product
+ * 
+ */
+export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
+/**
+ * Model ProductNCM
+ * 
+ */
+export type ProductNCM = $Result.DefaultSelection<Prisma.$ProductNCMPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +163,26 @@ export class PrismaClient<
     * ```
     */
   get nCM(): Prisma.NCMDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.product`: Exposes CRUD operations for the **Product** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Products
+    * const products = await prisma.product.findMany()
+    * ```
+    */
+  get product(): Prisma.ProductDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.productNCM`: Exposes CRUD operations for the **ProductNCM** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProductNCMS
+    * const productNCMS = await prisma.productNCM.findMany()
+    * ```
+    */
+  get productNCM(): Prisma.ProductNCMDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +623,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    NCM: 'NCM'
+    NCM: 'NCM',
+    Product: 'Product',
+    ProductNCM: 'ProductNCM'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +644,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "nCM"
+      modelProps: "nCM" | "product" | "productNCM"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -687,6 +719,154 @@ export namespace Prisma {
           count: {
             args: Prisma.NCMCountArgs<ExtArgs>
             result: $Utils.Optional<NCMCountAggregateOutputType> | number
+          }
+        }
+      }
+      Product: {
+        payload: Prisma.$ProductPayload<ExtArgs>
+        fields: Prisma.ProductFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProductFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProductFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+          }
+          findFirst: {
+            args: Prisma.ProductFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProductFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+          }
+          findMany: {
+            args: Prisma.ProductFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
+          }
+          create: {
+            args: Prisma.ProductCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+          }
+          createMany: {
+            args: Prisma.ProductCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProductCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
+          }
+          delete: {
+            args: Prisma.ProductDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+          }
+          update: {
+            args: Prisma.ProductUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProductDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProductUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProductUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProductUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+          }
+          aggregate: {
+            args: Prisma.ProductAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProduct>
+          }
+          groupBy: {
+            args: Prisma.ProductGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProductGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProductCountArgs<ExtArgs>
+            result: $Utils.Optional<ProductCountAggregateOutputType> | number
+          }
+        }
+      }
+      ProductNCM: {
+        payload: Prisma.$ProductNCMPayload<ExtArgs>
+        fields: Prisma.ProductNCMFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProductNCMFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProductNCMFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>
+          }
+          findFirst: {
+            args: Prisma.ProductNCMFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProductNCMFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>
+          }
+          findMany: {
+            args: Prisma.ProductNCMFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>[]
+          }
+          create: {
+            args: Prisma.ProductNCMCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>
+          }
+          createMany: {
+            args: Prisma.ProductNCMCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProductNCMCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>[]
+          }
+          delete: {
+            args: Prisma.ProductNCMDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>
+          }
+          update: {
+            args: Prisma.ProductNCMUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProductNCMDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProductNCMUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProductNCMUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProductNCMUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProductNCMPayload>
+          }
+          aggregate: {
+            args: Prisma.ProductNCMAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProductNCM>
+          }
+          groupBy: {
+            args: Prisma.ProductNCMGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProductNCMGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProductNCMCountArgs<ExtArgs>
+            result: $Utils.Optional<ProductNCMCountAggregateOutputType> | number
           }
         }
       }
@@ -775,6 +955,8 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     nCM?: NCMOmit
+    product?: ProductOmit
+    productNCM?: ProductNCMOmit
   }
 
   /* Types for Logging */
@@ -1945,6 +2127,2279 @@ export namespace Prisma {
 
 
   /**
+   * Model Product
+   */
+
+  export type AggregateProduct = {
+    _count: ProductCountAggregateOutputType | null
+    _avg: ProductAvgAggregateOutputType | null
+    _sum: ProductSumAggregateOutputType | null
+    _min: ProductMinAggregateOutputType | null
+    _max: ProductMaxAggregateOutputType | null
+  }
+
+  export type ProductAvgAggregateOutputType = {
+    weight: number | null
+    length: number | null
+    height: number | null
+    width: number | null
+  }
+
+  export type ProductSumAggregateOutputType = {
+    weight: number | null
+    length: number | null
+    height: number | null
+    width: number | null
+  }
+
+  export type ProductMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    weight: number | null
+    length: number | null
+    height: number | null
+    width: number | null
+  }
+
+  export type ProductMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    weight: number | null
+    length: number | null
+    height: number | null
+    width: number | null
+  }
+
+  export type ProductCountAggregateOutputType = {
+    id: number
+    name: number
+    weight: number
+    length: number
+    height: number
+    width: number
+    _all: number
+  }
+
+
+  export type ProductAvgAggregateInputType = {
+    weight?: true
+    length?: true
+    height?: true
+    width?: true
+  }
+
+  export type ProductSumAggregateInputType = {
+    weight?: true
+    length?: true
+    height?: true
+    width?: true
+  }
+
+  export type ProductMinAggregateInputType = {
+    id?: true
+    name?: true
+    weight?: true
+    length?: true
+    height?: true
+    width?: true
+  }
+
+  export type ProductMaxAggregateInputType = {
+    id?: true
+    name?: true
+    weight?: true
+    length?: true
+    height?: true
+    width?: true
+  }
+
+  export type ProductCountAggregateInputType = {
+    id?: true
+    name?: true
+    weight?: true
+    length?: true
+    height?: true
+    width?: true
+    _all?: true
+  }
+
+  export type ProductAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Product to aggregate.
+     */
+    where?: ProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Products to fetch.
+     */
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Products from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Products.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Products
+    **/
+    _count?: true | ProductCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProductAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProductSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProductMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProductMaxAggregateInputType
+  }
+
+  export type GetProductAggregateType<T extends ProductAggregateArgs> = {
+        [P in keyof T & keyof AggregateProduct]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProduct[P]>
+      : GetScalarType<T[P], AggregateProduct[P]>
+  }
+
+
+
+
+  export type ProductGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithAggregationInput | ProductOrderByWithAggregationInput[]
+    by: ProductScalarFieldEnum[] | ProductScalarFieldEnum
+    having?: ProductScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProductCountAggregateInputType | true
+    _avg?: ProductAvgAggregateInputType
+    _sum?: ProductSumAggregateInputType
+    _min?: ProductMinAggregateInputType
+    _max?: ProductMaxAggregateInputType
+  }
+
+  export type ProductGroupByOutputType = {
+    id: string
+    name: string
+    weight: number
+    length: number
+    height: number
+    width: number
+    _count: ProductCountAggregateOutputType | null
+    _avg: ProductAvgAggregateOutputType | null
+    _sum: ProductSumAggregateOutputType | null
+    _min: ProductMinAggregateOutputType | null
+    _max: ProductMaxAggregateOutputType | null
+  }
+
+  type GetProductGroupByPayload<T extends ProductGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProductGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProductGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProductGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    weight?: boolean
+    length?: boolean
+    height?: boolean
+    width?: boolean
+    ncm?: boolean | Product$ncmArgs<ExtArgs>
+  }, ExtArgs["result"]["product"]>
+
+  export type ProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    weight?: boolean
+    length?: boolean
+    height?: boolean
+    width?: boolean
+  }, ExtArgs["result"]["product"]>
+
+  export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    weight?: boolean
+    length?: boolean
+    height?: boolean
+    width?: boolean
+  }, ExtArgs["result"]["product"]>
+
+  export type ProductSelectScalar = {
+    id?: boolean
+    name?: boolean
+    weight?: boolean
+    length?: boolean
+    height?: boolean
+    width?: boolean
+  }
+
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "weight" | "length" | "height" | "width", ExtArgs["result"]["product"]>
+  export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    ncm?: boolean | Product$ncmArgs<ExtArgs>
+  }
+  export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Product"
+    objects: {
+      ncm: Prisma.$ProductNCMPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      weight: number
+      length: number
+      height: number
+      width: number
+    }, ExtArgs["result"]["product"]>
+    composites: {}
+  }
+
+  type ProductGetPayload<S extends boolean | null | undefined | ProductDefaultArgs> = $Result.GetResult<Prisma.$ProductPayload, S>
+
+  type ProductCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProductFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProductCountAggregateInputType | true
+    }
+
+  export interface ProductDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Product'], meta: { name: 'Product' } }
+    /**
+     * Find zero or one Product that matches the filter.
+     * @param {ProductFindUniqueArgs} args - Arguments to find a Product
+     * @example
+     * // Get one Product
+     * const product = await prisma.product.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProductFindUniqueArgs>(args: SelectSubset<T, ProductFindUniqueArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Product that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProductFindUniqueOrThrowArgs} args - Arguments to find a Product
+     * @example
+     * // Get one Product
+     * const product = await prisma.product.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProductFindUniqueOrThrowArgs>(args: SelectSubset<T, ProductFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Product that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductFindFirstArgs} args - Arguments to find a Product
+     * @example
+     * // Get one Product
+     * const product = await prisma.product.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProductFindFirstArgs>(args?: SelectSubset<T, ProductFindFirstArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Product that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductFindFirstOrThrowArgs} args - Arguments to find a Product
+     * @example
+     * // Get one Product
+     * const product = await prisma.product.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProductFindFirstOrThrowArgs>(args?: SelectSubset<T, ProductFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Products that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Products
+     * const products = await prisma.product.findMany()
+     * 
+     * // Get first 10 Products
+     * const products = await prisma.product.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const productWithIdOnly = await prisma.product.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProductFindManyArgs>(args?: SelectSubset<T, ProductFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Product.
+     * @param {ProductCreateArgs} args - Arguments to create a Product.
+     * @example
+     * // Create one Product
+     * const Product = await prisma.product.create({
+     *   data: {
+     *     // ... data to create a Product
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProductCreateArgs>(args: SelectSubset<T, ProductCreateArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Products.
+     * @param {ProductCreateManyArgs} args - Arguments to create many Products.
+     * @example
+     * // Create many Products
+     * const product = await prisma.product.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProductCreateManyArgs>(args?: SelectSubset<T, ProductCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Products and returns the data saved in the database.
+     * @param {ProductCreateManyAndReturnArgs} args - Arguments to create many Products.
+     * @example
+     * // Create many Products
+     * const product = await prisma.product.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Products and only return the `id`
+     * const productWithIdOnly = await prisma.product.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProductCreateManyAndReturnArgs>(args?: SelectSubset<T, ProductCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Product.
+     * @param {ProductDeleteArgs} args - Arguments to delete one Product.
+     * @example
+     * // Delete one Product
+     * const Product = await prisma.product.delete({
+     *   where: {
+     *     // ... filter to delete one Product
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProductDeleteArgs>(args: SelectSubset<T, ProductDeleteArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Product.
+     * @param {ProductUpdateArgs} args - Arguments to update one Product.
+     * @example
+     * // Update one Product
+     * const product = await prisma.product.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProductUpdateArgs>(args: SelectSubset<T, ProductUpdateArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Products.
+     * @param {ProductDeleteManyArgs} args - Arguments to filter Products to delete.
+     * @example
+     * // Delete a few Products
+     * const { count } = await prisma.product.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProductDeleteManyArgs>(args?: SelectSubset<T, ProductDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Products.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Products
+     * const product = await prisma.product.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProductUpdateManyArgs>(args: SelectSubset<T, ProductUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Products and returns the data updated in the database.
+     * @param {ProductUpdateManyAndReturnArgs} args - Arguments to update many Products.
+     * @example
+     * // Update many Products
+     * const product = await prisma.product.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Products and only return the `id`
+     * const productWithIdOnly = await prisma.product.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProductUpdateManyAndReturnArgs>(args: SelectSubset<T, ProductUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Product.
+     * @param {ProductUpsertArgs} args - Arguments to update or create a Product.
+     * @example
+     * // Update or create a Product
+     * const product = await prisma.product.upsert({
+     *   create: {
+     *     // ... data to create a Product
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Product we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProductUpsertArgs>(args: SelectSubset<T, ProductUpsertArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Products.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductCountArgs} args - Arguments to filter Products to count.
+     * @example
+     * // Count the number of Products
+     * const count = await prisma.product.count({
+     *   where: {
+     *     // ... the filter for the Products we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProductCountArgs>(
+      args?: Subset<T, ProductCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProductCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Product.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProductAggregateArgs>(args: Subset<T, ProductAggregateArgs>): Prisma.PrismaPromise<GetProductAggregateType<T>>
+
+    /**
+     * Group by Product.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProductGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProductGroupByArgs['orderBy'] }
+        : { orderBy?: ProductGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProductGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Product model
+   */
+  readonly fields: ProductFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Product.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    ncm<T extends Product$ncmArgs<ExtArgs> = {}>(args?: Subset<T, Product$ncmArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Product model
+   */
+  interface ProductFieldRefs {
+    readonly id: FieldRef<"Product", 'String'>
+    readonly name: FieldRef<"Product", 'String'>
+    readonly weight: FieldRef<"Product", 'Float'>
+    readonly length: FieldRef<"Product", 'Float'>
+    readonly height: FieldRef<"Product", 'Float'>
+    readonly width: FieldRef<"Product", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Product findUnique
+   */
+  export type ProductFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * Filter, which Product to fetch.
+     */
+    where: ProductWhereUniqueInput
+  }
+
+  /**
+   * Product findUniqueOrThrow
+   */
+  export type ProductFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * Filter, which Product to fetch.
+     */
+    where: ProductWhereUniqueInput
+  }
+
+  /**
+   * Product findFirst
+   */
+  export type ProductFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * Filter, which Product to fetch.
+     */
+    where?: ProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Products to fetch.
+     */
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Products.
+     */
+    cursor?: ProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Products from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Products.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Products.
+     */
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * Product findFirstOrThrow
+   */
+  export type ProductFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * Filter, which Product to fetch.
+     */
+    where?: ProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Products to fetch.
+     */
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Products.
+     */
+    cursor?: ProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Products from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Products.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Products.
+     */
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * Product findMany
+   */
+  export type ProductFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * Filter, which Products to fetch.
+     */
+    where?: ProductWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Products to fetch.
+     */
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Products.
+     */
+    cursor?: ProductWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Products from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Products.
+     */
+    skip?: number
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * Product create
+   */
+  export type ProductCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Product.
+     */
+    data: XOR<ProductCreateInput, ProductUncheckedCreateInput>
+  }
+
+  /**
+   * Product createMany
+   */
+  export type ProductCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Products.
+     */
+    data: ProductCreateManyInput | ProductCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Product createManyAndReturn
+   */
+  export type ProductCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * The data used to create many Products.
+     */
+    data: ProductCreateManyInput | ProductCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Product update
+   */
+  export type ProductUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Product.
+     */
+    data: XOR<ProductUpdateInput, ProductUncheckedUpdateInput>
+    /**
+     * Choose, which Product to update.
+     */
+    where: ProductWhereUniqueInput
+  }
+
+  /**
+   * Product updateMany
+   */
+  export type ProductUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Products.
+     */
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyInput>
+    /**
+     * Filter which Products to update
+     */
+    where?: ProductWhereInput
+    /**
+     * Limit how many Products to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Product updateManyAndReturn
+   */
+  export type ProductUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * The data used to update Products.
+     */
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyInput>
+    /**
+     * Filter which Products to update
+     */
+    where?: ProductWhereInput
+    /**
+     * Limit how many Products to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Product upsert
+   */
+  export type ProductUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Product to update in case it exists.
+     */
+    where: ProductWhereUniqueInput
+    /**
+     * In case the Product found by the `where` argument doesn't exist, create a new Product with this data.
+     */
+    create: XOR<ProductCreateInput, ProductUncheckedCreateInput>
+    /**
+     * In case the Product was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProductUpdateInput, ProductUncheckedUpdateInput>
+  }
+
+  /**
+   * Product delete
+   */
+  export type ProductDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    /**
+     * Filter which Product to delete.
+     */
+    where: ProductWhereUniqueInput
+  }
+
+  /**
+   * Product deleteMany
+   */
+  export type ProductDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Products to delete
+     */
+    where?: ProductWhereInput
+    /**
+     * Limit how many Products to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Product.ncm
+   */
+  export type Product$ncmArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    where?: ProductNCMWhereInput
+  }
+
+  /**
+   * Product without action
+   */
+  export type ProductDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ProductNCM
+   */
+
+  export type AggregateProductNCM = {
+    _count: ProductNCMCountAggregateOutputType | null
+    _avg: ProductNCMAvgAggregateOutputType | null
+    _sum: ProductNCMSumAggregateOutputType | null
+    _min: ProductNCMMinAggregateOutputType | null
+    _max: ProductNCMMaxAggregateOutputType | null
+  }
+
+  export type ProductNCMAvgAggregateOutputType = {
+    code: number | null
+    cofins: number | null
+    icms: number | null
+    ipi: number | null
+    pis: number | null
+    tax: number | null
+  }
+
+  export type ProductNCMSumAggregateOutputType = {
+    code: number | null
+    cofins: number | null
+    icms: number | null
+    ipi: number | null
+    pis: number | null
+    tax: number | null
+  }
+
+  export type ProductNCMMinAggregateOutputType = {
+    id: string | null
+    code: number | null
+    cofins: number | null
+    icms: number | null
+    ipi: number | null
+    pis: number | null
+    tax: number | null
+    productId: string | null
+  }
+
+  export type ProductNCMMaxAggregateOutputType = {
+    id: string | null
+    code: number | null
+    cofins: number | null
+    icms: number | null
+    ipi: number | null
+    pis: number | null
+    tax: number | null
+    productId: string | null
+  }
+
+  export type ProductNCMCountAggregateOutputType = {
+    id: number
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+    productId: number
+    _all: number
+  }
+
+
+  export type ProductNCMAvgAggregateInputType = {
+    code?: true
+    cofins?: true
+    icms?: true
+    ipi?: true
+    pis?: true
+    tax?: true
+  }
+
+  export type ProductNCMSumAggregateInputType = {
+    code?: true
+    cofins?: true
+    icms?: true
+    ipi?: true
+    pis?: true
+    tax?: true
+  }
+
+  export type ProductNCMMinAggregateInputType = {
+    id?: true
+    code?: true
+    cofins?: true
+    icms?: true
+    ipi?: true
+    pis?: true
+    tax?: true
+    productId?: true
+  }
+
+  export type ProductNCMMaxAggregateInputType = {
+    id?: true
+    code?: true
+    cofins?: true
+    icms?: true
+    ipi?: true
+    pis?: true
+    tax?: true
+    productId?: true
+  }
+
+  export type ProductNCMCountAggregateInputType = {
+    id?: true
+    code?: true
+    cofins?: true
+    icms?: true
+    ipi?: true
+    pis?: true
+    tax?: true
+    productId?: true
+    _all?: true
+  }
+
+  export type ProductNCMAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProductNCM to aggregate.
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductNCMS to fetch.
+     */
+    orderBy?: ProductNCMOrderByWithRelationInput | ProductNCMOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProductNCMWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductNCMS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductNCMS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProductNCMS
+    **/
+    _count?: true | ProductNCMCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProductNCMAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProductNCMSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProductNCMMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProductNCMMaxAggregateInputType
+  }
+
+  export type GetProductNCMAggregateType<T extends ProductNCMAggregateArgs> = {
+        [P in keyof T & keyof AggregateProductNCM]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProductNCM[P]>
+      : GetScalarType<T[P], AggregateProductNCM[P]>
+  }
+
+
+
+
+  export type ProductNCMGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductNCMWhereInput
+    orderBy?: ProductNCMOrderByWithAggregationInput | ProductNCMOrderByWithAggregationInput[]
+    by: ProductNCMScalarFieldEnum[] | ProductNCMScalarFieldEnum
+    having?: ProductNCMScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProductNCMCountAggregateInputType | true
+    _avg?: ProductNCMAvgAggregateInputType
+    _sum?: ProductNCMSumAggregateInputType
+    _min?: ProductNCMMinAggregateInputType
+    _max?: ProductNCMMaxAggregateInputType
+  }
+
+  export type ProductNCMGroupByOutputType = {
+    id: string
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+    productId: string
+    _count: ProductNCMCountAggregateOutputType | null
+    _avg: ProductNCMAvgAggregateOutputType | null
+    _sum: ProductNCMSumAggregateOutputType | null
+    _min: ProductNCMMinAggregateOutputType | null
+    _max: ProductNCMMaxAggregateOutputType | null
+  }
+
+  type GetProductNCMGroupByPayload<T extends ProductNCMGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProductNCMGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProductNCMGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProductNCMGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductNCMGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProductNCMSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    cofins?: boolean
+    icms?: boolean
+    ipi?: boolean
+    pis?: boolean
+    tax?: boolean
+    productId?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productNCM"]>
+
+  export type ProductNCMSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    cofins?: boolean
+    icms?: boolean
+    ipi?: boolean
+    pis?: boolean
+    tax?: boolean
+    productId?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productNCM"]>
+
+  export type ProductNCMSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    cofins?: boolean
+    icms?: boolean
+    ipi?: boolean
+    pis?: boolean
+    tax?: boolean
+    productId?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["productNCM"]>
+
+  export type ProductNCMSelectScalar = {
+    id?: boolean
+    code?: boolean
+    cofins?: boolean
+    icms?: boolean
+    ipi?: boolean
+    pis?: boolean
+    tax?: boolean
+    productId?: boolean
+  }
+
+  export type ProductNCMOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "cofins" | "icms" | "ipi" | "pis" | "tax" | "productId", ExtArgs["result"]["productNCM"]>
+  export type ProductNCMInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type ProductNCMIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type ProductNCMIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $ProductNCMPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProductNCM"
+    objects: {
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: number
+      cofins: number
+      icms: number
+      ipi: number
+      pis: number
+      tax: number
+      productId: string
+    }, ExtArgs["result"]["productNCM"]>
+    composites: {}
+  }
+
+  type ProductNCMGetPayload<S extends boolean | null | undefined | ProductNCMDefaultArgs> = $Result.GetResult<Prisma.$ProductNCMPayload, S>
+
+  type ProductNCMCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProductNCMFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProductNCMCountAggregateInputType | true
+    }
+
+  export interface ProductNCMDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProductNCM'], meta: { name: 'ProductNCM' } }
+    /**
+     * Find zero or one ProductNCM that matches the filter.
+     * @param {ProductNCMFindUniqueArgs} args - Arguments to find a ProductNCM
+     * @example
+     * // Get one ProductNCM
+     * const productNCM = await prisma.productNCM.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProductNCMFindUniqueArgs>(args: SelectSubset<T, ProductNCMFindUniqueArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProductNCM that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProductNCMFindUniqueOrThrowArgs} args - Arguments to find a ProductNCM
+     * @example
+     * // Get one ProductNCM
+     * const productNCM = await prisma.productNCM.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProductNCMFindUniqueOrThrowArgs>(args: SelectSubset<T, ProductNCMFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProductNCM that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMFindFirstArgs} args - Arguments to find a ProductNCM
+     * @example
+     * // Get one ProductNCM
+     * const productNCM = await prisma.productNCM.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProductNCMFindFirstArgs>(args?: SelectSubset<T, ProductNCMFindFirstArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProductNCM that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMFindFirstOrThrowArgs} args - Arguments to find a ProductNCM
+     * @example
+     * // Get one ProductNCM
+     * const productNCM = await prisma.productNCM.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProductNCMFindFirstOrThrowArgs>(args?: SelectSubset<T, ProductNCMFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProductNCMS that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProductNCMS
+     * const productNCMS = await prisma.productNCM.findMany()
+     * 
+     * // Get first 10 ProductNCMS
+     * const productNCMS = await prisma.productNCM.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const productNCMWithIdOnly = await prisma.productNCM.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProductNCMFindManyArgs>(args?: SelectSubset<T, ProductNCMFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProductNCM.
+     * @param {ProductNCMCreateArgs} args - Arguments to create a ProductNCM.
+     * @example
+     * // Create one ProductNCM
+     * const ProductNCM = await prisma.productNCM.create({
+     *   data: {
+     *     // ... data to create a ProductNCM
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProductNCMCreateArgs>(args: SelectSubset<T, ProductNCMCreateArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProductNCMS.
+     * @param {ProductNCMCreateManyArgs} args - Arguments to create many ProductNCMS.
+     * @example
+     * // Create many ProductNCMS
+     * const productNCM = await prisma.productNCM.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProductNCMCreateManyArgs>(args?: SelectSubset<T, ProductNCMCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProductNCMS and returns the data saved in the database.
+     * @param {ProductNCMCreateManyAndReturnArgs} args - Arguments to create many ProductNCMS.
+     * @example
+     * // Create many ProductNCMS
+     * const productNCM = await prisma.productNCM.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProductNCMS and only return the `id`
+     * const productNCMWithIdOnly = await prisma.productNCM.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProductNCMCreateManyAndReturnArgs>(args?: SelectSubset<T, ProductNCMCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProductNCM.
+     * @param {ProductNCMDeleteArgs} args - Arguments to delete one ProductNCM.
+     * @example
+     * // Delete one ProductNCM
+     * const ProductNCM = await prisma.productNCM.delete({
+     *   where: {
+     *     // ... filter to delete one ProductNCM
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProductNCMDeleteArgs>(args: SelectSubset<T, ProductNCMDeleteArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProductNCM.
+     * @param {ProductNCMUpdateArgs} args - Arguments to update one ProductNCM.
+     * @example
+     * // Update one ProductNCM
+     * const productNCM = await prisma.productNCM.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProductNCMUpdateArgs>(args: SelectSubset<T, ProductNCMUpdateArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProductNCMS.
+     * @param {ProductNCMDeleteManyArgs} args - Arguments to filter ProductNCMS to delete.
+     * @example
+     * // Delete a few ProductNCMS
+     * const { count } = await prisma.productNCM.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProductNCMDeleteManyArgs>(args?: SelectSubset<T, ProductNCMDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductNCMS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProductNCMS
+     * const productNCM = await prisma.productNCM.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProductNCMUpdateManyArgs>(args: SelectSubset<T, ProductNCMUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductNCMS and returns the data updated in the database.
+     * @param {ProductNCMUpdateManyAndReturnArgs} args - Arguments to update many ProductNCMS.
+     * @example
+     * // Update many ProductNCMS
+     * const productNCM = await prisma.productNCM.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProductNCMS and only return the `id`
+     * const productNCMWithIdOnly = await prisma.productNCM.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProductNCMUpdateManyAndReturnArgs>(args: SelectSubset<T, ProductNCMUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProductNCM.
+     * @param {ProductNCMUpsertArgs} args - Arguments to update or create a ProductNCM.
+     * @example
+     * // Update or create a ProductNCM
+     * const productNCM = await prisma.productNCM.upsert({
+     *   create: {
+     *     // ... data to create a ProductNCM
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProductNCM we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProductNCMUpsertArgs>(args: SelectSubset<T, ProductNCMUpsertArgs<ExtArgs>>): Prisma__ProductNCMClient<$Result.GetResult<Prisma.$ProductNCMPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProductNCMS.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMCountArgs} args - Arguments to filter ProductNCMS to count.
+     * @example
+     * // Count the number of ProductNCMS
+     * const count = await prisma.productNCM.count({
+     *   where: {
+     *     // ... the filter for the ProductNCMS we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProductNCMCountArgs>(
+      args?: Subset<T, ProductNCMCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProductNCMCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProductNCM.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProductNCMAggregateArgs>(args: Subset<T, ProductNCMAggregateArgs>): Prisma.PrismaPromise<GetProductNCMAggregateType<T>>
+
+    /**
+     * Group by ProductNCM.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductNCMGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProductNCMGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProductNCMGroupByArgs['orderBy'] }
+        : { orderBy?: ProductNCMGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProductNCMGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductNCMGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProductNCM model
+   */
+  readonly fields: ProductNCMFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProductNCM.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProductNCMClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProductNCM model
+   */
+  interface ProductNCMFieldRefs {
+    readonly id: FieldRef<"ProductNCM", 'String'>
+    readonly code: FieldRef<"ProductNCM", 'Float'>
+    readonly cofins: FieldRef<"ProductNCM", 'Float'>
+    readonly icms: FieldRef<"ProductNCM", 'Float'>
+    readonly ipi: FieldRef<"ProductNCM", 'Float'>
+    readonly pis: FieldRef<"ProductNCM", 'Float'>
+    readonly tax: FieldRef<"ProductNCM", 'Float'>
+    readonly productId: FieldRef<"ProductNCM", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProductNCM findUnique
+   */
+  export type ProductNCMFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductNCM to fetch.
+     */
+    where: ProductNCMWhereUniqueInput
+  }
+
+  /**
+   * ProductNCM findUniqueOrThrow
+   */
+  export type ProductNCMFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductNCM to fetch.
+     */
+    where: ProductNCMWhereUniqueInput
+  }
+
+  /**
+   * ProductNCM findFirst
+   */
+  export type ProductNCMFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductNCM to fetch.
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductNCMS to fetch.
+     */
+    orderBy?: ProductNCMOrderByWithRelationInput | ProductNCMOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductNCMS.
+     */
+    cursor?: ProductNCMWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductNCMS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductNCMS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductNCMS.
+     */
+    distinct?: ProductNCMScalarFieldEnum | ProductNCMScalarFieldEnum[]
+  }
+
+  /**
+   * ProductNCM findFirstOrThrow
+   */
+  export type ProductNCMFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductNCM to fetch.
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductNCMS to fetch.
+     */
+    orderBy?: ProductNCMOrderByWithRelationInput | ProductNCMOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductNCMS.
+     */
+    cursor?: ProductNCMWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductNCMS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductNCMS.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductNCMS.
+     */
+    distinct?: ProductNCMScalarFieldEnum | ProductNCMScalarFieldEnum[]
+  }
+
+  /**
+   * ProductNCM findMany
+   */
+  export type ProductNCMFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * Filter, which ProductNCMS to fetch.
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductNCMS to fetch.
+     */
+    orderBy?: ProductNCMOrderByWithRelationInput | ProductNCMOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProductNCMS.
+     */
+    cursor?: ProductNCMWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductNCMS from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductNCMS.
+     */
+    skip?: number
+    distinct?: ProductNCMScalarFieldEnum | ProductNCMScalarFieldEnum[]
+  }
+
+  /**
+   * ProductNCM create
+   */
+  export type ProductNCMCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProductNCM.
+     */
+    data: XOR<ProductNCMCreateInput, ProductNCMUncheckedCreateInput>
+  }
+
+  /**
+   * ProductNCM createMany
+   */
+  export type ProductNCMCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProductNCMS.
+     */
+    data: ProductNCMCreateManyInput | ProductNCMCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProductNCM createManyAndReturn
+   */
+  export type ProductNCMCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProductNCMS.
+     */
+    data: ProductNCMCreateManyInput | ProductNCMCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProductNCM update
+   */
+  export type ProductNCMUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProductNCM.
+     */
+    data: XOR<ProductNCMUpdateInput, ProductNCMUncheckedUpdateInput>
+    /**
+     * Choose, which ProductNCM to update.
+     */
+    where: ProductNCMWhereUniqueInput
+  }
+
+  /**
+   * ProductNCM updateMany
+   */
+  export type ProductNCMUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProductNCMS.
+     */
+    data: XOR<ProductNCMUpdateManyMutationInput, ProductNCMUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductNCMS to update
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * Limit how many ProductNCMS to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProductNCM updateManyAndReturn
+   */
+  export type ProductNCMUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * The data used to update ProductNCMS.
+     */
+    data: XOR<ProductNCMUpdateManyMutationInput, ProductNCMUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductNCMS to update
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * Limit how many ProductNCMS to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProductNCM upsert
+   */
+  export type ProductNCMUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProductNCM to update in case it exists.
+     */
+    where: ProductNCMWhereUniqueInput
+    /**
+     * In case the ProductNCM found by the `where` argument doesn't exist, create a new ProductNCM with this data.
+     */
+    create: XOR<ProductNCMCreateInput, ProductNCMUncheckedCreateInput>
+    /**
+     * In case the ProductNCM was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProductNCMUpdateInput, ProductNCMUncheckedUpdateInput>
+  }
+
+  /**
+   * ProductNCM delete
+   */
+  export type ProductNCMDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+    /**
+     * Filter which ProductNCM to delete.
+     */
+    where: ProductNCMWhereUniqueInput
+  }
+
+  /**
+   * ProductNCM deleteMany
+   */
+  export type ProductNCMDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProductNCMS to delete
+     */
+    where?: ProductNCMWhereInput
+    /**
+     * Limit how many ProductNCMS to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProductNCM without action
+   */
+  export type ProductNCMDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductNCM
+     */
+    select?: ProductNCMSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProductNCM
+     */
+    omit?: ProductNCMOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductNCMInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1969,6 +4424,32 @@ export namespace Prisma {
   };
 
   export type NCMScalarFieldEnum = (typeof NCMScalarFieldEnum)[keyof typeof NCMScalarFieldEnum]
+
+
+  export const ProductScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    weight: 'weight',
+    length: 'length',
+    height: 'height',
+    width: 'width'
+  };
+
+  export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+
+
+  export const ProductNCMScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    cofins: 'cofins',
+    icms: 'icms',
+    ipi: 'ipi',
+    pis: 'pis',
+    tax: 'tax',
+    productId: 'productId'
+  };
+
+  export type ProductNCMScalarFieldEnum = (typeof ProductNCMScalarFieldEnum)[keyof typeof ProductNCMScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2101,6 +4582,140 @@ export namespace Prisma {
     ipi?: FloatWithAggregatesFilter<"NCM"> | number
   }
 
+  export type ProductWhereInput = {
+    AND?: ProductWhereInput | ProductWhereInput[]
+    OR?: ProductWhereInput[]
+    NOT?: ProductWhereInput | ProductWhereInput[]
+    id?: StringFilter<"Product"> | string
+    name?: StringFilter<"Product"> | string
+    weight?: FloatFilter<"Product"> | number
+    length?: FloatFilter<"Product"> | number
+    height?: FloatFilter<"Product"> | number
+    width?: FloatFilter<"Product"> | number
+    ncm?: XOR<ProductNCMNullableScalarRelationFilter, ProductNCMWhereInput> | null
+  }
+
+  export type ProductOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    ncm?: ProductNCMOrderByWithRelationInput
+  }
+
+  export type ProductWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProductWhereInput | ProductWhereInput[]
+    OR?: ProductWhereInput[]
+    NOT?: ProductWhereInput | ProductWhereInput[]
+    name?: StringFilter<"Product"> | string
+    weight?: FloatFilter<"Product"> | number
+    length?: FloatFilter<"Product"> | number
+    height?: FloatFilter<"Product"> | number
+    width?: FloatFilter<"Product"> | number
+    ncm?: XOR<ProductNCMNullableScalarRelationFilter, ProductNCMWhereInput> | null
+  }, "id">
+
+  export type ProductOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+    _count?: ProductCountOrderByAggregateInput
+    _avg?: ProductAvgOrderByAggregateInput
+    _max?: ProductMaxOrderByAggregateInput
+    _min?: ProductMinOrderByAggregateInput
+    _sum?: ProductSumOrderByAggregateInput
+  }
+
+  export type ProductScalarWhereWithAggregatesInput = {
+    AND?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
+    OR?: ProductScalarWhereWithAggregatesInput[]
+    NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Product"> | string
+    name?: StringWithAggregatesFilter<"Product"> | string
+    weight?: FloatWithAggregatesFilter<"Product"> | number
+    length?: FloatWithAggregatesFilter<"Product"> | number
+    height?: FloatWithAggregatesFilter<"Product"> | number
+    width?: FloatWithAggregatesFilter<"Product"> | number
+  }
+
+  export type ProductNCMWhereInput = {
+    AND?: ProductNCMWhereInput | ProductNCMWhereInput[]
+    OR?: ProductNCMWhereInput[]
+    NOT?: ProductNCMWhereInput | ProductNCMWhereInput[]
+    id?: StringFilter<"ProductNCM"> | string
+    code?: FloatFilter<"ProductNCM"> | number
+    cofins?: FloatFilter<"ProductNCM"> | number
+    icms?: FloatFilter<"ProductNCM"> | number
+    ipi?: FloatFilter<"ProductNCM"> | number
+    pis?: FloatFilter<"ProductNCM"> | number
+    tax?: FloatFilter<"ProductNCM"> | number
+    productId?: StringFilter<"ProductNCM"> | string
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type ProductNCMOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+    productId?: SortOrder
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type ProductNCMWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    productId?: string
+    AND?: ProductNCMWhereInput | ProductNCMWhereInput[]
+    OR?: ProductNCMWhereInput[]
+    NOT?: ProductNCMWhereInput | ProductNCMWhereInput[]
+    code?: FloatFilter<"ProductNCM"> | number
+    cofins?: FloatFilter<"ProductNCM"> | number
+    icms?: FloatFilter<"ProductNCM"> | number
+    ipi?: FloatFilter<"ProductNCM"> | number
+    pis?: FloatFilter<"ProductNCM"> | number
+    tax?: FloatFilter<"ProductNCM"> | number
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "id" | "productId">
+
+  export type ProductNCMOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+    productId?: SortOrder
+    _count?: ProductNCMCountOrderByAggregateInput
+    _avg?: ProductNCMAvgOrderByAggregateInput
+    _max?: ProductNCMMaxOrderByAggregateInput
+    _min?: ProductNCMMinOrderByAggregateInput
+    _sum?: ProductNCMSumOrderByAggregateInput
+  }
+
+  export type ProductNCMScalarWhereWithAggregatesInput = {
+    AND?: ProductNCMScalarWhereWithAggregatesInput | ProductNCMScalarWhereWithAggregatesInput[]
+    OR?: ProductNCMScalarWhereWithAggregatesInput[]
+    NOT?: ProductNCMScalarWhereWithAggregatesInput | ProductNCMScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProductNCM"> | string
+    code?: FloatWithAggregatesFilter<"ProductNCM"> | number
+    cofins?: FloatWithAggregatesFilter<"ProductNCM"> | number
+    icms?: FloatWithAggregatesFilter<"ProductNCM"> | number
+    ipi?: FloatWithAggregatesFilter<"ProductNCM"> | number
+    pis?: FloatWithAggregatesFilter<"ProductNCM"> | number
+    tax?: FloatWithAggregatesFilter<"ProductNCM"> | number
+    productId?: StringWithAggregatesFilter<"ProductNCM"> | string
+  }
+
   export type NCMCreateInput = {
     id?: string
     code: number
@@ -2169,6 +4784,149 @@ export namespace Prisma {
     pis?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     ipi?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductCreateInput = {
+    id?: string
+    name?: string
+    weight: number
+    length: number
+    height: number
+    width: number
+    ncm?: ProductNCMCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateInput = {
+    id?: string
+    name?: string
+    weight: number
+    length: number
+    height: number
+    width: number
+    ncm?: ProductNCMUncheckedCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
+    ncm?: ProductNCMUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
+    ncm?: ProductNCMUncheckedUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductCreateManyInput = {
+    id?: string
+    name?: string
+    weight: number
+    length: number
+    height: number
+    width: number
+  }
+
+  export type ProductUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductNCMCreateInput = {
+    id?: string
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+    product: ProductCreateNestedOneWithoutNcmInput
+  }
+
+  export type ProductNCMUncheckedCreateInput = {
+    id?: string
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+    productId: string
+  }
+
+  export type ProductNCMUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: FloatFieldUpdateOperationsInput | number
+    cofins?: FloatFieldUpdateOperationsInput | number
+    icms?: FloatFieldUpdateOperationsInput | number
+    ipi?: FloatFieldUpdateOperationsInput | number
+    pis?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    product?: ProductUpdateOneRequiredWithoutNcmNestedInput
+  }
+
+  export type ProductNCMUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: FloatFieldUpdateOperationsInput | number
+    cofins?: FloatFieldUpdateOperationsInput | number
+    icms?: FloatFieldUpdateOperationsInput | number
+    ipi?: FloatFieldUpdateOperationsInput | number
+    pis?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    productId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProductNCMCreateManyInput = {
+    id?: string
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+    productId: string
+  }
+
+  export type ProductNCMUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: FloatFieldUpdateOperationsInput | number
+    cofins?: FloatFieldUpdateOperationsInput | number
+    icms?: FloatFieldUpdateOperationsInput | number
+    ipi?: FloatFieldUpdateOperationsInput | number
+    pis?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductNCMUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: FloatFieldUpdateOperationsInput | number
+    cofins?: FloatFieldUpdateOperationsInput | number
+    icms?: FloatFieldUpdateOperationsInput | number
+    ipi?: FloatFieldUpdateOperationsInput | number
+    pis?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+    productId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2279,6 +5037,108 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type ProductNCMNullableScalarRelationFilter = {
+    is?: ProductNCMWhereInput | null
+    isNot?: ProductNCMWhereInput | null
+  }
+
+  export type ProductCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+  }
+
+  export type ProductAvgOrderByAggregateInput = {
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+  }
+
+  export type ProductMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+  }
+
+  export type ProductMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+  }
+
+  export type ProductSumOrderByAggregateInput = {
+    weight?: SortOrder
+    length?: SortOrder
+    height?: SortOrder
+    width?: SortOrder
+  }
+
+  export type ProductScalarRelationFilter = {
+    is?: ProductWhereInput
+    isNot?: ProductWhereInput
+  }
+
+  export type ProductNCMCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductNCMAvgOrderByAggregateInput = {
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+  }
+
+  export type ProductNCMMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductNCMMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductNCMSumOrderByAggregateInput = {
+    code?: SortOrder
+    cofins?: SortOrder
+    icms?: SortOrder
+    ipi?: SortOrder
+    pis?: SortOrder
+    tax?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2289,6 +5149,52 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ProductNCMCreateNestedOneWithoutProductInput = {
+    create?: XOR<ProductNCMCreateWithoutProductInput, ProductNCMUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductNCMCreateOrConnectWithoutProductInput
+    connect?: ProductNCMWhereUniqueInput
+  }
+
+  export type ProductNCMUncheckedCreateNestedOneWithoutProductInput = {
+    create?: XOR<ProductNCMCreateWithoutProductInput, ProductNCMUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductNCMCreateOrConnectWithoutProductInput
+    connect?: ProductNCMWhereUniqueInput
+  }
+
+  export type ProductNCMUpdateOneWithoutProductNestedInput = {
+    create?: XOR<ProductNCMCreateWithoutProductInput, ProductNCMUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductNCMCreateOrConnectWithoutProductInput
+    upsert?: ProductNCMUpsertWithoutProductInput
+    disconnect?: ProductNCMWhereInput | boolean
+    delete?: ProductNCMWhereInput | boolean
+    connect?: ProductNCMWhereUniqueInput
+    update?: XOR<XOR<ProductNCMUpdateToOneWithWhereWithoutProductInput, ProductNCMUpdateWithoutProductInput>, ProductNCMUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ProductNCMUncheckedUpdateOneWithoutProductNestedInput = {
+    create?: XOR<ProductNCMCreateWithoutProductInput, ProductNCMUncheckedCreateWithoutProductInput>
+    connectOrCreate?: ProductNCMCreateOrConnectWithoutProductInput
+    upsert?: ProductNCMUpsertWithoutProductInput
+    disconnect?: ProductNCMWhereInput | boolean
+    delete?: ProductNCMWhereInput | boolean
+    connect?: ProductNCMWhereUniqueInput
+    update?: XOR<XOR<ProductNCMUpdateToOneWithWhereWithoutProductInput, ProductNCMUpdateWithoutProductInput>, ProductNCMUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ProductCreateNestedOneWithoutNcmInput = {
+    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type ProductUpdateOneRequiredWithoutNcmNestedInput = {
+    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput
+    upsert?: ProductUpsertWithoutNcmInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutNcmInput, ProductUpdateWithoutNcmInput>, ProductUncheckedUpdateWithoutNcmInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2358,6 +5264,114 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type ProductNCMCreateWithoutProductInput = {
+    id?: string
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+  }
+
+  export type ProductNCMUncheckedCreateWithoutProductInput = {
+    id?: string
+    code: number
+    cofins: number
+    icms: number
+    ipi: number
+    pis: number
+    tax: number
+  }
+
+  export type ProductNCMCreateOrConnectWithoutProductInput = {
+    where: ProductNCMWhereUniqueInput
+    create: XOR<ProductNCMCreateWithoutProductInput, ProductNCMUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductNCMUpsertWithoutProductInput = {
+    update: XOR<ProductNCMUpdateWithoutProductInput, ProductNCMUncheckedUpdateWithoutProductInput>
+    create: XOR<ProductNCMCreateWithoutProductInput, ProductNCMUncheckedCreateWithoutProductInput>
+    where?: ProductNCMWhereInput
+  }
+
+  export type ProductNCMUpdateToOneWithWhereWithoutProductInput = {
+    where?: ProductNCMWhereInput
+    data: XOR<ProductNCMUpdateWithoutProductInput, ProductNCMUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ProductNCMUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: FloatFieldUpdateOperationsInput | number
+    cofins?: FloatFieldUpdateOperationsInput | number
+    icms?: FloatFieldUpdateOperationsInput | number
+    ipi?: FloatFieldUpdateOperationsInput | number
+    pis?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductNCMUncheckedUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: FloatFieldUpdateOperationsInput | number
+    cofins?: FloatFieldUpdateOperationsInput | number
+    icms?: FloatFieldUpdateOperationsInput | number
+    ipi?: FloatFieldUpdateOperationsInput | number
+    pis?: FloatFieldUpdateOperationsInput | number
+    tax?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductCreateWithoutNcmInput = {
+    id?: string
+    name?: string
+    weight: number
+    length: number
+    height: number
+    width: number
+  }
+
+  export type ProductUncheckedCreateWithoutNcmInput = {
+    id?: string
+    name?: string
+    weight: number
+    length: number
+    height: number
+    width: number
+  }
+
+  export type ProductCreateOrConnectWithoutNcmInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+  }
+
+  export type ProductUpsertWithoutNcmInput = {
+    update: XOR<ProductUpdateWithoutNcmInput, ProductUncheckedUpdateWithoutNcmInput>
+    create: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutNcmInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutNcmInput, ProductUncheckedUpdateWithoutNcmInput>
+  }
+
+  export type ProductUpdateWithoutNcmInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ProductUncheckedUpdateWithoutNcmInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
   }
 
 

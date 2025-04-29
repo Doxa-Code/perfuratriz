@@ -4,26 +4,31 @@ import { PrismaClient } from "../../../../prisma";
 interface NCMRepository {
   save(ncm: NCM): Promise<void>;
   list(): Promise<NCM[]>;
-}
-
-export class NCMMemoryRepository implements NCMRepository {
-  private static database: Map<string, NCM> = new Map();
-
-  async list() {
-    return Array.from(NCMMemoryRepository.database.values());
-  }
-
-  async save(ncm: NCM): Promise<void> {
-    NCMMemoryRepository.database.set(ncm.id, ncm);
-  }
-
-  static instance() {
-    return new NCMMemoryRepository();
-  }
+  retrieve(id: string): Promise<NCM | null>;
 }
 
 export class NCMDatabaseRepository implements NCMRepository {
   private database = new PrismaClient().nCM;
+
+  async retrieve(id: string) {
+    const response = await this.database.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!response) return null;
+
+    return NCM.instance({
+      code: response.code,
+      cofins: response.cofins,
+      icms: response.icms,
+      id: response.id,
+      ipi: response.ipi,
+      pis: response.pis,
+      tax: response.tax,
+    });
+  }
 
   async list() {
     const response = await this.database.findMany();

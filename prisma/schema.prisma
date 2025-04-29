@@ -26,3 +26,29 @@ model NCM {
 
   @@map("ncms")
 }
+
+model Product {
+  id     String      @id @default(uuid())
+  name   String      @default("")
+  ncm    ProductNCM?
+  weight Float
+  length Float
+  height Float
+  width  Float
+
+  @@map("products")
+}
+
+model ProductNCM {
+  id        String  @id @default(uuid())
+  code      Float
+  cofins    Float
+  icms      Float
+  ipi       Float
+  pis       Float
+  tax       Float
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String  @unique
+
+  @@map("product_ncm")
+}

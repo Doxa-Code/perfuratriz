@@ -127,6 +127,26 @@ exports.Prisma.NCMScalarFieldEnum = {
   ipi: 'ipi'
 };
 
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  weight: 'weight',
+  length: 'length',
+  height: 'height',
+  width: 'width'
+};
+
+exports.Prisma.ProductNCMScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  cofins: 'cofins',
+  icms: 'icms',
+  ipi: 'ipi',
+  pis: 'pis',
+  tax: 'tax',
+  productId: 'productId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -139,7 +159,9 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  NCM: 'NCM'
+  NCM: 'NCM',
+  Product: 'Product',
+  ProductNCM: 'ProductNCM'
 };
 
 /**
