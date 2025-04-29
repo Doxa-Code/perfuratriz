@@ -6,10 +6,32 @@ interface ProductRepository {
   save(product: Product): Promise<void>;
   remove(id: string): Promise<void>;
   list(): Promise<Product[]>;
+  retrieve(id: string): Promise<Product | null>;
 }
 
 export class ProductDatabaseRepository implements ProductRepository {
   private database = new PrismaClient().product;
+
+  async retrieve(id: string) {
+    const response = await this.database.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        ncm: true,
+      },
+    });
+    if (!response) return null;
+    return Product.instance({
+      height: response.height,
+      id: response.id,
+      length: response.length,
+      name: response.name,
+      ncm: ProductNCM.create(response.ncm),
+      weight: response.weight,
+      width: response.width,
+    });
+  }
 
   async save(product: Product) {
     await this.database.create({

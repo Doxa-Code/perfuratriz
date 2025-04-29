@@ -3,6 +3,7 @@ import { CreateProduct } from "@/core/application/usecases/create-product";
 import { Product } from "@/core/domain/entities/product";
 import { NCMDatabaseRepository } from "@/core/infra/repositories/ncm-repository";
 import { ProductDatabaseRepository } from "@/core/infra/repositories/product-repository";
+import { PrismaClient } from "../prisma";
 
 test("calcute volume", () => {
   const product = Product.create({
@@ -29,9 +30,6 @@ test("create product", async () => {
     pis: 1,
     tax: 1,
   });
-  const list = await productRepository.list();
-  expect(list.length).toBe(0);
-
   const product = await createProduct.execute({
     name: "Produto 1",
     ncm: ncm.id,
@@ -51,8 +49,17 @@ test("create product", async () => {
   expect(product.ncm.tax).toBe(1);
 
   const currentlist = await productRepository.list();
-  expect(currentlist.length).toBe(1);
+  expect(currentlist.filter((p) => p.id === product.id).length).toBe(1);
 
   await productRepository.remove(product.id);
   await ncmRepository.remove(ncm.id);
+  await new PrismaClient().productNCM.deleteMany({
+    where: {
+      product: {
+        every: {
+          id: product.id,
+        },
+      },
+    },
+  });
 });
