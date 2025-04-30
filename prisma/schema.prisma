@@ -59,6 +59,7 @@ model Invoice {
   createdAt    DateTime         @default(now())
   quote        Float
   products     InvoiceProduct[]
+  declaration  Declaration?
 
   @@map("invoices")
 }
@@ -99,4 +100,29 @@ enum AllocationMethod {
 enum Currency {
   USD
   BRL
+}
+
+model Declaration {
+  id           String               @id @default(uuid())
+  registration String
+  quote        Float
+  invoiceId    String               @unique
+  invoice      Invoice              @relation(fields: [invoiceId], references: [id])
+  expenses     ExpenseDeclaration[]
+
+  @@map("declarations")
+}
+
+model ExpenseDeclaration {
+  id               String           @id @default(uuid())
+  declaration      Declaration      @relation(fields: [declarationId], references: [id], onDelete: Cascade)
+  declarationId    String
+  name             String
+  useICMSBase      Boolean          @default(false)
+  useCustomsBase   Boolean          @default(false)
+  allocationMethod AllocationMethod
+  currency         Currency
+  amount           Float            @default(0)
+
+  @@map("expense_declarations")
 }

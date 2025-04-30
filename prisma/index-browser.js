@@ -177,6 +177,24 @@ exports.Prisma.ExpenseScalarFieldEnum = {
   currency: 'currency'
 };
 
+exports.Prisma.DeclarationScalarFieldEnum = {
+  id: 'id',
+  registration: 'registration',
+  quote: 'quote',
+  invoiceId: 'invoiceId'
+};
+
+exports.Prisma.ExpenseDeclarationScalarFieldEnum = {
+  id: 'id',
+  declarationId: 'declarationId',
+  name: 'name',
+  useICMSBase: 'useICMSBase',
+  useCustomsBase: 'useCustomsBase',
+  allocationMethod: 'allocationMethod',
+  currency: 'currency',
+  amount: 'amount'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -203,7 +221,9 @@ exports.Prisma.ModelName = {
   ProductNCM: 'ProductNCM',
   Invoice: 'Invoice',
   InvoiceProduct: 'InvoiceProduct',
-  Expense: 'Expense'
+  Expense: 'Expense',
+  Declaration: 'Declaration',
+  ExpenseDeclaration: 'ExpenseDeclaration'
 };
 
 /**

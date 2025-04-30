@@ -122,7 +122,7 @@ test("create invoice", async () => {
 
   const list = await invoiceRepository.list();
 
-  expect(list.length).toBe(1);
+  expect(list.map((i) => i.id)).toContain(invoice.id);
 
   expect(invoice.products.length).toBe(2);
   expect(invoice.quantity).toBe(20);

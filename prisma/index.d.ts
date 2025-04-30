@@ -43,6 +43,16 @@ export type InvoiceProduct = $Result.DefaultSelection<Prisma.$InvoiceProductPayl
  * 
  */
 export type Expense = $Result.DefaultSelection<Prisma.$ExpensePayload>
+/**
+ * Model Declaration
+ * 
+ */
+export type Declaration = $Result.DefaultSelection<Prisma.$DeclarationPayload>
+/**
+ * Model ExpenseDeclaration
+ * 
+ */
+export type ExpenseDeclaration = $Result.DefaultSelection<Prisma.$ExpenseDeclarationPayload>
 
 /**
  * Enums
@@ -258,6 +268,26 @@ export class PrismaClient<
     * ```
     */
   get expense(): Prisma.ExpenseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.declaration`: Exposes CRUD operations for the **Declaration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Declarations
+    * const declarations = await prisma.declaration.findMany()
+    * ```
+    */
+  get declaration(): Prisma.DeclarationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.expenseDeclaration`: Exposes CRUD operations for the **ExpenseDeclaration** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ExpenseDeclarations
+    * const expenseDeclarations = await prisma.expenseDeclaration.findMany()
+    * ```
+    */
+  get expenseDeclaration(): Prisma.ExpenseDeclarationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -703,7 +733,9 @@ export namespace Prisma {
     ProductNCM: 'ProductNCM',
     Invoice: 'Invoice',
     InvoiceProduct: 'InvoiceProduct',
-    Expense: 'Expense'
+    Expense: 'Expense',
+    Declaration: 'Declaration',
+    ExpenseDeclaration: 'ExpenseDeclaration'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -722,7 +754,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "nCM" | "product" | "productNCM" | "invoice" | "invoiceProduct" | "expense"
+      modelProps: "nCM" | "product" | "productNCM" | "invoice" | "invoiceProduct" | "expense" | "declaration" | "expenseDeclaration"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1170,6 +1202,154 @@ export namespace Prisma {
           }
         }
       }
+      Declaration: {
+        payload: Prisma.$DeclarationPayload<ExtArgs>
+        fields: Prisma.DeclarationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DeclarationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DeclarationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>
+          }
+          findFirst: {
+            args: Prisma.DeclarationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DeclarationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>
+          }
+          findMany: {
+            args: Prisma.DeclarationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>[]
+          }
+          create: {
+            args: Prisma.DeclarationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>
+          }
+          createMany: {
+            args: Prisma.DeclarationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DeclarationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>[]
+          }
+          delete: {
+            args: Prisma.DeclarationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>
+          }
+          update: {
+            args: Prisma.DeclarationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>
+          }
+          deleteMany: {
+            args: Prisma.DeclarationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DeclarationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DeclarationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>[]
+          }
+          upsert: {
+            args: Prisma.DeclarationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DeclarationPayload>
+          }
+          aggregate: {
+            args: Prisma.DeclarationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDeclaration>
+          }
+          groupBy: {
+            args: Prisma.DeclarationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DeclarationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DeclarationCountArgs<ExtArgs>
+            result: $Utils.Optional<DeclarationCountAggregateOutputType> | number
+          }
+        }
+      }
+      ExpenseDeclaration: {
+        payload: Prisma.$ExpenseDeclarationPayload<ExtArgs>
+        fields: Prisma.ExpenseDeclarationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ExpenseDeclarationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ExpenseDeclarationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>
+          }
+          findFirst: {
+            args: Prisma.ExpenseDeclarationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ExpenseDeclarationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>
+          }
+          findMany: {
+            args: Prisma.ExpenseDeclarationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>[]
+          }
+          create: {
+            args: Prisma.ExpenseDeclarationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>
+          }
+          createMany: {
+            args: Prisma.ExpenseDeclarationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ExpenseDeclarationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>[]
+          }
+          delete: {
+            args: Prisma.ExpenseDeclarationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>
+          }
+          update: {
+            args: Prisma.ExpenseDeclarationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ExpenseDeclarationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ExpenseDeclarationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ExpenseDeclarationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ExpenseDeclarationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ExpenseDeclarationPayload>
+          }
+          aggregate: {
+            args: Prisma.ExpenseDeclarationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateExpenseDeclaration>
+          }
+          groupBy: {
+            args: Prisma.ExpenseDeclarationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ExpenseDeclarationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ExpenseDeclarationCountArgs<ExtArgs>
+            result: $Utils.Optional<ExpenseDeclarationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1260,6 +1440,8 @@ export namespace Prisma {
     invoice?: InvoiceOmit
     invoiceProduct?: InvoiceProductOmit
     expense?: ExpenseOmit
+    declaration?: DeclarationOmit
+    expenseDeclaration?: ExpenseDeclarationOmit
   }
 
   /* Types for Logging */
@@ -1408,6 +1590,37 @@ export namespace Prisma {
    */
   export type InvoiceCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvoiceProductWhereInput
+  }
+
+
+  /**
+   * Count Type DeclarationCountOutputType
+   */
+
+  export type DeclarationCountOutputType = {
+    expenses: number
+  }
+
+  export type DeclarationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    expenses?: boolean | DeclarationCountOutputTypeCountExpensesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DeclarationCountOutputType without action
+   */
+  export type DeclarationCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DeclarationCountOutputType
+     */
+    select?: DeclarationCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DeclarationCountOutputType without action
+   */
+  export type DeclarationCountOutputTypeCountExpensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExpenseDeclarationWhereInput
   }
 
 
@@ -4961,6 +5174,7 @@ export namespace Prisma {
     createdAt?: boolean
     quote?: boolean
     products?: boolean | Invoice$productsArgs<ExtArgs>
+    declaration?: boolean | Invoice$declarationArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
@@ -4988,6 +5202,7 @@ export namespace Prisma {
   export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "registration" | "createdAt" | "quote", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     products?: boolean | Invoice$productsArgs<ExtArgs>
+    declaration?: boolean | Invoice$declarationArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4997,6 +5212,7 @@ export namespace Prisma {
     name: "Invoice"
     objects: {
       products: Prisma.$InvoiceProductPayload<ExtArgs>[]
+      declaration: Prisma.$DeclarationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5398,6 +5614,7 @@ export namespace Prisma {
   export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     products<T extends Invoice$productsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    declaration<T extends Invoice$declarationArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$declarationArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5840,6 +6057,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvoiceProductScalarFieldEnum | InvoiceProductScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice.declaration
+   */
+  export type Invoice$declarationArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    where?: DeclarationWhereInput
   }
 
   /**
@@ -8013,6 +8249,2246 @@ export namespace Prisma {
 
 
   /**
+   * Model Declaration
+   */
+
+  export type AggregateDeclaration = {
+    _count: DeclarationCountAggregateOutputType | null
+    _avg: DeclarationAvgAggregateOutputType | null
+    _sum: DeclarationSumAggregateOutputType | null
+    _min: DeclarationMinAggregateOutputType | null
+    _max: DeclarationMaxAggregateOutputType | null
+  }
+
+  export type DeclarationAvgAggregateOutputType = {
+    quote: number | null
+  }
+
+  export type DeclarationSumAggregateOutputType = {
+    quote: number | null
+  }
+
+  export type DeclarationMinAggregateOutputType = {
+    id: string | null
+    registration: string | null
+    quote: number | null
+    invoiceId: string | null
+  }
+
+  export type DeclarationMaxAggregateOutputType = {
+    id: string | null
+    registration: string | null
+    quote: number | null
+    invoiceId: string | null
+  }
+
+  export type DeclarationCountAggregateOutputType = {
+    id: number
+    registration: number
+    quote: number
+    invoiceId: number
+    _all: number
+  }
+
+
+  export type DeclarationAvgAggregateInputType = {
+    quote?: true
+  }
+
+  export type DeclarationSumAggregateInputType = {
+    quote?: true
+  }
+
+  export type DeclarationMinAggregateInputType = {
+    id?: true
+    registration?: true
+    quote?: true
+    invoiceId?: true
+  }
+
+  export type DeclarationMaxAggregateInputType = {
+    id?: true
+    registration?: true
+    quote?: true
+    invoiceId?: true
+  }
+
+  export type DeclarationCountAggregateInputType = {
+    id?: true
+    registration?: true
+    quote?: true
+    invoiceId?: true
+    _all?: true
+  }
+
+  export type DeclarationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Declaration to aggregate.
+     */
+    where?: DeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationOrderByWithRelationInput | DeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Declarations
+    **/
+    _count?: true | DeclarationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DeclarationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DeclarationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DeclarationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DeclarationMaxAggregateInputType
+  }
+
+  export type GetDeclarationAggregateType<T extends DeclarationAggregateArgs> = {
+        [P in keyof T & keyof AggregateDeclaration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDeclaration[P]>
+      : GetScalarType<T[P], AggregateDeclaration[P]>
+  }
+
+
+
+
+  export type DeclarationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DeclarationWhereInput
+    orderBy?: DeclarationOrderByWithAggregationInput | DeclarationOrderByWithAggregationInput[]
+    by: DeclarationScalarFieldEnum[] | DeclarationScalarFieldEnum
+    having?: DeclarationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DeclarationCountAggregateInputType | true
+    _avg?: DeclarationAvgAggregateInputType
+    _sum?: DeclarationSumAggregateInputType
+    _min?: DeclarationMinAggregateInputType
+    _max?: DeclarationMaxAggregateInputType
+  }
+
+  export type DeclarationGroupByOutputType = {
+    id: string
+    registration: string
+    quote: number
+    invoiceId: string
+    _count: DeclarationCountAggregateOutputType | null
+    _avg: DeclarationAvgAggregateOutputType | null
+    _sum: DeclarationSumAggregateOutputType | null
+    _min: DeclarationMinAggregateOutputType | null
+    _max: DeclarationMaxAggregateOutputType | null
+  }
+
+  type GetDeclarationGroupByPayload<T extends DeclarationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DeclarationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DeclarationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DeclarationGroupByOutputType[P]>
+            : GetScalarType<T[P], DeclarationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DeclarationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    registration?: boolean
+    quote?: boolean
+    invoiceId?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    expenses?: boolean | Declaration$expensesArgs<ExtArgs>
+    _count?: boolean | DeclarationCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["declaration"]>
+
+  export type DeclarationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    registration?: boolean
+    quote?: boolean
+    invoiceId?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["declaration"]>
+
+  export type DeclarationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    registration?: boolean
+    quote?: boolean
+    invoiceId?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["declaration"]>
+
+  export type DeclarationSelectScalar = {
+    id?: boolean
+    registration?: boolean
+    quote?: boolean
+    invoiceId?: boolean
+  }
+
+  export type DeclarationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "registration" | "quote" | "invoiceId", ExtArgs["result"]["declaration"]>
+  export type DeclarationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+    expenses?: boolean | Declaration$expensesArgs<ExtArgs>
+    _count?: boolean | DeclarationCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DeclarationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type DeclarationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $DeclarationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Declaration"
+    objects: {
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+      expenses: Prisma.$ExpenseDeclarationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      registration: string
+      quote: number
+      invoiceId: string
+    }, ExtArgs["result"]["declaration"]>
+    composites: {}
+  }
+
+  type DeclarationGetPayload<S extends boolean | null | undefined | DeclarationDefaultArgs> = $Result.GetResult<Prisma.$DeclarationPayload, S>
+
+  type DeclarationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DeclarationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DeclarationCountAggregateInputType | true
+    }
+
+  export interface DeclarationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Declaration'], meta: { name: 'Declaration' } }
+    /**
+     * Find zero or one Declaration that matches the filter.
+     * @param {DeclarationFindUniqueArgs} args - Arguments to find a Declaration
+     * @example
+     * // Get one Declaration
+     * const declaration = await prisma.declaration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DeclarationFindUniqueArgs>(args: SelectSubset<T, DeclarationFindUniqueArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Declaration that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DeclarationFindUniqueOrThrowArgs} args - Arguments to find a Declaration
+     * @example
+     * // Get one Declaration
+     * const declaration = await prisma.declaration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DeclarationFindUniqueOrThrowArgs>(args: SelectSubset<T, DeclarationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Declaration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationFindFirstArgs} args - Arguments to find a Declaration
+     * @example
+     * // Get one Declaration
+     * const declaration = await prisma.declaration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DeclarationFindFirstArgs>(args?: SelectSubset<T, DeclarationFindFirstArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Declaration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationFindFirstOrThrowArgs} args - Arguments to find a Declaration
+     * @example
+     * // Get one Declaration
+     * const declaration = await prisma.declaration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DeclarationFindFirstOrThrowArgs>(args?: SelectSubset<T, DeclarationFindFirstOrThrowArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Declarations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Declarations
+     * const declarations = await prisma.declaration.findMany()
+     * 
+     * // Get first 10 Declarations
+     * const declarations = await prisma.declaration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const declarationWithIdOnly = await prisma.declaration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DeclarationFindManyArgs>(args?: SelectSubset<T, DeclarationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Declaration.
+     * @param {DeclarationCreateArgs} args - Arguments to create a Declaration.
+     * @example
+     * // Create one Declaration
+     * const Declaration = await prisma.declaration.create({
+     *   data: {
+     *     // ... data to create a Declaration
+     *   }
+     * })
+     * 
+     */
+    create<T extends DeclarationCreateArgs>(args: SelectSubset<T, DeclarationCreateArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Declarations.
+     * @param {DeclarationCreateManyArgs} args - Arguments to create many Declarations.
+     * @example
+     * // Create many Declarations
+     * const declaration = await prisma.declaration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DeclarationCreateManyArgs>(args?: SelectSubset<T, DeclarationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Declarations and returns the data saved in the database.
+     * @param {DeclarationCreateManyAndReturnArgs} args - Arguments to create many Declarations.
+     * @example
+     * // Create many Declarations
+     * const declaration = await prisma.declaration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Declarations and only return the `id`
+     * const declarationWithIdOnly = await prisma.declaration.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DeclarationCreateManyAndReturnArgs>(args?: SelectSubset<T, DeclarationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Declaration.
+     * @param {DeclarationDeleteArgs} args - Arguments to delete one Declaration.
+     * @example
+     * // Delete one Declaration
+     * const Declaration = await prisma.declaration.delete({
+     *   where: {
+     *     // ... filter to delete one Declaration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DeclarationDeleteArgs>(args: SelectSubset<T, DeclarationDeleteArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Declaration.
+     * @param {DeclarationUpdateArgs} args - Arguments to update one Declaration.
+     * @example
+     * // Update one Declaration
+     * const declaration = await prisma.declaration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DeclarationUpdateArgs>(args: SelectSubset<T, DeclarationUpdateArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Declarations.
+     * @param {DeclarationDeleteManyArgs} args - Arguments to filter Declarations to delete.
+     * @example
+     * // Delete a few Declarations
+     * const { count } = await prisma.declaration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DeclarationDeleteManyArgs>(args?: SelectSubset<T, DeclarationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Declarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Declarations
+     * const declaration = await prisma.declaration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DeclarationUpdateManyArgs>(args: SelectSubset<T, DeclarationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Declarations and returns the data updated in the database.
+     * @param {DeclarationUpdateManyAndReturnArgs} args - Arguments to update many Declarations.
+     * @example
+     * // Update many Declarations
+     * const declaration = await prisma.declaration.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Declarations and only return the `id`
+     * const declarationWithIdOnly = await prisma.declaration.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DeclarationUpdateManyAndReturnArgs>(args: SelectSubset<T, DeclarationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Declaration.
+     * @param {DeclarationUpsertArgs} args - Arguments to update or create a Declaration.
+     * @example
+     * // Update or create a Declaration
+     * const declaration = await prisma.declaration.upsert({
+     *   create: {
+     *     // ... data to create a Declaration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Declaration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DeclarationUpsertArgs>(args: SelectSubset<T, DeclarationUpsertArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Declarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationCountArgs} args - Arguments to filter Declarations to count.
+     * @example
+     * // Count the number of Declarations
+     * const count = await prisma.declaration.count({
+     *   where: {
+     *     // ... the filter for the Declarations we want to count
+     *   }
+     * })
+    **/
+    count<T extends DeclarationCountArgs>(
+      args?: Subset<T, DeclarationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DeclarationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Declaration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DeclarationAggregateArgs>(args: Subset<T, DeclarationAggregateArgs>): Prisma.PrismaPromise<GetDeclarationAggregateType<T>>
+
+    /**
+     * Group by Declaration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DeclarationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DeclarationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DeclarationGroupByArgs['orderBy'] }
+        : { orderBy?: DeclarationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DeclarationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDeclarationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Declaration model
+   */
+  readonly fields: DeclarationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Declaration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DeclarationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    expenses<T extends Declaration$expensesArgs<ExtArgs> = {}>(args?: Subset<T, Declaration$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Declaration model
+   */
+  interface DeclarationFieldRefs {
+    readonly id: FieldRef<"Declaration", 'String'>
+    readonly registration: FieldRef<"Declaration", 'String'>
+    readonly quote: FieldRef<"Declaration", 'Float'>
+    readonly invoiceId: FieldRef<"Declaration", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Declaration findUnique
+   */
+  export type DeclarationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which Declaration to fetch.
+     */
+    where: DeclarationWhereUniqueInput
+  }
+
+  /**
+   * Declaration findUniqueOrThrow
+   */
+  export type DeclarationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which Declaration to fetch.
+     */
+    where: DeclarationWhereUniqueInput
+  }
+
+  /**
+   * Declaration findFirst
+   */
+  export type DeclarationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which Declaration to fetch.
+     */
+    where?: DeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationOrderByWithRelationInput | DeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Declarations.
+     */
+    cursor?: DeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Declarations.
+     */
+    distinct?: DeclarationScalarFieldEnum | DeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * Declaration findFirstOrThrow
+   */
+  export type DeclarationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which Declaration to fetch.
+     */
+    where?: DeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationOrderByWithRelationInput | DeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Declarations.
+     */
+    cursor?: DeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Declarations.
+     */
+    distinct?: DeclarationScalarFieldEnum | DeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * Declaration findMany
+   */
+  export type DeclarationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which Declarations to fetch.
+     */
+    where?: DeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Declarations to fetch.
+     */
+    orderBy?: DeclarationOrderByWithRelationInput | DeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Declarations.
+     */
+    cursor?: DeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Declarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Declarations.
+     */
+    skip?: number
+    distinct?: DeclarationScalarFieldEnum | DeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * Declaration create
+   */
+  export type DeclarationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Declaration.
+     */
+    data: XOR<DeclarationCreateInput, DeclarationUncheckedCreateInput>
+  }
+
+  /**
+   * Declaration createMany
+   */
+  export type DeclarationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Declarations.
+     */
+    data: DeclarationCreateManyInput | DeclarationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Declaration createManyAndReturn
+   */
+  export type DeclarationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Declarations.
+     */
+    data: DeclarationCreateManyInput | DeclarationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Declaration update
+   */
+  export type DeclarationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Declaration.
+     */
+    data: XOR<DeclarationUpdateInput, DeclarationUncheckedUpdateInput>
+    /**
+     * Choose, which Declaration to update.
+     */
+    where: DeclarationWhereUniqueInput
+  }
+
+  /**
+   * Declaration updateMany
+   */
+  export type DeclarationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Declarations.
+     */
+    data: XOR<DeclarationUpdateManyMutationInput, DeclarationUncheckedUpdateManyInput>
+    /**
+     * Filter which Declarations to update
+     */
+    where?: DeclarationWhereInput
+    /**
+     * Limit how many Declarations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Declaration updateManyAndReturn
+   */
+  export type DeclarationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * The data used to update Declarations.
+     */
+    data: XOR<DeclarationUpdateManyMutationInput, DeclarationUncheckedUpdateManyInput>
+    /**
+     * Filter which Declarations to update
+     */
+    where?: DeclarationWhereInput
+    /**
+     * Limit how many Declarations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Declaration upsert
+   */
+  export type DeclarationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Declaration to update in case it exists.
+     */
+    where: DeclarationWhereUniqueInput
+    /**
+     * In case the Declaration found by the `where` argument doesn't exist, create a new Declaration with this data.
+     */
+    create: XOR<DeclarationCreateInput, DeclarationUncheckedCreateInput>
+    /**
+     * In case the Declaration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DeclarationUpdateInput, DeclarationUncheckedUpdateInput>
+  }
+
+  /**
+   * Declaration delete
+   */
+  export type DeclarationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+    /**
+     * Filter which Declaration to delete.
+     */
+    where: DeclarationWhereUniqueInput
+  }
+
+  /**
+   * Declaration deleteMany
+   */
+  export type DeclarationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Declarations to delete
+     */
+    where?: DeclarationWhereInput
+    /**
+     * Limit how many Declarations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Declaration.expenses
+   */
+  export type Declaration$expensesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    where?: ExpenseDeclarationWhereInput
+    orderBy?: ExpenseDeclarationOrderByWithRelationInput | ExpenseDeclarationOrderByWithRelationInput[]
+    cursor?: ExpenseDeclarationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ExpenseDeclarationScalarFieldEnum | ExpenseDeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * Declaration without action
+   */
+  export type DeclarationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Declaration
+     */
+    select?: DeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Declaration
+     */
+    omit?: DeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DeclarationInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ExpenseDeclaration
+   */
+
+  export type AggregateExpenseDeclaration = {
+    _count: ExpenseDeclarationCountAggregateOutputType | null
+    _avg: ExpenseDeclarationAvgAggregateOutputType | null
+    _sum: ExpenseDeclarationSumAggregateOutputType | null
+    _min: ExpenseDeclarationMinAggregateOutputType | null
+    _max: ExpenseDeclarationMaxAggregateOutputType | null
+  }
+
+  export type ExpenseDeclarationAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type ExpenseDeclarationSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type ExpenseDeclarationMinAggregateOutputType = {
+    id: string | null
+    declarationId: string | null
+    name: string | null
+    useICMSBase: boolean | null
+    useCustomsBase: boolean | null
+    allocationMethod: $Enums.AllocationMethod | null
+    currency: $Enums.Currency | null
+    amount: number | null
+  }
+
+  export type ExpenseDeclarationMaxAggregateOutputType = {
+    id: string | null
+    declarationId: string | null
+    name: string | null
+    useICMSBase: boolean | null
+    useCustomsBase: boolean | null
+    allocationMethod: $Enums.AllocationMethod | null
+    currency: $Enums.Currency | null
+    amount: number | null
+  }
+
+  export type ExpenseDeclarationCountAggregateOutputType = {
+    id: number
+    declarationId: number
+    name: number
+    useICMSBase: number
+    useCustomsBase: number
+    allocationMethod: number
+    currency: number
+    amount: number
+    _all: number
+  }
+
+
+  export type ExpenseDeclarationAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type ExpenseDeclarationSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type ExpenseDeclarationMinAggregateInputType = {
+    id?: true
+    declarationId?: true
+    name?: true
+    useICMSBase?: true
+    useCustomsBase?: true
+    allocationMethod?: true
+    currency?: true
+    amount?: true
+  }
+
+  export type ExpenseDeclarationMaxAggregateInputType = {
+    id?: true
+    declarationId?: true
+    name?: true
+    useICMSBase?: true
+    useCustomsBase?: true
+    allocationMethod?: true
+    currency?: true
+    amount?: true
+  }
+
+  export type ExpenseDeclarationCountAggregateInputType = {
+    id?: true
+    declarationId?: true
+    name?: true
+    useICMSBase?: true
+    useCustomsBase?: true
+    allocationMethod?: true
+    currency?: true
+    amount?: true
+    _all?: true
+  }
+
+  export type ExpenseDeclarationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExpenseDeclaration to aggregate.
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpenseDeclarations to fetch.
+     */
+    orderBy?: ExpenseDeclarationOrderByWithRelationInput | ExpenseDeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ExpenseDeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpenseDeclarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpenseDeclarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ExpenseDeclarations
+    **/
+    _count?: true | ExpenseDeclarationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ExpenseDeclarationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ExpenseDeclarationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ExpenseDeclarationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ExpenseDeclarationMaxAggregateInputType
+  }
+
+  export type GetExpenseDeclarationAggregateType<T extends ExpenseDeclarationAggregateArgs> = {
+        [P in keyof T & keyof AggregateExpenseDeclaration]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateExpenseDeclaration[P]>
+      : GetScalarType<T[P], AggregateExpenseDeclaration[P]>
+  }
+
+
+
+
+  export type ExpenseDeclarationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ExpenseDeclarationWhereInput
+    orderBy?: ExpenseDeclarationOrderByWithAggregationInput | ExpenseDeclarationOrderByWithAggregationInput[]
+    by: ExpenseDeclarationScalarFieldEnum[] | ExpenseDeclarationScalarFieldEnum
+    having?: ExpenseDeclarationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ExpenseDeclarationCountAggregateInputType | true
+    _avg?: ExpenseDeclarationAvgAggregateInputType
+    _sum?: ExpenseDeclarationSumAggregateInputType
+    _min?: ExpenseDeclarationMinAggregateInputType
+    _max?: ExpenseDeclarationMaxAggregateInputType
+  }
+
+  export type ExpenseDeclarationGroupByOutputType = {
+    id: string
+    declarationId: string
+    name: string
+    useICMSBase: boolean
+    useCustomsBase: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount: number
+    _count: ExpenseDeclarationCountAggregateOutputType | null
+    _avg: ExpenseDeclarationAvgAggregateOutputType | null
+    _sum: ExpenseDeclarationSumAggregateOutputType | null
+    _min: ExpenseDeclarationMinAggregateOutputType | null
+    _max: ExpenseDeclarationMaxAggregateOutputType | null
+  }
+
+  type GetExpenseDeclarationGroupByPayload<T extends ExpenseDeclarationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ExpenseDeclarationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ExpenseDeclarationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ExpenseDeclarationGroupByOutputType[P]>
+            : GetScalarType<T[P], ExpenseDeclarationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ExpenseDeclarationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    declarationId?: boolean
+    name?: boolean
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod?: boolean
+    currency?: boolean
+    amount?: boolean
+    declaration?: boolean | DeclarationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expenseDeclaration"]>
+
+  export type ExpenseDeclarationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    declarationId?: boolean
+    name?: boolean
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod?: boolean
+    currency?: boolean
+    amount?: boolean
+    declaration?: boolean | DeclarationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expenseDeclaration"]>
+
+  export type ExpenseDeclarationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    declarationId?: boolean
+    name?: boolean
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod?: boolean
+    currency?: boolean
+    amount?: boolean
+    declaration?: boolean | DeclarationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["expenseDeclaration"]>
+
+  export type ExpenseDeclarationSelectScalar = {
+    id?: boolean
+    declarationId?: boolean
+    name?: boolean
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod?: boolean
+    currency?: boolean
+    amount?: boolean
+  }
+
+  export type ExpenseDeclarationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "declarationId" | "name" | "useICMSBase" | "useCustomsBase" | "allocationMethod" | "currency" | "amount", ExtArgs["result"]["expenseDeclaration"]>
+  export type ExpenseDeclarationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    declaration?: boolean | DeclarationDefaultArgs<ExtArgs>
+  }
+  export type ExpenseDeclarationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    declaration?: boolean | DeclarationDefaultArgs<ExtArgs>
+  }
+  export type ExpenseDeclarationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    declaration?: boolean | DeclarationDefaultArgs<ExtArgs>
+  }
+
+  export type $ExpenseDeclarationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ExpenseDeclaration"
+    objects: {
+      declaration: Prisma.$DeclarationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      declarationId: string
+      name: string
+      useICMSBase: boolean
+      useCustomsBase: boolean
+      allocationMethod: $Enums.AllocationMethod
+      currency: $Enums.Currency
+      amount: number
+    }, ExtArgs["result"]["expenseDeclaration"]>
+    composites: {}
+  }
+
+  type ExpenseDeclarationGetPayload<S extends boolean | null | undefined | ExpenseDeclarationDefaultArgs> = $Result.GetResult<Prisma.$ExpenseDeclarationPayload, S>
+
+  type ExpenseDeclarationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ExpenseDeclarationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ExpenseDeclarationCountAggregateInputType | true
+    }
+
+  export interface ExpenseDeclarationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ExpenseDeclaration'], meta: { name: 'ExpenseDeclaration' } }
+    /**
+     * Find zero or one ExpenseDeclaration that matches the filter.
+     * @param {ExpenseDeclarationFindUniqueArgs} args - Arguments to find a ExpenseDeclaration
+     * @example
+     * // Get one ExpenseDeclaration
+     * const expenseDeclaration = await prisma.expenseDeclaration.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ExpenseDeclarationFindUniqueArgs>(args: SelectSubset<T, ExpenseDeclarationFindUniqueArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ExpenseDeclaration that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ExpenseDeclarationFindUniqueOrThrowArgs} args - Arguments to find a ExpenseDeclaration
+     * @example
+     * // Get one ExpenseDeclaration
+     * const expenseDeclaration = await prisma.expenseDeclaration.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ExpenseDeclarationFindUniqueOrThrowArgs>(args: SelectSubset<T, ExpenseDeclarationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExpenseDeclaration that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationFindFirstArgs} args - Arguments to find a ExpenseDeclaration
+     * @example
+     * // Get one ExpenseDeclaration
+     * const expenseDeclaration = await prisma.expenseDeclaration.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ExpenseDeclarationFindFirstArgs>(args?: SelectSubset<T, ExpenseDeclarationFindFirstArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ExpenseDeclaration that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationFindFirstOrThrowArgs} args - Arguments to find a ExpenseDeclaration
+     * @example
+     * // Get one ExpenseDeclaration
+     * const expenseDeclaration = await prisma.expenseDeclaration.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ExpenseDeclarationFindFirstOrThrowArgs>(args?: SelectSubset<T, ExpenseDeclarationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ExpenseDeclarations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ExpenseDeclarations
+     * const expenseDeclarations = await prisma.expenseDeclaration.findMany()
+     * 
+     * // Get first 10 ExpenseDeclarations
+     * const expenseDeclarations = await prisma.expenseDeclaration.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const expenseDeclarationWithIdOnly = await prisma.expenseDeclaration.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ExpenseDeclarationFindManyArgs>(args?: SelectSubset<T, ExpenseDeclarationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ExpenseDeclaration.
+     * @param {ExpenseDeclarationCreateArgs} args - Arguments to create a ExpenseDeclaration.
+     * @example
+     * // Create one ExpenseDeclaration
+     * const ExpenseDeclaration = await prisma.expenseDeclaration.create({
+     *   data: {
+     *     // ... data to create a ExpenseDeclaration
+     *   }
+     * })
+     * 
+     */
+    create<T extends ExpenseDeclarationCreateArgs>(args: SelectSubset<T, ExpenseDeclarationCreateArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ExpenseDeclarations.
+     * @param {ExpenseDeclarationCreateManyArgs} args - Arguments to create many ExpenseDeclarations.
+     * @example
+     * // Create many ExpenseDeclarations
+     * const expenseDeclaration = await prisma.expenseDeclaration.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ExpenseDeclarationCreateManyArgs>(args?: SelectSubset<T, ExpenseDeclarationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ExpenseDeclarations and returns the data saved in the database.
+     * @param {ExpenseDeclarationCreateManyAndReturnArgs} args - Arguments to create many ExpenseDeclarations.
+     * @example
+     * // Create many ExpenseDeclarations
+     * const expenseDeclaration = await prisma.expenseDeclaration.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ExpenseDeclarations and only return the `id`
+     * const expenseDeclarationWithIdOnly = await prisma.expenseDeclaration.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ExpenseDeclarationCreateManyAndReturnArgs>(args?: SelectSubset<T, ExpenseDeclarationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ExpenseDeclaration.
+     * @param {ExpenseDeclarationDeleteArgs} args - Arguments to delete one ExpenseDeclaration.
+     * @example
+     * // Delete one ExpenseDeclaration
+     * const ExpenseDeclaration = await prisma.expenseDeclaration.delete({
+     *   where: {
+     *     // ... filter to delete one ExpenseDeclaration
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ExpenseDeclarationDeleteArgs>(args: SelectSubset<T, ExpenseDeclarationDeleteArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ExpenseDeclaration.
+     * @param {ExpenseDeclarationUpdateArgs} args - Arguments to update one ExpenseDeclaration.
+     * @example
+     * // Update one ExpenseDeclaration
+     * const expenseDeclaration = await prisma.expenseDeclaration.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ExpenseDeclarationUpdateArgs>(args: SelectSubset<T, ExpenseDeclarationUpdateArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ExpenseDeclarations.
+     * @param {ExpenseDeclarationDeleteManyArgs} args - Arguments to filter ExpenseDeclarations to delete.
+     * @example
+     * // Delete a few ExpenseDeclarations
+     * const { count } = await prisma.expenseDeclaration.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ExpenseDeclarationDeleteManyArgs>(args?: SelectSubset<T, ExpenseDeclarationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExpenseDeclarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ExpenseDeclarations
+     * const expenseDeclaration = await prisma.expenseDeclaration.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ExpenseDeclarationUpdateManyArgs>(args: SelectSubset<T, ExpenseDeclarationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ExpenseDeclarations and returns the data updated in the database.
+     * @param {ExpenseDeclarationUpdateManyAndReturnArgs} args - Arguments to update many ExpenseDeclarations.
+     * @example
+     * // Update many ExpenseDeclarations
+     * const expenseDeclaration = await prisma.expenseDeclaration.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ExpenseDeclarations and only return the `id`
+     * const expenseDeclarationWithIdOnly = await prisma.expenseDeclaration.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ExpenseDeclarationUpdateManyAndReturnArgs>(args: SelectSubset<T, ExpenseDeclarationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ExpenseDeclaration.
+     * @param {ExpenseDeclarationUpsertArgs} args - Arguments to update or create a ExpenseDeclaration.
+     * @example
+     * // Update or create a ExpenseDeclaration
+     * const expenseDeclaration = await prisma.expenseDeclaration.upsert({
+     *   create: {
+     *     // ... data to create a ExpenseDeclaration
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ExpenseDeclaration we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ExpenseDeclarationUpsertArgs>(args: SelectSubset<T, ExpenseDeclarationUpsertArgs<ExtArgs>>): Prisma__ExpenseDeclarationClient<$Result.GetResult<Prisma.$ExpenseDeclarationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ExpenseDeclarations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationCountArgs} args - Arguments to filter ExpenseDeclarations to count.
+     * @example
+     * // Count the number of ExpenseDeclarations
+     * const count = await prisma.expenseDeclaration.count({
+     *   where: {
+     *     // ... the filter for the ExpenseDeclarations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ExpenseDeclarationCountArgs>(
+      args?: Subset<T, ExpenseDeclarationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ExpenseDeclarationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ExpenseDeclaration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ExpenseDeclarationAggregateArgs>(args: Subset<T, ExpenseDeclarationAggregateArgs>): Prisma.PrismaPromise<GetExpenseDeclarationAggregateType<T>>
+
+    /**
+     * Group by ExpenseDeclaration.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ExpenseDeclarationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ExpenseDeclarationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ExpenseDeclarationGroupByArgs['orderBy'] }
+        : { orderBy?: ExpenseDeclarationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ExpenseDeclarationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetExpenseDeclarationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ExpenseDeclaration model
+   */
+  readonly fields: ExpenseDeclarationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ExpenseDeclaration.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ExpenseDeclarationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    declaration<T extends DeclarationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DeclarationDefaultArgs<ExtArgs>>): Prisma__DeclarationClient<$Result.GetResult<Prisma.$DeclarationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ExpenseDeclaration model
+   */
+  interface ExpenseDeclarationFieldRefs {
+    readonly id: FieldRef<"ExpenseDeclaration", 'String'>
+    readonly declarationId: FieldRef<"ExpenseDeclaration", 'String'>
+    readonly name: FieldRef<"ExpenseDeclaration", 'String'>
+    readonly useICMSBase: FieldRef<"ExpenseDeclaration", 'Boolean'>
+    readonly useCustomsBase: FieldRef<"ExpenseDeclaration", 'Boolean'>
+    readonly allocationMethod: FieldRef<"ExpenseDeclaration", 'AllocationMethod'>
+    readonly currency: FieldRef<"ExpenseDeclaration", 'Currency'>
+    readonly amount: FieldRef<"ExpenseDeclaration", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ExpenseDeclaration findUnique
+   */
+  export type ExpenseDeclarationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpenseDeclaration to fetch.
+     */
+    where: ExpenseDeclarationWhereUniqueInput
+  }
+
+  /**
+   * ExpenseDeclaration findUniqueOrThrow
+   */
+  export type ExpenseDeclarationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpenseDeclaration to fetch.
+     */
+    where: ExpenseDeclarationWhereUniqueInput
+  }
+
+  /**
+   * ExpenseDeclaration findFirst
+   */
+  export type ExpenseDeclarationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpenseDeclaration to fetch.
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpenseDeclarations to fetch.
+     */
+    orderBy?: ExpenseDeclarationOrderByWithRelationInput | ExpenseDeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExpenseDeclarations.
+     */
+    cursor?: ExpenseDeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpenseDeclarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpenseDeclarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExpenseDeclarations.
+     */
+    distinct?: ExpenseDeclarationScalarFieldEnum | ExpenseDeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * ExpenseDeclaration findFirstOrThrow
+   */
+  export type ExpenseDeclarationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpenseDeclaration to fetch.
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpenseDeclarations to fetch.
+     */
+    orderBy?: ExpenseDeclarationOrderByWithRelationInput | ExpenseDeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ExpenseDeclarations.
+     */
+    cursor?: ExpenseDeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpenseDeclarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpenseDeclarations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ExpenseDeclarations.
+     */
+    distinct?: ExpenseDeclarationScalarFieldEnum | ExpenseDeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * ExpenseDeclaration findMany
+   */
+  export type ExpenseDeclarationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * Filter, which ExpenseDeclarations to fetch.
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ExpenseDeclarations to fetch.
+     */
+    orderBy?: ExpenseDeclarationOrderByWithRelationInput | ExpenseDeclarationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ExpenseDeclarations.
+     */
+    cursor?: ExpenseDeclarationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ExpenseDeclarations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ExpenseDeclarations.
+     */
+    skip?: number
+    distinct?: ExpenseDeclarationScalarFieldEnum | ExpenseDeclarationScalarFieldEnum[]
+  }
+
+  /**
+   * ExpenseDeclaration create
+   */
+  export type ExpenseDeclarationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ExpenseDeclaration.
+     */
+    data: XOR<ExpenseDeclarationCreateInput, ExpenseDeclarationUncheckedCreateInput>
+  }
+
+  /**
+   * ExpenseDeclaration createMany
+   */
+  export type ExpenseDeclarationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ExpenseDeclarations.
+     */
+    data: ExpenseDeclarationCreateManyInput | ExpenseDeclarationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ExpenseDeclaration createManyAndReturn
+   */
+  export type ExpenseDeclarationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ExpenseDeclarations.
+     */
+    data: ExpenseDeclarationCreateManyInput | ExpenseDeclarationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExpenseDeclaration update
+   */
+  export type ExpenseDeclarationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ExpenseDeclaration.
+     */
+    data: XOR<ExpenseDeclarationUpdateInput, ExpenseDeclarationUncheckedUpdateInput>
+    /**
+     * Choose, which ExpenseDeclaration to update.
+     */
+    where: ExpenseDeclarationWhereUniqueInput
+  }
+
+  /**
+   * ExpenseDeclaration updateMany
+   */
+  export type ExpenseDeclarationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ExpenseDeclarations.
+     */
+    data: XOR<ExpenseDeclarationUpdateManyMutationInput, ExpenseDeclarationUncheckedUpdateManyInput>
+    /**
+     * Filter which ExpenseDeclarations to update
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * Limit how many ExpenseDeclarations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExpenseDeclaration updateManyAndReturn
+   */
+  export type ExpenseDeclarationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * The data used to update ExpenseDeclarations.
+     */
+    data: XOR<ExpenseDeclarationUpdateManyMutationInput, ExpenseDeclarationUncheckedUpdateManyInput>
+    /**
+     * Filter which ExpenseDeclarations to update
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * Limit how many ExpenseDeclarations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ExpenseDeclaration upsert
+   */
+  export type ExpenseDeclarationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ExpenseDeclaration to update in case it exists.
+     */
+    where: ExpenseDeclarationWhereUniqueInput
+    /**
+     * In case the ExpenseDeclaration found by the `where` argument doesn't exist, create a new ExpenseDeclaration with this data.
+     */
+    create: XOR<ExpenseDeclarationCreateInput, ExpenseDeclarationUncheckedCreateInput>
+    /**
+     * In case the ExpenseDeclaration was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ExpenseDeclarationUpdateInput, ExpenseDeclarationUncheckedUpdateInput>
+  }
+
+  /**
+   * ExpenseDeclaration delete
+   */
+  export type ExpenseDeclarationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+    /**
+     * Filter which ExpenseDeclaration to delete.
+     */
+    where: ExpenseDeclarationWhereUniqueInput
+  }
+
+  /**
+   * ExpenseDeclaration deleteMany
+   */
+  export type ExpenseDeclarationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ExpenseDeclarations to delete
+     */
+    where?: ExpenseDeclarationWhereInput
+    /**
+     * Limit how many ExpenseDeclarations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ExpenseDeclaration without action
+   */
+  export type ExpenseDeclarationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ExpenseDeclaration
+     */
+    select?: ExpenseDeclarationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ExpenseDeclaration
+     */
+    omit?: ExpenseDeclarationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ExpenseDeclarationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8099,6 +10575,30 @@ export namespace Prisma {
   };
 
   export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+  export const DeclarationScalarFieldEnum: {
+    id: 'id',
+    registration: 'registration',
+    quote: 'quote',
+    invoiceId: 'invoiceId'
+  };
+
+  export type DeclarationScalarFieldEnum = (typeof DeclarationScalarFieldEnum)[keyof typeof DeclarationScalarFieldEnum]
+
+
+  export const ExpenseDeclarationScalarFieldEnum: {
+    id: 'id',
+    declarationId: 'declarationId',
+    name: 'name',
+    useICMSBase: 'useICMSBase',
+    useCustomsBase: 'useCustomsBase',
+    allocationMethod: 'allocationMethod',
+    currency: 'currency',
+    amount: 'amount'
+  };
+
+  export type ExpenseDeclarationScalarFieldEnum = (typeof ExpenseDeclarationScalarFieldEnum)[keyof typeof ExpenseDeclarationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8423,6 +10923,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     quote?: FloatFilter<"Invoice"> | number
     products?: InvoiceProductListRelationFilter
+    declaration?: XOR<DeclarationNullableScalarRelationFilter, DeclarationWhereInput> | null
   }
 
   export type InvoiceOrderByWithRelationInput = {
@@ -8431,6 +10932,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     quote?: SortOrder
     products?: InvoiceProductOrderByRelationAggregateInput
+    declaration?: DeclarationOrderByWithRelationInput
   }
 
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
@@ -8442,6 +10944,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     quote?: FloatFilter<"Invoice"> | number
     products?: InvoiceProductListRelationFilter
+    declaration?: XOR<DeclarationNullableScalarRelationFilter, DeclarationWhereInput> | null
   }, "id">
 
   export type InvoiceOrderByWithAggregationInput = {
@@ -8593,6 +11096,133 @@ export namespace Prisma {
     useCustomsBase?: BoolWithAggregatesFilter<"Expense"> | boolean
     allocationMethod?: EnumAllocationMethodWithAggregatesFilter<"Expense"> | $Enums.AllocationMethod
     currency?: EnumCurrencyWithAggregatesFilter<"Expense"> | $Enums.Currency
+  }
+
+  export type DeclarationWhereInput = {
+    AND?: DeclarationWhereInput | DeclarationWhereInput[]
+    OR?: DeclarationWhereInput[]
+    NOT?: DeclarationWhereInput | DeclarationWhereInput[]
+    id?: StringFilter<"Declaration"> | string
+    registration?: StringFilter<"Declaration"> | string
+    quote?: FloatFilter<"Declaration"> | number
+    invoiceId?: StringFilter<"Declaration"> | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+    expenses?: ExpenseDeclarationListRelationFilter
+  }
+
+  export type DeclarationOrderByWithRelationInput = {
+    id?: SortOrder
+    registration?: SortOrder
+    quote?: SortOrder
+    invoiceId?: SortOrder
+    invoice?: InvoiceOrderByWithRelationInput
+    expenses?: ExpenseDeclarationOrderByRelationAggregateInput
+  }
+
+  export type DeclarationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    invoiceId?: string
+    AND?: DeclarationWhereInput | DeclarationWhereInput[]
+    OR?: DeclarationWhereInput[]
+    NOT?: DeclarationWhereInput | DeclarationWhereInput[]
+    registration?: StringFilter<"Declaration"> | string
+    quote?: FloatFilter<"Declaration"> | number
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+    expenses?: ExpenseDeclarationListRelationFilter
+  }, "id" | "invoiceId">
+
+  export type DeclarationOrderByWithAggregationInput = {
+    id?: SortOrder
+    registration?: SortOrder
+    quote?: SortOrder
+    invoiceId?: SortOrder
+    _count?: DeclarationCountOrderByAggregateInput
+    _avg?: DeclarationAvgOrderByAggregateInput
+    _max?: DeclarationMaxOrderByAggregateInput
+    _min?: DeclarationMinOrderByAggregateInput
+    _sum?: DeclarationSumOrderByAggregateInput
+  }
+
+  export type DeclarationScalarWhereWithAggregatesInput = {
+    AND?: DeclarationScalarWhereWithAggregatesInput | DeclarationScalarWhereWithAggregatesInput[]
+    OR?: DeclarationScalarWhereWithAggregatesInput[]
+    NOT?: DeclarationScalarWhereWithAggregatesInput | DeclarationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Declaration"> | string
+    registration?: StringWithAggregatesFilter<"Declaration"> | string
+    quote?: FloatWithAggregatesFilter<"Declaration"> | number
+    invoiceId?: StringWithAggregatesFilter<"Declaration"> | string
+  }
+
+  export type ExpenseDeclarationWhereInput = {
+    AND?: ExpenseDeclarationWhereInput | ExpenseDeclarationWhereInput[]
+    OR?: ExpenseDeclarationWhereInput[]
+    NOT?: ExpenseDeclarationWhereInput | ExpenseDeclarationWhereInput[]
+    id?: StringFilter<"ExpenseDeclaration"> | string
+    declarationId?: StringFilter<"ExpenseDeclaration"> | string
+    name?: StringFilter<"ExpenseDeclaration"> | string
+    useICMSBase?: BoolFilter<"ExpenseDeclaration"> | boolean
+    useCustomsBase?: BoolFilter<"ExpenseDeclaration"> | boolean
+    allocationMethod?: EnumAllocationMethodFilter<"ExpenseDeclaration"> | $Enums.AllocationMethod
+    currency?: EnumCurrencyFilter<"ExpenseDeclaration"> | $Enums.Currency
+    amount?: FloatFilter<"ExpenseDeclaration"> | number
+    declaration?: XOR<DeclarationScalarRelationFilter, DeclarationWhereInput>
+  }
+
+  export type ExpenseDeclarationOrderByWithRelationInput = {
+    id?: SortOrder
+    declarationId?: SortOrder
+    name?: SortOrder
+    useICMSBase?: SortOrder
+    useCustomsBase?: SortOrder
+    allocationMethod?: SortOrder
+    currency?: SortOrder
+    amount?: SortOrder
+    declaration?: DeclarationOrderByWithRelationInput
+  }
+
+  export type ExpenseDeclarationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ExpenseDeclarationWhereInput | ExpenseDeclarationWhereInput[]
+    OR?: ExpenseDeclarationWhereInput[]
+    NOT?: ExpenseDeclarationWhereInput | ExpenseDeclarationWhereInput[]
+    declarationId?: StringFilter<"ExpenseDeclaration"> | string
+    name?: StringFilter<"ExpenseDeclaration"> | string
+    useICMSBase?: BoolFilter<"ExpenseDeclaration"> | boolean
+    useCustomsBase?: BoolFilter<"ExpenseDeclaration"> | boolean
+    allocationMethod?: EnumAllocationMethodFilter<"ExpenseDeclaration"> | $Enums.AllocationMethod
+    currency?: EnumCurrencyFilter<"ExpenseDeclaration"> | $Enums.Currency
+    amount?: FloatFilter<"ExpenseDeclaration"> | number
+    declaration?: XOR<DeclarationScalarRelationFilter, DeclarationWhereInput>
+  }, "id">
+
+  export type ExpenseDeclarationOrderByWithAggregationInput = {
+    id?: SortOrder
+    declarationId?: SortOrder
+    name?: SortOrder
+    useICMSBase?: SortOrder
+    useCustomsBase?: SortOrder
+    allocationMethod?: SortOrder
+    currency?: SortOrder
+    amount?: SortOrder
+    _count?: ExpenseDeclarationCountOrderByAggregateInput
+    _avg?: ExpenseDeclarationAvgOrderByAggregateInput
+    _max?: ExpenseDeclarationMaxOrderByAggregateInput
+    _min?: ExpenseDeclarationMinOrderByAggregateInput
+    _sum?: ExpenseDeclarationSumOrderByAggregateInput
+  }
+
+  export type ExpenseDeclarationScalarWhereWithAggregatesInput = {
+    AND?: ExpenseDeclarationScalarWhereWithAggregatesInput | ExpenseDeclarationScalarWhereWithAggregatesInput[]
+    OR?: ExpenseDeclarationScalarWhereWithAggregatesInput[]
+    NOT?: ExpenseDeclarationScalarWhereWithAggregatesInput | ExpenseDeclarationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ExpenseDeclaration"> | string
+    declarationId?: StringWithAggregatesFilter<"ExpenseDeclaration"> | string
+    name?: StringWithAggregatesFilter<"ExpenseDeclaration"> | string
+    useICMSBase?: BoolWithAggregatesFilter<"ExpenseDeclaration"> | boolean
+    useCustomsBase?: BoolWithAggregatesFilter<"ExpenseDeclaration"> | boolean
+    allocationMethod?: EnumAllocationMethodWithAggregatesFilter<"ExpenseDeclaration"> | $Enums.AllocationMethod
+    currency?: EnumCurrencyWithAggregatesFilter<"ExpenseDeclaration"> | $Enums.Currency
+    amount?: FloatWithAggregatesFilter<"ExpenseDeclaration"> | number
   }
 
   export type NCMCreateInput = {
@@ -8814,6 +11444,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quote: number
     products?: InvoiceProductCreateNestedManyWithoutInvoiceInput
+    declaration?: DeclarationCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateInput = {
@@ -8822,6 +11453,7 @@ export namespace Prisma {
     createdAt?: Date | string
     quote: number
     products?: InvoiceProductUncheckedCreateNestedManyWithoutInvoiceInput
+    declaration?: DeclarationUncheckedCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUpdateInput = {
@@ -8830,6 +11462,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quote?: FloatFieldUpdateOperationsInput | number
     products?: InvoiceProductUpdateManyWithoutInvoiceNestedInput
+    declaration?: DeclarationUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateInput = {
@@ -8838,6 +11471,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quote?: FloatFieldUpdateOperationsInput | number
     products?: InvoiceProductUncheckedUpdateManyWithoutInvoiceNestedInput
+    declaration?: DeclarationUncheckedUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceCreateManyInput = {
@@ -8998,6 +11632,134 @@ export namespace Prisma {
     useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
     allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
     currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+  }
+
+  export type DeclarationCreateInput = {
+    id?: string
+    registration: string
+    quote: number
+    invoice: InvoiceCreateNestedOneWithoutDeclarationInput
+    expenses?: ExpenseDeclarationCreateNestedManyWithoutDeclarationInput
+  }
+
+  export type DeclarationUncheckedCreateInput = {
+    id?: string
+    registration: string
+    quote: number
+    invoiceId: string
+    expenses?: ExpenseDeclarationUncheckedCreateNestedManyWithoutDeclarationInput
+  }
+
+  export type DeclarationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    invoice?: InvoiceUpdateOneRequiredWithoutDeclarationNestedInput
+    expenses?: ExpenseDeclarationUpdateManyWithoutDeclarationNestedInput
+  }
+
+  export type DeclarationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    expenses?: ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationNestedInput
+  }
+
+  export type DeclarationCreateManyInput = {
+    id?: string
+    registration: string
+    quote: number
+    invoiceId: string
+  }
+
+  export type DeclarationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type DeclarationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    invoiceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ExpenseDeclarationCreateInput = {
+    id?: string
+    name: string
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount?: number
+    declaration: DeclarationCreateNestedOneWithoutExpensesInput
+  }
+
+  export type ExpenseDeclarationUncheckedCreateInput = {
+    id?: string
+    declarationId: string
+    name: string
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount?: number
+  }
+
+  export type ExpenseDeclarationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    amount?: FloatFieldUpdateOperationsInput | number
+    declaration?: DeclarationUpdateOneRequiredWithoutExpensesNestedInput
+  }
+
+  export type ExpenseDeclarationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    amount?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ExpenseDeclarationCreateManyInput = {
+    id?: string
+    declarationId: string
+    name: string
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount?: number
+  }
+
+  export type ExpenseDeclarationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    amount?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ExpenseDeclarationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    declarationId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    amount?: FloatFieldUpdateOperationsInput | number
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -9232,6 +11994,11 @@ export namespace Prisma {
     none?: InvoiceProductWhereInput
   }
 
+  export type DeclarationNullableScalarRelationFilter = {
+    is?: DeclarationWhereInput | null
+    isNot?: DeclarationWhereInput | null
+  }
+
   export type InvoiceProductOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -9432,6 +12199,91 @@ export namespace Prisma {
     _max?: NestedEnumCurrencyFilter<$PrismaModel>
   }
 
+  export type ExpenseDeclarationListRelationFilter = {
+    every?: ExpenseDeclarationWhereInput
+    some?: ExpenseDeclarationWhereInput
+    none?: ExpenseDeclarationWhereInput
+  }
+
+  export type ExpenseDeclarationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DeclarationCountOrderByAggregateInput = {
+    id?: SortOrder
+    registration?: SortOrder
+    quote?: SortOrder
+    invoiceId?: SortOrder
+  }
+
+  export type DeclarationAvgOrderByAggregateInput = {
+    quote?: SortOrder
+  }
+
+  export type DeclarationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    registration?: SortOrder
+    quote?: SortOrder
+    invoiceId?: SortOrder
+  }
+
+  export type DeclarationMinOrderByAggregateInput = {
+    id?: SortOrder
+    registration?: SortOrder
+    quote?: SortOrder
+    invoiceId?: SortOrder
+  }
+
+  export type DeclarationSumOrderByAggregateInput = {
+    quote?: SortOrder
+  }
+
+  export type DeclarationScalarRelationFilter = {
+    is?: DeclarationWhereInput
+    isNot?: DeclarationWhereInput
+  }
+
+  export type ExpenseDeclarationCountOrderByAggregateInput = {
+    id?: SortOrder
+    declarationId?: SortOrder
+    name?: SortOrder
+    useICMSBase?: SortOrder
+    useCustomsBase?: SortOrder
+    allocationMethod?: SortOrder
+    currency?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type ExpenseDeclarationAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type ExpenseDeclarationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    declarationId?: SortOrder
+    name?: SortOrder
+    useICMSBase?: SortOrder
+    useCustomsBase?: SortOrder
+    allocationMethod?: SortOrder
+    currency?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type ExpenseDeclarationMinOrderByAggregateInput = {
+    id?: SortOrder
+    declarationId?: SortOrder
+    name?: SortOrder
+    useICMSBase?: SortOrder
+    useCustomsBase?: SortOrder
+    allocationMethod?: SortOrder
+    currency?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type ExpenseDeclarationSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -9507,11 +12359,23 @@ export namespace Prisma {
     connect?: InvoiceProductWhereUniqueInput | InvoiceProductWhereUniqueInput[]
   }
 
+  export type DeclarationCreateNestedOneWithoutInvoiceInput = {
+    create?: XOR<DeclarationCreateWithoutInvoiceInput, DeclarationUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: DeclarationCreateOrConnectWithoutInvoiceInput
+    connect?: DeclarationWhereUniqueInput
+  }
+
   export type InvoiceProductUncheckedCreateNestedManyWithoutInvoiceInput = {
     create?: XOR<InvoiceProductCreateWithoutInvoiceInput, InvoiceProductUncheckedCreateWithoutInvoiceInput> | InvoiceProductCreateWithoutInvoiceInput[] | InvoiceProductUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: InvoiceProductCreateOrConnectWithoutInvoiceInput | InvoiceProductCreateOrConnectWithoutInvoiceInput[]
     createMany?: InvoiceProductCreateManyInvoiceInputEnvelope
     connect?: InvoiceProductWhereUniqueInput | InvoiceProductWhereUniqueInput[]
+  }
+
+  export type DeclarationUncheckedCreateNestedOneWithoutInvoiceInput = {
+    create?: XOR<DeclarationCreateWithoutInvoiceInput, DeclarationUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: DeclarationCreateOrConnectWithoutInvoiceInput
+    connect?: DeclarationWhereUniqueInput
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -9532,6 +12396,16 @@ export namespace Prisma {
     deleteMany?: InvoiceProductScalarWhereInput | InvoiceProductScalarWhereInput[]
   }
 
+  export type DeclarationUpdateOneWithoutInvoiceNestedInput = {
+    create?: XOR<DeclarationCreateWithoutInvoiceInput, DeclarationUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: DeclarationCreateOrConnectWithoutInvoiceInput
+    upsert?: DeclarationUpsertWithoutInvoiceInput
+    disconnect?: DeclarationWhereInput | boolean
+    delete?: DeclarationWhereInput | boolean
+    connect?: DeclarationWhereUniqueInput
+    update?: XOR<XOR<DeclarationUpdateToOneWithWhereWithoutInvoiceInput, DeclarationUpdateWithoutInvoiceInput>, DeclarationUncheckedUpdateWithoutInvoiceInput>
+  }
+
   export type InvoiceProductUncheckedUpdateManyWithoutInvoiceNestedInput = {
     create?: XOR<InvoiceProductCreateWithoutInvoiceInput, InvoiceProductUncheckedCreateWithoutInvoiceInput> | InvoiceProductCreateWithoutInvoiceInput[] | InvoiceProductUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: InvoiceProductCreateOrConnectWithoutInvoiceInput | InvoiceProductCreateOrConnectWithoutInvoiceInput[]
@@ -9544,6 +12418,16 @@ export namespace Prisma {
     update?: InvoiceProductUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceProductUpdateWithWhereUniqueWithoutInvoiceInput[]
     updateMany?: InvoiceProductUpdateManyWithWhereWithoutInvoiceInput | InvoiceProductUpdateManyWithWhereWithoutInvoiceInput[]
     deleteMany?: InvoiceProductScalarWhereInput | InvoiceProductScalarWhereInput[]
+  }
+
+  export type DeclarationUncheckedUpdateOneWithoutInvoiceNestedInput = {
+    create?: XOR<DeclarationCreateWithoutInvoiceInput, DeclarationUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: DeclarationCreateOrConnectWithoutInvoiceInput
+    upsert?: DeclarationUpsertWithoutInvoiceInput
+    disconnect?: DeclarationWhereInput | boolean
+    delete?: DeclarationWhereInput | boolean
+    connect?: DeclarationWhereUniqueInput
+    update?: XOR<XOR<DeclarationUpdateToOneWithWhereWithoutInvoiceInput, DeclarationUpdateWithoutInvoiceInput>, DeclarationUncheckedUpdateWithoutInvoiceInput>
   }
 
   export type InvoiceCreateNestedOneWithoutProductsInput = {
@@ -9578,6 +12462,76 @@ export namespace Prisma {
 
   export type EnumCurrencyFieldUpdateOperationsInput = {
     set?: $Enums.Currency
+  }
+
+  export type InvoiceCreateNestedOneWithoutDeclarationInput = {
+    create?: XOR<InvoiceCreateWithoutDeclarationInput, InvoiceUncheckedCreateWithoutDeclarationInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutDeclarationInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type ExpenseDeclarationCreateNestedManyWithoutDeclarationInput = {
+    create?: XOR<ExpenseDeclarationCreateWithoutDeclarationInput, ExpenseDeclarationUncheckedCreateWithoutDeclarationInput> | ExpenseDeclarationCreateWithoutDeclarationInput[] | ExpenseDeclarationUncheckedCreateWithoutDeclarationInput[]
+    connectOrCreate?: ExpenseDeclarationCreateOrConnectWithoutDeclarationInput | ExpenseDeclarationCreateOrConnectWithoutDeclarationInput[]
+    createMany?: ExpenseDeclarationCreateManyDeclarationInputEnvelope
+    connect?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+  }
+
+  export type ExpenseDeclarationUncheckedCreateNestedManyWithoutDeclarationInput = {
+    create?: XOR<ExpenseDeclarationCreateWithoutDeclarationInput, ExpenseDeclarationUncheckedCreateWithoutDeclarationInput> | ExpenseDeclarationCreateWithoutDeclarationInput[] | ExpenseDeclarationUncheckedCreateWithoutDeclarationInput[]
+    connectOrCreate?: ExpenseDeclarationCreateOrConnectWithoutDeclarationInput | ExpenseDeclarationCreateOrConnectWithoutDeclarationInput[]
+    createMany?: ExpenseDeclarationCreateManyDeclarationInputEnvelope
+    connect?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutDeclarationNestedInput = {
+    create?: XOR<InvoiceCreateWithoutDeclarationInput, InvoiceUncheckedCreateWithoutDeclarationInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutDeclarationInput
+    upsert?: InvoiceUpsertWithoutDeclarationInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutDeclarationInput, InvoiceUpdateWithoutDeclarationInput>, InvoiceUncheckedUpdateWithoutDeclarationInput>
+  }
+
+  export type ExpenseDeclarationUpdateManyWithoutDeclarationNestedInput = {
+    create?: XOR<ExpenseDeclarationCreateWithoutDeclarationInput, ExpenseDeclarationUncheckedCreateWithoutDeclarationInput> | ExpenseDeclarationCreateWithoutDeclarationInput[] | ExpenseDeclarationUncheckedCreateWithoutDeclarationInput[]
+    connectOrCreate?: ExpenseDeclarationCreateOrConnectWithoutDeclarationInput | ExpenseDeclarationCreateOrConnectWithoutDeclarationInput[]
+    upsert?: ExpenseDeclarationUpsertWithWhereUniqueWithoutDeclarationInput | ExpenseDeclarationUpsertWithWhereUniqueWithoutDeclarationInput[]
+    createMany?: ExpenseDeclarationCreateManyDeclarationInputEnvelope
+    set?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    disconnect?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    delete?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    connect?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    update?: ExpenseDeclarationUpdateWithWhereUniqueWithoutDeclarationInput | ExpenseDeclarationUpdateWithWhereUniqueWithoutDeclarationInput[]
+    updateMany?: ExpenseDeclarationUpdateManyWithWhereWithoutDeclarationInput | ExpenseDeclarationUpdateManyWithWhereWithoutDeclarationInput[]
+    deleteMany?: ExpenseDeclarationScalarWhereInput | ExpenseDeclarationScalarWhereInput[]
+  }
+
+  export type ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationNestedInput = {
+    create?: XOR<ExpenseDeclarationCreateWithoutDeclarationInput, ExpenseDeclarationUncheckedCreateWithoutDeclarationInput> | ExpenseDeclarationCreateWithoutDeclarationInput[] | ExpenseDeclarationUncheckedCreateWithoutDeclarationInput[]
+    connectOrCreate?: ExpenseDeclarationCreateOrConnectWithoutDeclarationInput | ExpenseDeclarationCreateOrConnectWithoutDeclarationInput[]
+    upsert?: ExpenseDeclarationUpsertWithWhereUniqueWithoutDeclarationInput | ExpenseDeclarationUpsertWithWhereUniqueWithoutDeclarationInput[]
+    createMany?: ExpenseDeclarationCreateManyDeclarationInputEnvelope
+    set?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    disconnect?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    delete?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    connect?: ExpenseDeclarationWhereUniqueInput | ExpenseDeclarationWhereUniqueInput[]
+    update?: ExpenseDeclarationUpdateWithWhereUniqueWithoutDeclarationInput | ExpenseDeclarationUpdateWithWhereUniqueWithoutDeclarationInput[]
+    updateMany?: ExpenseDeclarationUpdateManyWithWhereWithoutDeclarationInput | ExpenseDeclarationUpdateManyWithWhereWithoutDeclarationInput[]
+    deleteMany?: ExpenseDeclarationScalarWhereInput | ExpenseDeclarationScalarWhereInput[]
+  }
+
+  export type DeclarationCreateNestedOneWithoutExpensesInput = {
+    create?: XOR<DeclarationCreateWithoutExpensesInput, DeclarationUncheckedCreateWithoutExpensesInput>
+    connectOrCreate?: DeclarationCreateOrConnectWithoutExpensesInput
+    connect?: DeclarationWhereUniqueInput
+  }
+
+  export type DeclarationUpdateOneRequiredWithoutExpensesNestedInput = {
+    create?: XOR<DeclarationCreateWithoutExpensesInput, DeclarationUncheckedCreateWithoutExpensesInput>
+    connectOrCreate?: DeclarationCreateOrConnectWithoutExpensesInput
+    upsert?: DeclarationUpsertWithoutExpensesInput
+    connect?: DeclarationWhereUniqueInput
+    update?: XOR<XOR<DeclarationUpdateToOneWithWhereWithoutExpensesInput, DeclarationUpdateWithoutExpensesInput>, DeclarationUncheckedUpdateWithoutExpensesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9880,6 +12834,25 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DeclarationCreateWithoutInvoiceInput = {
+    id?: string
+    registration: string
+    quote: number
+    expenses?: ExpenseDeclarationCreateNestedManyWithoutDeclarationInput
+  }
+
+  export type DeclarationUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    registration: string
+    quote: number
+    expenses?: ExpenseDeclarationUncheckedCreateNestedManyWithoutDeclarationInput
+  }
+
+  export type DeclarationCreateOrConnectWithoutInvoiceInput = {
+    where: DeclarationWhereUniqueInput
+    create: XOR<DeclarationCreateWithoutInvoiceInput, DeclarationUncheckedCreateWithoutInvoiceInput>
+  }
+
   export type InvoiceProductUpsertWithWhereUniqueWithoutInvoiceInput = {
     where: InvoiceProductWhereUniqueInput
     update: XOR<InvoiceProductUpdateWithoutInvoiceInput, InvoiceProductUncheckedUpdateWithoutInvoiceInput>
@@ -9910,11 +12883,37 @@ export namespace Prisma {
     invoiceId?: StringFilter<"InvoiceProduct"> | string
   }
 
+  export type DeclarationUpsertWithoutInvoiceInput = {
+    update: XOR<DeclarationUpdateWithoutInvoiceInput, DeclarationUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<DeclarationCreateWithoutInvoiceInput, DeclarationUncheckedCreateWithoutInvoiceInput>
+    where?: DeclarationWhereInput
+  }
+
+  export type DeclarationUpdateToOneWithWhereWithoutInvoiceInput = {
+    where?: DeclarationWhereInput
+    data: XOR<DeclarationUpdateWithoutInvoiceInput, DeclarationUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type DeclarationUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    expenses?: ExpenseDeclarationUpdateManyWithoutDeclarationNestedInput
+  }
+
+  export type DeclarationUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    expenses?: ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationNestedInput
+  }
+
   export type InvoiceCreateWithoutProductsInput = {
     id?: string
     registration: string
     createdAt?: Date | string
     quote: number
+    declaration?: DeclarationCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutProductsInput = {
@@ -9922,6 +12921,7 @@ export namespace Prisma {
     registration: string
     createdAt?: Date | string
     quote: number
+    declaration?: DeclarationUncheckedCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutProductsInput = {
@@ -9945,6 +12945,7 @@ export namespace Prisma {
     registration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quote?: FloatFieldUpdateOperationsInput | number
+    declaration?: DeclarationUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutProductsInput = {
@@ -9952,6 +12953,159 @@ export namespace Prisma {
     registration?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quote?: FloatFieldUpdateOperationsInput | number
+    declaration?: DeclarationUncheckedUpdateOneWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceCreateWithoutDeclarationInput = {
+    id?: string
+    registration: string
+    createdAt?: Date | string
+    quote: number
+    products?: InvoiceProductCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutDeclarationInput = {
+    id?: string
+    registration: string
+    createdAt?: Date | string
+    quote: number
+    products?: InvoiceProductUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutDeclarationInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutDeclarationInput, InvoiceUncheckedCreateWithoutDeclarationInput>
+  }
+
+  export type ExpenseDeclarationCreateWithoutDeclarationInput = {
+    id?: string
+    name: string
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount?: number
+  }
+
+  export type ExpenseDeclarationUncheckedCreateWithoutDeclarationInput = {
+    id?: string
+    name: string
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount?: number
+  }
+
+  export type ExpenseDeclarationCreateOrConnectWithoutDeclarationInput = {
+    where: ExpenseDeclarationWhereUniqueInput
+    create: XOR<ExpenseDeclarationCreateWithoutDeclarationInput, ExpenseDeclarationUncheckedCreateWithoutDeclarationInput>
+  }
+
+  export type ExpenseDeclarationCreateManyDeclarationInputEnvelope = {
+    data: ExpenseDeclarationCreateManyDeclarationInput | ExpenseDeclarationCreateManyDeclarationInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InvoiceUpsertWithoutDeclarationInput = {
+    update: XOR<InvoiceUpdateWithoutDeclarationInput, InvoiceUncheckedUpdateWithoutDeclarationInput>
+    create: XOR<InvoiceCreateWithoutDeclarationInput, InvoiceUncheckedCreateWithoutDeclarationInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutDeclarationInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutDeclarationInput, InvoiceUncheckedUpdateWithoutDeclarationInput>
+  }
+
+  export type InvoiceUpdateWithoutDeclarationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    products?: InvoiceProductUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutDeclarationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    products?: InvoiceProductUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type ExpenseDeclarationUpsertWithWhereUniqueWithoutDeclarationInput = {
+    where: ExpenseDeclarationWhereUniqueInput
+    update: XOR<ExpenseDeclarationUpdateWithoutDeclarationInput, ExpenseDeclarationUncheckedUpdateWithoutDeclarationInput>
+    create: XOR<ExpenseDeclarationCreateWithoutDeclarationInput, ExpenseDeclarationUncheckedCreateWithoutDeclarationInput>
+  }
+
+  export type ExpenseDeclarationUpdateWithWhereUniqueWithoutDeclarationInput = {
+    where: ExpenseDeclarationWhereUniqueInput
+    data: XOR<ExpenseDeclarationUpdateWithoutDeclarationInput, ExpenseDeclarationUncheckedUpdateWithoutDeclarationInput>
+  }
+
+  export type ExpenseDeclarationUpdateManyWithWhereWithoutDeclarationInput = {
+    where: ExpenseDeclarationScalarWhereInput
+    data: XOR<ExpenseDeclarationUpdateManyMutationInput, ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationInput>
+  }
+
+  export type ExpenseDeclarationScalarWhereInput = {
+    AND?: ExpenseDeclarationScalarWhereInput | ExpenseDeclarationScalarWhereInput[]
+    OR?: ExpenseDeclarationScalarWhereInput[]
+    NOT?: ExpenseDeclarationScalarWhereInput | ExpenseDeclarationScalarWhereInput[]
+    id?: StringFilter<"ExpenseDeclaration"> | string
+    declarationId?: StringFilter<"ExpenseDeclaration"> | string
+    name?: StringFilter<"ExpenseDeclaration"> | string
+    useICMSBase?: BoolFilter<"ExpenseDeclaration"> | boolean
+    useCustomsBase?: BoolFilter<"ExpenseDeclaration"> | boolean
+    allocationMethod?: EnumAllocationMethodFilter<"ExpenseDeclaration"> | $Enums.AllocationMethod
+    currency?: EnumCurrencyFilter<"ExpenseDeclaration"> | $Enums.Currency
+    amount?: FloatFilter<"ExpenseDeclaration"> | number
+  }
+
+  export type DeclarationCreateWithoutExpensesInput = {
+    id?: string
+    registration: string
+    quote: number
+    invoice: InvoiceCreateNestedOneWithoutDeclarationInput
+  }
+
+  export type DeclarationUncheckedCreateWithoutExpensesInput = {
+    id?: string
+    registration: string
+    quote: number
+    invoiceId: string
+  }
+
+  export type DeclarationCreateOrConnectWithoutExpensesInput = {
+    where: DeclarationWhereUniqueInput
+    create: XOR<DeclarationCreateWithoutExpensesInput, DeclarationUncheckedCreateWithoutExpensesInput>
+  }
+
+  export type DeclarationUpsertWithoutExpensesInput = {
+    update: XOR<DeclarationUpdateWithoutExpensesInput, DeclarationUncheckedUpdateWithoutExpensesInput>
+    create: XOR<DeclarationCreateWithoutExpensesInput, DeclarationUncheckedCreateWithoutExpensesInput>
+    where?: DeclarationWhereInput
+  }
+
+  export type DeclarationUpdateToOneWithWhereWithoutExpensesInput = {
+    where?: DeclarationWhereInput
+    data: XOR<DeclarationUpdateWithoutExpensesInput, DeclarationUncheckedUpdateWithoutExpensesInput>
+  }
+
+  export type DeclarationUpdateWithoutExpensesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    invoice?: InvoiceUpdateOneRequiredWithoutDeclarationNestedInput
+  }
+
+  export type DeclarationUncheckedUpdateWithoutExpensesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    registration?: StringFieldUpdateOperationsInput | string
+    quote?: FloatFieldUpdateOperationsInput | number
+    invoiceId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductCreateManyNcmInput = {
@@ -10027,6 +13181,46 @@ export namespace Prisma {
     productWeight?: FloatFieldUpdateOperationsInput | number
     productVolume?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ExpenseDeclarationCreateManyDeclarationInput = {
+    id?: string
+    name: string
+    useICMSBase?: boolean
+    useCustomsBase?: boolean
+    allocationMethod: $Enums.AllocationMethod
+    currency: $Enums.Currency
+    amount?: number
+  }
+
+  export type ExpenseDeclarationUpdateWithoutDeclarationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    amount?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ExpenseDeclarationUncheckedUpdateWithoutDeclarationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
+    amount?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    useICMSBase?: BoolFieldUpdateOperationsInput | boolean
+    useCustomsBase?: BoolFieldUpdateOperationsInput | boolean
+    allocationMethod?: EnumAllocationMethodFieldUpdateOperationsInput | $Enums.AllocationMethod
+    currency?: EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
     amount?: FloatFieldUpdateOperationsInput | number
   }
 

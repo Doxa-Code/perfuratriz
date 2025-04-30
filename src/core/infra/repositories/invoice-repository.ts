@@ -6,10 +6,37 @@ interface InvoiceRepository {
   save(invoice: Invoice): Promise<void>;
   list(): Promise<Invoice[]>;
   remove(id: string): Promise<void>;
+  retrieve(id: string): Promise<Invoice | null>;
 }
 
 export class InvoiceDatabaseRepository implements InvoiceRepository {
   private database = new PrismaClient().invoice;
+
+  async retrieve(id: string): Promise<Invoice | null> {
+    const invoice = await this.database.findUnique({
+      where: { id },
+      include: { products: true },
+    });
+
+    if (!invoice) return null;
+
+    return Invoice.instance({
+      createdAt: invoice.createdAt,
+      id: invoice.id,
+      products: invoice.products.map((p) =>
+        InvoiceProduct.create({
+          amount: p.amount,
+          productId: p.productId,
+          productName: p.productName,
+          productVolume: p.productVolume,
+          productWeight: p.productWeight,
+          quantity: p.quantity,
+        })
+      ),
+      quote: invoice.quote,
+      registration: invoice.registration,
+    });
+  }
 
   async save(invoice: Invoice): Promise<void> {
     await this.database.create({
