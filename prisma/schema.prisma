@@ -78,3 +78,25 @@ model InvoiceProduct {
 
   @@map("invoice_products")
 }
+
+model Expense {
+  id               String           @id @default(uuid())
+  name             String
+  useICMSBase      Boolean          @default(false)
+  useCustomsBase   Boolean          @default(false)
+  allocationMethod AllocationMethod
+  currency         Currency
+
+  @@map("expenses")
+}
+
+enum AllocationMethod {
+  NET_WEIGHT
+  NET_VALUE
+  PER_UNIT
+}
+
+enum Currency {
+  USD
+  BRL
+}
