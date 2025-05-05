@@ -84,7 +84,6 @@ export function ModalCreateNCM() {
   }
 
   const formatPercent =
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     (field: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.currentTarget;
       const raw = input.value.replace(/\D/g, "");
