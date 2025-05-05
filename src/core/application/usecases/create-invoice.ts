@@ -34,10 +34,7 @@ export class CreateInvoice {
       invoice.add(
         InvoiceProduct.create({
           amount: p.amount,
-          productId: product.id,
-          productName: product.name,
-          productVolume: product.volume,
-          productWeight: product.weight,
+          product: product,
           quantity: p.quantity,
         })
       );

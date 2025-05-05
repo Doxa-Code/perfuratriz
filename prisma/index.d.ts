@@ -6111,14 +6111,30 @@ export namespace Prisma {
 
   export type InvoiceProductAvgAggregateOutputType = {
     productWeight: number | null
-    productVolume: number | null
+    productLength: number | null
+    productHeight: number | null
+    productWidth: number | null
+    ncmCode: number | null
+    ncmCofins: number | null
+    ncmIcms: number | null
+    ncmIpi: number | null
+    ncmPis: number | null
+    ncmTax: number | null
     quantity: number | null
     amount: number | null
   }
 
   export type InvoiceProductSumAggregateOutputType = {
     productWeight: number | null
-    productVolume: number | null
+    productLength: number | null
+    productHeight: number | null
+    productWidth: number | null
+    ncmCode: number | null
+    ncmCofins: number | null
+    ncmIcms: number | null
+    ncmIpi: number | null
+    ncmPis: number | null
+    ncmTax: number | null
     quantity: number | null
     amount: number | null
   }
@@ -6128,7 +6144,15 @@ export namespace Prisma {
     productId: string | null
     productName: string | null
     productWeight: number | null
-    productVolume: number | null
+    productLength: number | null
+    productHeight: number | null
+    productWidth: number | null
+    ncmCode: number | null
+    ncmCofins: number | null
+    ncmIcms: number | null
+    ncmIpi: number | null
+    ncmPis: number | null
+    ncmTax: number | null
     quantity: number | null
     amount: number | null
     invoiceId: string | null
@@ -6139,7 +6163,15 @@ export namespace Prisma {
     productId: string | null
     productName: string | null
     productWeight: number | null
-    productVolume: number | null
+    productLength: number | null
+    productHeight: number | null
+    productWidth: number | null
+    ncmCode: number | null
+    ncmCofins: number | null
+    ncmIcms: number | null
+    ncmIpi: number | null
+    ncmPis: number | null
+    ncmTax: number | null
     quantity: number | null
     amount: number | null
     invoiceId: string | null
@@ -6150,7 +6182,15 @@ export namespace Prisma {
     productId: number
     productName: number
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity: number
     amount: number
     invoiceId: number
@@ -6160,14 +6200,30 @@ export namespace Prisma {
 
   export type InvoiceProductAvgAggregateInputType = {
     productWeight?: true
-    productVolume?: true
+    productLength?: true
+    productHeight?: true
+    productWidth?: true
+    ncmCode?: true
+    ncmCofins?: true
+    ncmIcms?: true
+    ncmIpi?: true
+    ncmPis?: true
+    ncmTax?: true
     quantity?: true
     amount?: true
   }
 
   export type InvoiceProductSumAggregateInputType = {
     productWeight?: true
-    productVolume?: true
+    productLength?: true
+    productHeight?: true
+    productWidth?: true
+    ncmCode?: true
+    ncmCofins?: true
+    ncmIcms?: true
+    ncmIpi?: true
+    ncmPis?: true
+    ncmTax?: true
     quantity?: true
     amount?: true
   }
@@ -6177,7 +6233,15 @@ export namespace Prisma {
     productId?: true
     productName?: true
     productWeight?: true
-    productVolume?: true
+    productLength?: true
+    productHeight?: true
+    productWidth?: true
+    ncmCode?: true
+    ncmCofins?: true
+    ncmIcms?: true
+    ncmIpi?: true
+    ncmPis?: true
+    ncmTax?: true
     quantity?: true
     amount?: true
     invoiceId?: true
@@ -6188,7 +6252,15 @@ export namespace Prisma {
     productId?: true
     productName?: true
     productWeight?: true
-    productVolume?: true
+    productLength?: true
+    productHeight?: true
+    productWidth?: true
+    ncmCode?: true
+    ncmCofins?: true
+    ncmIcms?: true
+    ncmIpi?: true
+    ncmPis?: true
+    ncmTax?: true
     quantity?: true
     amount?: true
     invoiceId?: true
@@ -6199,7 +6271,15 @@ export namespace Prisma {
     productId?: true
     productName?: true
     productWeight?: true
-    productVolume?: true
+    productLength?: true
+    productHeight?: true
+    productWidth?: true
+    ncmCode?: true
+    ncmCofins?: true
+    ncmIcms?: true
+    ncmIpi?: true
+    ncmPis?: true
+    ncmTax?: true
     quantity?: true
     amount?: true
     invoiceId?: true
@@ -6297,7 +6377,15 @@ export namespace Prisma {
     productId: string
     productName: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity: number
     amount: number
     invoiceId: string
@@ -6327,7 +6415,15 @@ export namespace Prisma {
     productId?: boolean
     productName?: boolean
     productWeight?: boolean
-    productVolume?: boolean
+    productLength?: boolean
+    productHeight?: boolean
+    productWidth?: boolean
+    ncmCode?: boolean
+    ncmCofins?: boolean
+    ncmIcms?: boolean
+    ncmIpi?: boolean
+    ncmPis?: boolean
+    ncmTax?: boolean
     quantity?: boolean
     amount?: boolean
     invoiceId?: boolean
@@ -6339,7 +6435,15 @@ export namespace Prisma {
     productId?: boolean
     productName?: boolean
     productWeight?: boolean
-    productVolume?: boolean
+    productLength?: boolean
+    productHeight?: boolean
+    productWidth?: boolean
+    ncmCode?: boolean
+    ncmCofins?: boolean
+    ncmIcms?: boolean
+    ncmIpi?: boolean
+    ncmPis?: boolean
+    ncmTax?: boolean
     quantity?: boolean
     amount?: boolean
     invoiceId?: boolean
@@ -6351,7 +6455,15 @@ export namespace Prisma {
     productId?: boolean
     productName?: boolean
     productWeight?: boolean
-    productVolume?: boolean
+    productLength?: boolean
+    productHeight?: boolean
+    productWidth?: boolean
+    ncmCode?: boolean
+    ncmCofins?: boolean
+    ncmIcms?: boolean
+    ncmIpi?: boolean
+    ncmPis?: boolean
+    ncmTax?: boolean
     quantity?: boolean
     amount?: boolean
     invoiceId?: boolean
@@ -6363,13 +6475,21 @@ export namespace Prisma {
     productId?: boolean
     productName?: boolean
     productWeight?: boolean
-    productVolume?: boolean
+    productLength?: boolean
+    productHeight?: boolean
+    productWidth?: boolean
+    ncmCode?: boolean
+    ncmCofins?: boolean
+    ncmIcms?: boolean
+    ncmIpi?: boolean
+    ncmPis?: boolean
+    ncmTax?: boolean
     quantity?: boolean
     amount?: boolean
     invoiceId?: boolean
   }
 
-  export type InvoiceProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "productName" | "productWeight" | "productVolume" | "quantity" | "amount" | "invoiceId", ExtArgs["result"]["invoiceProduct"]>
+  export type InvoiceProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "productName" | "productWeight" | "productLength" | "productHeight" | "productWidth" | "ncmCode" | "ncmCofins" | "ncmIcms" | "ncmIpi" | "ncmPis" | "ncmTax" | "quantity" | "amount" | "invoiceId", ExtArgs["result"]["invoiceProduct"]>
   export type InvoiceProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
   }
@@ -6390,7 +6510,15 @@ export namespace Prisma {
       productId: string
       productName: string
       productWeight: number
-      productVolume: number
+      productLength: number
+      productHeight: number
+      productWidth: number
+      ncmCode: number
+      ncmCofins: number
+      ncmIcms: number
+      ncmIpi: number
+      ncmPis: number
+      ncmTax: number
       quantity: number
       amount: number
       invoiceId: string
@@ -6822,7 +6950,15 @@ export namespace Prisma {
     readonly productId: FieldRef<"InvoiceProduct", 'String'>
     readonly productName: FieldRef<"InvoiceProduct", 'String'>
     readonly productWeight: FieldRef<"InvoiceProduct", 'Float'>
-    readonly productVolume: FieldRef<"InvoiceProduct", 'Float'>
+    readonly productLength: FieldRef<"InvoiceProduct", 'Float'>
+    readonly productHeight: FieldRef<"InvoiceProduct", 'Float'>
+    readonly productWidth: FieldRef<"InvoiceProduct", 'Float'>
+    readonly ncmCode: FieldRef<"InvoiceProduct", 'Float'>
+    readonly ncmCofins: FieldRef<"InvoiceProduct", 'Float'>
+    readonly ncmIcms: FieldRef<"InvoiceProduct", 'Float'>
+    readonly ncmIpi: FieldRef<"InvoiceProduct", 'Float'>
+    readonly ncmPis: FieldRef<"InvoiceProduct", 'Float'>
+    readonly ncmTax: FieldRef<"InvoiceProduct", 'Float'>
     readonly quantity: FieldRef<"InvoiceProduct", 'Int'>
     readonly amount: FieldRef<"InvoiceProduct", 'Float'>
     readonly invoiceId: FieldRef<"InvoiceProduct", 'String'>
@@ -10556,7 +10692,15 @@ export namespace Prisma {
     productId: 'productId',
     productName: 'productName',
     productWeight: 'productWeight',
-    productVolume: 'productVolume',
+    productLength: 'productLength',
+    productHeight: 'productHeight',
+    productWidth: 'productWidth',
+    ncmCode: 'ncmCode',
+    ncmCofins: 'ncmCofins',
+    ncmIcms: 'ncmIcms',
+    ncmIpi: 'ncmIpi',
+    ncmPis: 'ncmPis',
+    ncmTax: 'ncmTax',
     quantity: 'quantity',
     amount: 'amount',
     invoiceId: 'invoiceId'
@@ -10977,7 +11121,15 @@ export namespace Prisma {
     productId?: StringFilter<"InvoiceProduct"> | string
     productName?: StringFilter<"InvoiceProduct"> | string
     productWeight?: FloatFilter<"InvoiceProduct"> | number
-    productVolume?: FloatFilter<"InvoiceProduct"> | number
+    productLength?: FloatFilter<"InvoiceProduct"> | number
+    productHeight?: FloatFilter<"InvoiceProduct"> | number
+    productWidth?: FloatFilter<"InvoiceProduct"> | number
+    ncmCode?: FloatFilter<"InvoiceProduct"> | number
+    ncmCofins?: FloatFilter<"InvoiceProduct"> | number
+    ncmIcms?: FloatFilter<"InvoiceProduct"> | number
+    ncmIpi?: FloatFilter<"InvoiceProduct"> | number
+    ncmPis?: FloatFilter<"InvoiceProduct"> | number
+    ncmTax?: FloatFilter<"InvoiceProduct"> | number
     quantity?: IntFilter<"InvoiceProduct"> | number
     amount?: FloatFilter<"InvoiceProduct"> | number
     invoiceId?: StringFilter<"InvoiceProduct"> | string
@@ -10989,7 +11141,15 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
     invoiceId?: SortOrder
@@ -11004,7 +11164,15 @@ export namespace Prisma {
     productId?: StringFilter<"InvoiceProduct"> | string
     productName?: StringFilter<"InvoiceProduct"> | string
     productWeight?: FloatFilter<"InvoiceProduct"> | number
-    productVolume?: FloatFilter<"InvoiceProduct"> | number
+    productLength?: FloatFilter<"InvoiceProduct"> | number
+    productHeight?: FloatFilter<"InvoiceProduct"> | number
+    productWidth?: FloatFilter<"InvoiceProduct"> | number
+    ncmCode?: FloatFilter<"InvoiceProduct"> | number
+    ncmCofins?: FloatFilter<"InvoiceProduct"> | number
+    ncmIcms?: FloatFilter<"InvoiceProduct"> | number
+    ncmIpi?: FloatFilter<"InvoiceProduct"> | number
+    ncmPis?: FloatFilter<"InvoiceProduct"> | number
+    ncmTax?: FloatFilter<"InvoiceProduct"> | number
     quantity?: IntFilter<"InvoiceProduct"> | number
     amount?: FloatFilter<"InvoiceProduct"> | number
     invoiceId?: StringFilter<"InvoiceProduct"> | string
@@ -11016,7 +11184,15 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
     invoiceId?: SortOrder
@@ -11035,7 +11211,15 @@ export namespace Prisma {
     productId?: StringWithAggregatesFilter<"InvoiceProduct"> | string
     productName?: StringWithAggregatesFilter<"InvoiceProduct"> | string
     productWeight?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
-    productVolume?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    productLength?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    productHeight?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    productWidth?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    ncmCode?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    ncmCofins?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    ncmIcms?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    ncmIpi?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    ncmPis?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
+    ncmTax?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
     quantity?: IntWithAggregatesFilter<"InvoiceProduct"> | number
     amount?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
     invoiceId?: StringWithAggregatesFilter<"InvoiceProduct"> | string
@@ -11498,9 +11682,17 @@ export namespace Prisma {
   export type InvoiceProductCreateInput = {
     id?: string
     productId: string
-    productName: string
+    productName?: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity?: number
     amount?: number
     invoice: InvoiceCreateNestedOneWithoutProductsInput
@@ -11509,9 +11701,17 @@ export namespace Prisma {
   export type InvoiceProductUncheckedCreateInput = {
     id?: string
     productId: string
-    productName: string
+    productName?: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity?: number
     amount?: number
     invoiceId: string
@@ -11522,7 +11722,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     invoice?: InvoiceUpdateOneRequiredWithoutProductsNestedInput
@@ -11533,7 +11741,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     invoiceId?: StringFieldUpdateOperationsInput | string
@@ -11542,9 +11758,17 @@ export namespace Prisma {
   export type InvoiceProductCreateManyInput = {
     id?: string
     productId: string
-    productName: string
+    productName?: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity?: number
     amount?: number
     invoiceId: string
@@ -11555,7 +11779,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
   }
@@ -11565,7 +11797,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
     invoiceId?: StringFieldUpdateOperationsInput | string
@@ -12067,7 +12307,15 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
     invoiceId?: SortOrder
@@ -12075,7 +12323,15 @@ export namespace Prisma {
 
   export type InvoiceProductAvgOrderByAggregateInput = {
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
   }
@@ -12085,7 +12341,15 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
     invoiceId?: SortOrder
@@ -12096,7 +12360,15 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
     invoiceId?: SortOrder
@@ -12104,7 +12376,15 @@ export namespace Prisma {
 
   export type InvoiceProductSumOrderByAggregateInput = {
     productWeight?: SortOrder
-    productVolume?: SortOrder
+    productLength?: SortOrder
+    productHeight?: SortOrder
+    productWidth?: SortOrder
+    ncmCode?: SortOrder
+    ncmCofins?: SortOrder
+    ncmIcms?: SortOrder
+    ncmIpi?: SortOrder
+    ncmPis?: SortOrder
+    ncmTax?: SortOrder
     quantity?: SortOrder
     amount?: SortOrder
   }
@@ -12807,9 +13087,17 @@ export namespace Prisma {
   export type InvoiceProductCreateWithoutInvoiceInput = {
     id?: string
     productId: string
-    productName: string
+    productName?: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity?: number
     amount?: number
   }
@@ -12817,9 +13105,17 @@ export namespace Prisma {
   export type InvoiceProductUncheckedCreateWithoutInvoiceInput = {
     id?: string
     productId: string
-    productName: string
+    productName?: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity?: number
     amount?: number
   }
@@ -12877,7 +13173,15 @@ export namespace Prisma {
     productId?: StringFilter<"InvoiceProduct"> | string
     productName?: StringFilter<"InvoiceProduct"> | string
     productWeight?: FloatFilter<"InvoiceProduct"> | number
-    productVolume?: FloatFilter<"InvoiceProduct"> | number
+    productLength?: FloatFilter<"InvoiceProduct"> | number
+    productHeight?: FloatFilter<"InvoiceProduct"> | number
+    productWidth?: FloatFilter<"InvoiceProduct"> | number
+    ncmCode?: FloatFilter<"InvoiceProduct"> | number
+    ncmCofins?: FloatFilter<"InvoiceProduct"> | number
+    ncmIcms?: FloatFilter<"InvoiceProduct"> | number
+    ncmIpi?: FloatFilter<"InvoiceProduct"> | number
+    ncmPis?: FloatFilter<"InvoiceProduct"> | number
+    ncmTax?: FloatFilter<"InvoiceProduct"> | number
     quantity?: IntFilter<"InvoiceProduct"> | number
     amount?: FloatFilter<"InvoiceProduct"> | number
     invoiceId?: StringFilter<"InvoiceProduct"> | string
@@ -13147,9 +13451,17 @@ export namespace Prisma {
   export type InvoiceProductCreateManyInvoiceInput = {
     id?: string
     productId: string
-    productName: string
+    productName?: string
     productWeight: number
-    productVolume: number
+    productLength: number
+    productHeight: number
+    productWidth: number
+    ncmCode: number
+    ncmCofins: number
+    ncmIcms: number
+    ncmIpi: number
+    ncmPis: number
+    ncmTax: number
     quantity?: number
     amount?: number
   }
@@ -13159,7 +13471,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
   }
@@ -13169,7 +13489,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
   }
@@ -13179,7 +13507,15 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
-    productVolume?: FloatFieldUpdateOperationsInput | number
+    productLength?: FloatFieldUpdateOperationsInput | number
+    productHeight?: FloatFieldUpdateOperationsInput | number
+    productWidth?: FloatFieldUpdateOperationsInput | number
+    ncmCode?: FloatFieldUpdateOperationsInput | number
+    ncmCofins?: FloatFieldUpdateOperationsInput | number
+    ncmIcms?: FloatFieldUpdateOperationsInput | number
+    ncmIpi?: FloatFieldUpdateOperationsInput | number
+    ncmPis?: FloatFieldUpdateOperationsInput | number
+    ncmTax?: FloatFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
     amount?: FloatFieldUpdateOperationsInput | number
   }

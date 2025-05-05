@@ -1,4 +1,6 @@
 import { Invoice } from "@/core/domain/entities/invoice";
+import { NCM } from "@/core/domain/entities/ncm";
+import { Product } from "@/core/domain/entities/product";
 import { InvoiceProduct } from "@/core/domain/value-objects/invoice-product";
 import { PrismaClient } from "../../../../prisma";
 
@@ -26,10 +28,22 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
       products: invoice.products.map((p) =>
         InvoiceProduct.create({
           amount: p.amount,
-          productId: p.productId,
-          productName: p.productName,
-          productVolume: p.productVolume,
-          productWeight: p.productWeight,
+          product: Product.instance({
+            height: p.productHeight,
+            length: p.productHeight,
+            name: p.productName,
+            ncm: NCM.create({
+              code: p.ncmCode,
+              cofins: p.ncmCofins,
+              icms: p.ncmIcms,
+              ipi: p.ncmIpi,
+              pis: p.ncmPis,
+              tax: p.ncmTax,
+            }),
+            weight: p.productWeight,
+            width: p.productWidth,
+            id: p.productId,
+          }),
           quantity: p.quantity,
         })
       ),
@@ -47,12 +61,20 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         id: invoice.id,
         products: {
           create: invoice.products.map((p) => ({
-            productId: p.productId,
-            productName: p.productName,
-            productVolume: p.productVolume,
-            productWeight: p.productWeight,
-            amount: p.amount,
+            productId: p.product.id,
+            productName: p.product.name,
+            productWeight: p.product.weight,
+            productLength: p.product.length,
+            productHeight: p.product.height,
+            productWidth: p.product.width,
+            ncmCode: p.product.ncm.code,
+            ncmCofins: p.product.ncm.cofins,
+            ncmIcms: p.product.ncm.icms,
+            ncmIpi: p.product.ncm.ipi,
+            ncmPis: p.product.ncm.pis,
+            ncmTax: p.product.ncm.tax,
             quantity: p.quantity,
+            amount: p.amount,
           })),
         },
       },
@@ -66,22 +88,34 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
       },
     });
 
-    return response.map((i) =>
+    return response.map((invoice) =>
       Invoice.instance({
-        createdAt: i.createdAt,
-        id: i.id,
-        products: i.products.map((p) =>
+        createdAt: invoice.createdAt,
+        id: invoice.id,
+        products: invoice.products.map((p) =>
           InvoiceProduct.create({
             amount: p.amount,
-            productId: p.productId,
-            productName: p.productName,
-            productVolume: p.productVolume,
-            productWeight: p.productWeight,
+            product: Product.instance({
+              id: p.productId,
+              height: p.productHeight,
+              length: p.productHeight,
+              name: p.productName,
+              ncm: NCM.create({
+                code: p.ncmCode,
+                cofins: p.ncmCofins,
+                icms: p.ncmIcms,
+                ipi: p.ncmIpi,
+                pis: p.ncmPis,
+                tax: p.ncmTax,
+              }),
+              weight: p.productWeight,
+              width: p.productWidth,
+            }),
             quantity: p.quantity,
           })
         ),
-        quote: i.quote,
-        registration: i.registration,
+        quote: invoice.quote,
+        registration: invoice.registration,
       })
     );
   }

@@ -68,11 +68,21 @@ model InvoiceProduct {
   id String @id @default(uuid())
 
   productId     String
-  productName   String
+  productName   String @default("")
   productWeight Float
-  productVolume Float
-  quantity      Int    @default(1)
-  amount        Float  @default(0)
+  productLength Float
+  productHeight Float
+  productWidth  Float
+
+  ncmCode   Float
+  ncmCofins Float
+  ncmIcms   Float
+  ncmIpi    Float
+  ncmPis    Float
+  ncmTax    Float
+
+  quantity Int   @default(1)
+  amount   Float @default(0)
 
   invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
   invoiceId String

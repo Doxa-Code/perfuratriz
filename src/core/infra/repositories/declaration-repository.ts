@@ -2,6 +2,8 @@ import { Declaration } from "@/core/domain/entities/declaration";
 import { Expense } from "@/core/domain/entities/expense";
 import { ExpenseDeclaration } from "@/core/domain/entities/expense-declaration";
 import { Invoice } from "@/core/domain/entities/invoice";
+import { NCM } from "@/core/domain/entities/ncm";
+import { Product } from "@/core/domain/entities/product";
 import { InvoiceProduct } from "@/core/domain/value-objects/invoice-product";
 import { PrismaClient } from "../../../../prisma";
 
@@ -56,7 +58,28 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
       invoice: Invoice.instance({
         createdAt: result.invoice.createdAt,
         id: result.invoice.id,
-        products: result.invoice.products.map(InvoiceProduct.create),
+        products: result.invoice.products.map((p) =>
+          InvoiceProduct.create({
+            amount: p.amount,
+            product: Product.instance({
+              height: p.productHeight,
+              length: p.productHeight,
+              name: p.productName,
+              ncm: NCM.create({
+                code: p.ncmCode,
+                cofins: p.ncmCofins,
+                icms: p.ncmIcms,
+                ipi: p.ncmIpi,
+                pis: p.ncmPis,
+                tax: p.ncmTax,
+              }),
+              weight: p.productWeight,
+              width: p.productWidth,
+              id: p.productId,
+            }),
+            quantity: p.quantity,
+          })
+        ),
         quote: result.quote,
         registration: result.registration,
       }),
@@ -93,7 +116,28 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         invoice: Invoice.instance({
           createdAt: result.invoice.createdAt,
           id: result.invoice.id,
-          products: result.invoice.products.map(InvoiceProduct.create),
+          products: result.invoice.products.map((p) =>
+            InvoiceProduct.create({
+              amount: p.amount,
+              product: Product.instance({
+                height: p.productHeight,
+                length: p.productHeight,
+                name: p.productName,
+                ncm: NCM.create({
+                  code: p.ncmCode,
+                  cofins: p.ncmCofins,
+                  icms: p.ncmIcms,
+                  ipi: p.ncmIpi,
+                  pis: p.ncmPis,
+                  tax: p.ncmTax,
+                }),
+                weight: p.productWeight,
+                width: p.productWidth,
+                id: p.productId,
+              }),
+              quantity: p.quantity,
+            })
+          ),
           quote: result.quote,
           registration: result.registration,
         }),

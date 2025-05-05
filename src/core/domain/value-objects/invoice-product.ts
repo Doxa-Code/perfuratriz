@@ -1,9 +1,9 @@
+import { truncCurrency } from "@/lib/utils";
+import type { Product } from "../entities/product";
+
 export class InvoiceProduct {
   constructor(
-    readonly productId: string,
-    readonly productName: string,
-    readonly productWeight: number,
-    readonly productVolume: number,
+    readonly product: Product,
     readonly quantity: number,
     readonly amount: number
   ) {}
@@ -13,30 +13,72 @@ export class InvoiceProduct {
   }
 
   get weight() {
-    return this.quantity * this.productWeight;
+    return this.quantity * this.product.weight;
   }
 
   get volume() {
-    return this.quantity * this.productVolume;
+    return this.quantity * this.product.volume;
+  }
+
+  convert(quote: number) {
+    return Math.round(this.total * quote * 100) / 100;
+  }
+
+  percentWeight(totalWeight: number) {
+    const result = this.weight / totalWeight;
+    const weight = Math.trunc(result * 1000000) / 1000000;
+    return weight;
+  }
+
+  percentAmount(totalAmount: number) {
+    const result = this.total / totalAmount;
+    const amount = Math.trunc(result * 1000000) / 1000000;
+    return amount;
+  }
+
+  calculateFreightCostAllocation(
+    invoiceWeight: number,
+    declarationFreightAmount: number
+  ) {
+    const weight = this.percentWeight(invoiceWeight);
+    const freightCostAllocation = truncCurrency(
+      declarationFreightAmount * weight
+    );
+
+    return freightCostAllocation;
+  }
+
+  calculateInsuranceCostAllocation(
+    invoiceTotal: number,
+    declarationInsuranceAmount: number
+  ) {
+    const amount = this.percentAmount(invoiceTotal);
+    const amountCostAllocation = truncCurrency(
+      declarationInsuranceAmount * amount
+    );
+
+    return amountCostAllocation;
+  }
+
+  calculateSiscomexCostAllocation(
+    invoiceTotal: number,
+    declarationSiscomexAmount: number
+  ) {
+    const amount = this.percentAmount(invoiceTotal);
+    const siscomexCostAllocation = truncCurrency(
+      declarationSiscomexAmount * amount
+    );
+
+    return siscomexCostAllocation;
   }
 
   static create(props: Props) {
-    return new InvoiceProduct(
-      props.productId,
-      props.productName,
-      props.productWeight,
-      props.productVolume,
-      props.quantity,
-      props.amount
-    );
+    return new InvoiceProduct(props.product, props.quantity, props.amount);
   }
 }
 
 type Props = {
-  productId: string;
-  productName: string;
-  productWeight: number;
-  productVolume: number;
+  product: Product;
   quantity: number;
   amount: number;
 };

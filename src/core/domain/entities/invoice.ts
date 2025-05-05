@@ -40,7 +40,7 @@ export class Invoice {
     }
 
     for (const invoiceProduct of products) {
-      this._products.set(invoiceProduct.productId, invoiceProduct);
+      this._products.set(invoiceProduct.product.id, invoiceProduct);
     }
   }
 
@@ -81,7 +81,7 @@ export class Invoice {
   }
 
   add(invoiceProduct: InvoiceProduct) {
-    this._products.set(invoiceProduct.productId, invoiceProduct);
+    this._products.set(invoiceProduct.product.id, invoiceProduct);
   }
 
   static create(props: Invoice.CreateProps) {

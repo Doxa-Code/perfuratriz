@@ -58,10 +58,7 @@ test("invoice", () => {
   products.map((product) => {
     invoice.add(
       InvoiceProduct.create({
-        productId: product.id,
-        productName: product.name,
-        productVolume: product.volume,
-        productWeight: product.weight,
+        product,
         quantity: 10,
         amount: 2,
       })

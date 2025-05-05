@@ -8,10 +8,10 @@ interface NCMRepository {
 }
 
 export class NCMDatabaseRepository implements NCMRepository {
-  private database = new PrismaClient().nCM;
+  private database = new PrismaClient();
 
   async retrieve(id: string) {
-    const response = await this.database.findFirst({
+    const response = await this.database.nCM.findFirst({
       where: {
         id,
       },
@@ -31,18 +31,20 @@ export class NCMDatabaseRepository implements NCMRepository {
   }
 
   async list() {
-    const response = await this.database.findMany();
+    await this.database.$connect();
+    const response = await this.database.nCM.findMany();
+    await this.database.$disconnect();
     return response.map(NCM.instance);
   }
 
   async remove(id: string) {
-    await this.database.delete({
+    await this.database.nCM.delete({
       where: { id },
     });
   }
 
   async save(ncm: NCM): Promise<void> {
-    await this.database.create({
+    await this.database.nCM.create({
       data: {
         code: ncm.code,
         cofins: ncm.cofins,

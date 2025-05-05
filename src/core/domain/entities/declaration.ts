@@ -32,6 +32,76 @@ export class Declaration {
     this.expenses = props.expenses;
   }
 
+  private get freightExpense() {
+    const expense = this.expenses.find(
+      (e) => e.expense.name === "Frete Internacional"
+    );
+
+    if (!expense)
+      return ExpenseDeclaration.create({
+        amount: 0,
+        expense: Expense.create({
+          allocationMethod: "NET_WEIGHT",
+          currency: "USD",
+          name: "Frete Internacional",
+          useCustomsBase: true,
+          useICMSBase: false,
+        }),
+      });
+
+    return expense;
+  }
+
+  private get insuranceExpense() {
+    const expense = this.expenses.find(
+      (e) => e.expense.name === "Seguro Internacional"
+    );
+
+    if (!expense)
+      return ExpenseDeclaration.create({
+        amount: 0,
+        expense: Expense.create({
+          allocationMethod: "NET_VALUE",
+          currency: "USD",
+          name: "Seguro Internacional",
+          useCustomsBase: true,
+          useICMSBase: false,
+        }),
+      });
+
+    return expense;
+  }
+
+  private get siscomexExpense() {
+    const expense = this.expenses.find((e) => e.expense.name === "Siscomex");
+
+    if (!expense)
+      return ExpenseDeclaration.create({
+        amount: 0,
+        expense: Expense.create({
+          allocationMethod: "NET_VALUE",
+          currency: "BRL",
+          name: "Siscomex",
+          useCustomsBase: false,
+          useICMSBase: true,
+        }),
+      });
+
+    return expense;
+  }
+
+  get freightExpenseAmount() {
+    return Math.round(this.freightExpense.amount * this.quote * 100) / 100;
+  }
+
+  get insuranceExpenseAmount() {
+    return Math.round(this.insuranceExpense.amount * this.quote * 100) / 100;
+  }
+
+  get siscomexExpenseAmount() {
+    return this.siscomexExpense.amount;
+  }
+
   addExpense(expense: ExpenseDeclaration) {
     this.expenses.push(expense);
   }
@@ -43,38 +113,7 @@ export class Declaration {
   static create(props: Declaration.CreateProps) {
     return new Declaration({
       id: crypto.randomUUID().toString(),
-      expenses: [
-        ExpenseDeclaration.create({
-          expense: Expense.create({
-            allocationMethod: "NET_VALUE",
-            currency: "USD",
-            name: "Seguro Internacional",
-            useCustomsBase: true,
-            useICMSBase: false,
-          }),
-          amount: 0,
-        }),
-        ExpenseDeclaration.create({
-          expense: Expense.create({
-            allocationMethod: "NET_WEIGHT",
-            currency: "USD",
-            name: "Frete Internacional",
-            useCustomsBase: true,
-            useICMSBase: false,
-          }),
-          amount: 0,
-        }),
-        ExpenseDeclaration.create({
-          expense: Expense.create({
-            allocationMethod: "NET_VALUE",
-            currency: "BRL",
-            name: "Siscomex",
-            useCustomsBase: false,
-            useICMSBase: true,
-          }),
-          amount: 0,
-        }),
-      ],
+      expenses: [],
       invoice: props.invoice,
       quote: props.quote,
       registration: props.registration,
