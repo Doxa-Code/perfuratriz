@@ -1,5 +1,6 @@
 "use server";
 import { CreateNCM } from "@/core/application/usecases/create-ncm";
+import { NCM } from "@/core/domain/entities/ncm";
 import { NCMDatabaseRepository } from "@/core/infra/repositories/ncm-repository";
 import { revalidatePath } from "next/cache";
 import { createServerAction } from "zsa";
@@ -14,8 +15,17 @@ const ncmRepository = NCMDatabaseRepository.instance();
 export const createNCMAction = createServerAction()
   .input(createNCMInputSchema)
   .handler(async ({ input }) => {
-    const createNCM = CreateNCM.instance();
-    await createNCM.execute(input);
+    if (!input.id) {
+      const createNCM = CreateNCM.instance();
+      await createNCM.execute(input);
+      revalidatePath("/ncms", "layout");
+      return;
+    }
+    const ncm = NCM.instance({
+      ...input,
+      id: input.id,
+    });
+    await ncmRepository.update(ncm);
     revalidatePath("/ncms", "layout");
   });
 

@@ -5,6 +5,7 @@ interface NCMRepository {
   save(ncm: NCM): Promise<void>;
   list(): Promise<NCM[]>;
   retrieve(id: string): Promise<NCM | null>;
+  update(ncm: NCM): Promise<void>;
 }
 
 export class NCMDatabaseRepository implements NCMRepository {
@@ -52,6 +53,22 @@ export class NCMDatabaseRepository implements NCMRepository {
         ipi: ncm.ipi,
         pis: ncm.pis,
         tax: ncm.tax,
+        id: ncm.id,
+      },
+    });
+  }
+
+  async update(ncm: NCM): Promise<void> {
+    await this.database.nCM.update({
+      data: {
+        code: ncm.code,
+        cofins: ncm.cofins,
+        icms: ncm.icms,
+        ipi: ncm.ipi,
+        pis: ncm.pis,
+        tax: ncm.tax,
+      },
+      where: {
         id: ncm.id,
       },
     });

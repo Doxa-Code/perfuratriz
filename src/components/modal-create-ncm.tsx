@@ -12,9 +12,11 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useServerActionMutation } from "@/lib/hooks";
+import { useModais } from "@/lib/hooks/use-modais";
+import { useNCM } from "@/lib/hooks/use-ncm";
+import { MODAL_CREATE_NCM } from "@/lib/modais";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Percent } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -39,10 +41,12 @@ const formSchema = z.object({
 });
 
 export function ModalCreateNCM() {
-  const [open, setOpen] = React.useState(false);
+  const { isOpen, toggleModal } = useModais();
+  const { ncm, setNCM } = useNCM();
   const { mutate, isPending } = useServerActionMutation(createNCMAction, {
     onSuccess() {
-      setOpen(false);
+      toggleModal(MODAL_CREATE_NCM);
+      setNCM(null);
     },
   });
 
@@ -50,8 +54,33 @@ export function ModalCreateNCM() {
     resolver: zodResolver(formSchema),
   });
 
+  React.useEffect(() => {
+    if (ncm && isOpen(MODAL_CREATE_NCM)) {
+      form.reset({
+        code: ncm.code.toString(),
+        cofins: ncm.cofins.toFixed(2),
+        icms: ncm.icms.toFixed(2),
+        ipi: ncm.ipi.toFixed(2),
+        pis: ncm.pis.toFixed(2),
+        tax: ncm.tax.toFixed(2),
+      });
+    } else {
+      form.reset({
+        code: "",
+        cofins: "",
+        icms: "",
+        ipi: "",
+        pis: "",
+        tax: "",
+      });
+    }
+  }, [isOpen, ncm, form.reset]);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutate(values);
+    mutate({
+      ...values,
+      id: ncm?.id ?? null,
+    });
   }
 
   const formatPercent =
@@ -74,10 +103,10 @@ export function ModalCreateNCM() {
     };
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <Button>Novo NCM</Button>
-      </DrawerTrigger>
+    <Drawer
+      open={isOpen(MODAL_CREATE_NCM)}
+      onOpenChange={(open) => toggleModal(MODAL_CREATE_NCM, open)}
+    >
       <DrawerContent>
         <div className="mx-auto w-full overflow-auto max-w-sm">
           <DrawerHeader>

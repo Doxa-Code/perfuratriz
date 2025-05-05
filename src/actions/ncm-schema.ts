@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const createNCMInputSchema = z.object({
+  id: z.string().nullable(),
   code: z
     .string()
     .transform((value) => Number.parseFloat(value.replace(",", "."))),

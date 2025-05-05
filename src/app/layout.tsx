@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Menu } from "@/components/menu";
+import { ModalCreateNCM } from "@/components/modal-create-ncm";
 import ReactQueryProvider from "@/components/react-query-provider";
 
 const geistSans = Geist({
@@ -31,6 +32,7 @@ export default function RootLayout({
       >
         <ReactQueryProvider>
           <Menu>{children}</Menu>
+          <ModalCreateNCM />
         </ReactQueryProvider>
       </body>
     </html>
