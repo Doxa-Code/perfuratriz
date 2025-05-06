@@ -9,12 +9,19 @@ export function truncCurrency(value: number) {
   return Math.round(value * 100) / 100;
 }
 
-export const formatDecimalTwoNumber =
-  (field: any) => (e: React.ChangeEvent<HTMLInputElement>) => {
+export const formatDecimal =
+  (
+    field: { onChange(e: React.ChangeEvent<HTMLInputElement>): void },
+    decimal = 2
+  ) =>
+  (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
     const raw = input.value.replace(/\D/g, "");
 
-    const formatted = (Number(raw) / 100).toFixed(2).replace(".", ",");
+    const divisor = Math.pow(10, decimal);
+    const formatted = (Number(raw) / divisor)
+      .toFixed(decimal)
+      .replace(".", ",");
 
     const positionFromEnd = input.value.length - (input.selectionStart ?? 0);
 

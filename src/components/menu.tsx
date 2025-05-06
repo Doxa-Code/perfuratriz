@@ -6,6 +6,7 @@ import {
   BanknoteArrowDown,
   BookText,
   Box,
+  Files,
   LayoutDashboard,
   LogOut,
   Settings,
@@ -44,9 +45,9 @@ export const Menu: React.FC<Props> = (props) => {
     },
     {
       label: "Invoices",
-      href: "#",
+      href: "/invoices",
       icon: (
-        <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <Files className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {

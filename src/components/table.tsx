@@ -58,6 +58,7 @@ type Props<T> = {
   registers: T[];
   keyToSearch: keyof T;
   modalName: string;
+  onError?: (error: string) => void;
 };
 
 export function TableComponent<T extends { id: string }>(props: Props<T>) {
@@ -67,6 +68,9 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
   const { mutate } = useServerActionMutation(props.actionRemove, {
     onSuccess() {
       table.resetRowSelection();
+    },
+    onError(error) {
+      props.onError?.(error);
     },
   });
   const [pagination, setPagination] = useState<PaginationState>({

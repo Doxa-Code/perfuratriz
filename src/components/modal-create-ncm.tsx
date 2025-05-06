@@ -17,7 +17,7 @@ import { useServerActionMutation } from "@/lib/hooks";
 import { useModais } from "@/lib/hooks/use-modais";
 import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
 import { MODAL_CREATE_NCM } from "@/lib/modais";
-import { formatDecimalTwoNumber } from "@/lib/utils";
+import { formatDecimal } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Percent } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -139,7 +139,7 @@ export function ModalCreateNCM() {
                         <Input
                           className="shadow-none border-0 rounded-none"
                           {...field}
-                          onChange={formatDecimalTwoNumber(field)}
+                          onChange={formatDecimal(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
                           <Percent className="w-4 h-4 stroke-zinc-500" />
@@ -161,7 +161,7 @@ export function ModalCreateNCM() {
                         <Input
                           className="shadow-none border-0 rounded-none"
                           {...field}
-                          onChange={formatDecimalTwoNumber(field)}
+                          onChange={formatDecimal(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
                           <Percent className="w-4 h-4 stroke-zinc-500" />
@@ -183,7 +183,7 @@ export function ModalCreateNCM() {
                         <Input
                           className="shadow-none border-0 rounded-none"
                           {...field}
-                          onChange={formatDecimalTwoNumber(field)}
+                          onChange={formatDecimal(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
                           <Percent className="w-4 h-4 stroke-zinc-500" />
@@ -205,7 +205,7 @@ export function ModalCreateNCM() {
                         <Input
                           className="shadow-none border-0 rounded-none"
                           {...field}
-                          onChange={formatDecimalTwoNumber(field)}
+                          onChange={formatDecimal(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
                           <Percent className="w-4 h-4 stroke-zinc-500" />
@@ -227,7 +227,7 @@ export function ModalCreateNCM() {
                         <Input
                           className="shadow-none border-0 rounded-none"
                           {...field}
-                          onChange={formatDecimalTwoNumber(field)}
+                          onChange={formatDecimal(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
                           <Percent className="w-4 h-4 stroke-zinc-500" />

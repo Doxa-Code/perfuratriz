@@ -1,12 +1,15 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import { listNCMAction } from "@/actions/ncm-action";
 import { Menu } from "@/components/menu";
 import { ModalCreateExpense } from "@/components/modal-create-expense";
 import { ModalCreateNCM } from "@/components/modal-create-ncm";
 import { ModalCreateProduct } from "@/components/modal-create-product";
 import ReactQueryProvider from "@/components/react-query-provider";
+import { ModalCreateInvoice } from "@/components/modal-create-invoice";
+import { listProductAction } from "@/actions/product-action";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +32,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const [ncms] = await listNCMAction();
+  const [products] = await listProductAction();
   return (
     <html lang="pt-BR">
       <body
@@ -39,6 +43,8 @@ export default async function RootLayout({
           <ModalCreateNCM />
           <ModalCreateProduct ncms={ncms ?? []} />
           <ModalCreateExpense />
+          <ModalCreateInvoice products={products ?? []} />
+          <Toaster />
         </ReactQueryProvider>
       </body>
     </html>

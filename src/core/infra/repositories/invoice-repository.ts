@@ -6,6 +6,7 @@ import { PrismaClient } from "../../../../prisma";
 
 interface InvoiceRepository {
   save(invoice: Invoice): Promise<void>;
+  update(invoice: Invoice): Promise<void>;
   list(): Promise<Invoice[]>;
   remove(id: string): Promise<void>;
   retrieve(id: string): Promise<Invoice | null>;
@@ -53,6 +54,60 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
       quote: invoice.quote,
       registration: invoice.registration,
     });
+  }
+
+  async update(invoice: Invoice): Promise<void> {
+    await this.database.$connect();
+
+    const invoiceProducts = await this.database.invoiceProduct.findMany({
+      where: {
+        invoiceId: invoice.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    await this.database.$transaction([
+      this.database.invoice.update({
+        data: {
+          quote: invoice.quote,
+          registration: invoice.registration,
+          createdAt: invoice.createdAt,
+          id: invoice.id,
+          products: {
+            create: invoice.products.map((p) => ({
+              productId: p.product.id,
+              productName: p.product.name,
+              productWeight: p.product.weight,
+              productLength: p.product.length,
+              productHeight: p.product.height,
+              productWidth: p.product.width,
+              ncmCode: p.product.ncm.code,
+              ncmCofins: p.product.ncm.cofins,
+              ncmIcms: p.product.ncm.icms,
+              ncmIpi: p.product.ncm.ipi,
+              ncmPis: p.product.ncm.pis,
+              ncmTax: p.product.ncm.tax,
+              quantity: p.quantity,
+              amount: p.amount,
+            })),
+          },
+        },
+        where: {
+          id: invoice.id,
+        },
+      }),
+      this.database.invoiceProduct.deleteMany({
+        where: {
+          id: {
+            in: invoiceProducts.map((ip) => ip.id),
+          },
+        },
+      }),
+    ]);
+
+    await this.database.$disconnect();
   }
 
   async save(invoice: Invoice): Promise<void> {
