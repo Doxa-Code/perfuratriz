@@ -50,7 +50,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 
-type Props<T = any> = {
+type Props<T> = {
   columns: ColumnDef<T>[];
   actionRemove: any;
   onChangeRegister(items: T | null): void;
@@ -60,7 +60,7 @@ type Props<T = any> = {
   modalName: string;
 };
 
-export const TableComponent: React.FC<Props> = (props) => {
+export function TableComponent<T extends { id: string }>(props: Props<T>) {
   const pageSize = 10;
   const [rowSelection, setRowSelection] = useState({});
   const { toggleModal } = useModais();
@@ -86,7 +86,10 @@ export const TableComponent: React.FC<Props> = (props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const filteredRegistered = useMemo(() => {
     return props.registers.filter((register) =>
-      register[props.keyToSearch].toString().includes(searchTerm.toLowerCase())
+      register[props.keyToSearch]
+        ?.toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     );
   }, [props.registers, props.keyToSearch, searchTerm]);
 
@@ -365,4 +368,4 @@ export const TableComponent: React.FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+}

@@ -1532,37 +1532,6 @@ export namespace Prisma {
 
 
   /**
-   * Count Type ProductNCMCountOutputType
-   */
-
-  export type ProductNCMCountOutputType = {
-    product: number
-  }
-
-  export type ProductNCMCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    product?: boolean | ProductNCMCountOutputTypeCountProductArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * ProductNCMCountOutputType without action
-   */
-  export type ProductNCMCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProductNCMCountOutputType
-     */
-    select?: ProductNCMCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ProductNCMCountOutputType without action
-   */
-  export type ProductNCMCountOutputTypeCountProductArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProductWhereInput
-  }
-
-
-  /**
    * Count Type InvoiceCountOutputType
    */
 
@@ -3865,6 +3834,7 @@ export namespace Prisma {
 
   export type ProductNCMMinAggregateOutputType = {
     id: string | null
+    ncmId: string | null
     code: number | null
     cofins: number | null
     icms: number | null
@@ -3875,6 +3845,7 @@ export namespace Prisma {
 
   export type ProductNCMMaxAggregateOutputType = {
     id: string | null
+    ncmId: string | null
     code: number | null
     cofins: number | null
     icms: number | null
@@ -3885,6 +3856,7 @@ export namespace Prisma {
 
   export type ProductNCMCountAggregateOutputType = {
     id: number
+    ncmId: number
     code: number
     cofins: number
     icms: number
@@ -3915,6 +3887,7 @@ export namespace Prisma {
 
   export type ProductNCMMinAggregateInputType = {
     id?: true
+    ncmId?: true
     code?: true
     cofins?: true
     icms?: true
@@ -3925,6 +3898,7 @@ export namespace Prisma {
 
   export type ProductNCMMaxAggregateInputType = {
     id?: true
+    ncmId?: true
     code?: true
     cofins?: true
     icms?: true
@@ -3935,6 +3909,7 @@ export namespace Prisma {
 
   export type ProductNCMCountAggregateInputType = {
     id?: true
+    ncmId?: true
     code?: true
     cofins?: true
     icms?: true
@@ -4032,6 +4007,7 @@ export namespace Prisma {
 
   export type ProductNCMGroupByOutputType = {
     id: string
+    ncmId: string
     code: number
     cofins: number
     icms: number
@@ -4061,6 +4037,7 @@ export namespace Prisma {
 
   export type ProductNCMSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ncmId?: boolean
     code?: boolean
     cofins?: boolean
     icms?: boolean
@@ -4068,11 +4045,11 @@ export namespace Prisma {
     pis?: boolean
     tax?: boolean
     product?: boolean | ProductNCM$productArgs<ExtArgs>
-    _count?: boolean | ProductNCMCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["productNCM"]>
 
   export type ProductNCMSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ncmId?: boolean
     code?: boolean
     cofins?: boolean
     icms?: boolean
@@ -4083,6 +4060,7 @@ export namespace Prisma {
 
   export type ProductNCMSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ncmId?: boolean
     code?: boolean
     cofins?: boolean
     icms?: boolean
@@ -4093,6 +4071,7 @@ export namespace Prisma {
 
   export type ProductNCMSelectScalar = {
     id?: boolean
+    ncmId?: boolean
     code?: boolean
     cofins?: boolean
     icms?: boolean
@@ -4101,10 +4080,9 @@ export namespace Prisma {
     tax?: boolean
   }
 
-  export type ProductNCMOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "cofins" | "icms" | "ipi" | "pis" | "tax", ExtArgs["result"]["productNCM"]>
+  export type ProductNCMOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ncmId" | "code" | "cofins" | "icms" | "ipi" | "pis" | "tax", ExtArgs["result"]["productNCM"]>
   export type ProductNCMInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductNCM$productArgs<ExtArgs>
-    _count?: boolean | ProductNCMCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductNCMIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
   export type ProductNCMIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4112,10 +4090,11 @@ export namespace Prisma {
   export type $ProductNCMPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ProductNCM"
     objects: {
-      product: Prisma.$ProductPayload<ExtArgs>[]
+      product: Prisma.$ProductPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      ncmId: string
       code: number
       cofins: number
       icms: number
@@ -4516,7 +4495,7 @@ export namespace Prisma {
    */
   export interface Prisma__ProductNCMClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    product<T extends ProductNCM$productArgs<ExtArgs> = {}>(args?: Subset<T, ProductNCM$productArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    product<T extends ProductNCM$productArgs<ExtArgs> = {}>(args?: Subset<T, ProductNCM$productArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4547,6 +4526,7 @@ export namespace Prisma {
    */
   interface ProductNCMFieldRefs {
     readonly id: FieldRef<"ProductNCM", 'String'>
+    readonly ncmId: FieldRef<"ProductNCM", 'String'>
     readonly code: FieldRef<"ProductNCM", 'Float'>
     readonly cofins: FieldRef<"ProductNCM", 'Float'>
     readonly icms: FieldRef<"ProductNCM", 'Float'>
@@ -4957,11 +4937,6 @@ export namespace Prisma {
      */
     include?: ProductInclude<ExtArgs> | null
     where?: ProductWhereInput
-    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
-    cursor?: ProductWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
   /**
@@ -10666,6 +10641,7 @@ export namespace Prisma {
 
   export const ProductNCMScalarFieldEnum: {
     id: 'id',
+    ncmId: 'ncmId',
     code: 'code',
     cofins: 'cofins',
     icms: 'icms',
@@ -10951,6 +10927,7 @@ export namespace Prisma {
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    ncmId?: string
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
@@ -10959,9 +10936,8 @@ export namespace Prisma {
     length?: FloatFilter<"Product"> | number
     height?: FloatFilter<"Product"> | number
     width?: FloatFilter<"Product"> | number
-    ncmId?: StringFilter<"Product"> | string
     ncm?: XOR<ProductNCMScalarRelationFilter, ProductNCMWhereInput>
-  }, "id">
+  }, "id" | "ncmId">
 
   export type ProductOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10996,24 +10972,26 @@ export namespace Prisma {
     OR?: ProductNCMWhereInput[]
     NOT?: ProductNCMWhereInput | ProductNCMWhereInput[]
     id?: StringFilter<"ProductNCM"> | string
+    ncmId?: StringFilter<"ProductNCM"> | string
     code?: FloatFilter<"ProductNCM"> | number
     cofins?: FloatFilter<"ProductNCM"> | number
     icms?: FloatFilter<"ProductNCM"> | number
     ipi?: FloatFilter<"ProductNCM"> | number
     pis?: FloatFilter<"ProductNCM"> | number
     tax?: FloatFilter<"ProductNCM"> | number
-    product?: ProductListRelationFilter
+    product?: XOR<ProductNullableScalarRelationFilter, ProductWhereInput> | null
   }
 
   export type ProductNCMOrderByWithRelationInput = {
     id?: SortOrder
+    ncmId?: SortOrder
     code?: SortOrder
     cofins?: SortOrder
     icms?: SortOrder
     ipi?: SortOrder
     pis?: SortOrder
     tax?: SortOrder
-    product?: ProductOrderByRelationAggregateInput
+    product?: ProductOrderByWithRelationInput
   }
 
   export type ProductNCMWhereUniqueInput = Prisma.AtLeast<{
@@ -11021,17 +10999,19 @@ export namespace Prisma {
     AND?: ProductNCMWhereInput | ProductNCMWhereInput[]
     OR?: ProductNCMWhereInput[]
     NOT?: ProductNCMWhereInput | ProductNCMWhereInput[]
+    ncmId?: StringFilter<"ProductNCM"> | string
     code?: FloatFilter<"ProductNCM"> | number
     cofins?: FloatFilter<"ProductNCM"> | number
     icms?: FloatFilter<"ProductNCM"> | number
     ipi?: FloatFilter<"ProductNCM"> | number
     pis?: FloatFilter<"ProductNCM"> | number
     tax?: FloatFilter<"ProductNCM"> | number
-    product?: ProductListRelationFilter
+    product?: XOR<ProductNullableScalarRelationFilter, ProductWhereInput> | null
   }, "id">
 
   export type ProductNCMOrderByWithAggregationInput = {
     id?: SortOrder
+    ncmId?: SortOrder
     code?: SortOrder
     cofins?: SortOrder
     icms?: SortOrder
@@ -11050,6 +11030,7 @@ export namespace Prisma {
     OR?: ProductNCMScalarWhereWithAggregatesInput[]
     NOT?: ProductNCMScalarWhereWithAggregatesInput | ProductNCMScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ProductNCM"> | string
+    ncmId?: StringWithAggregatesFilter<"ProductNCM"> | string
     code?: FloatWithAggregatesFilter<"ProductNCM"> | number
     cofins?: FloatWithAggregatesFilter<"ProductNCM"> | number
     icms?: FloatWithAggregatesFilter<"ProductNCM"> | number
@@ -11550,50 +11531,55 @@ export namespace Prisma {
 
   export type ProductNCMCreateInput = {
     id?: string
+    ncmId?: string
     code: number
     cofins: number
     icms: number
     ipi: number
     pis: number
     tax: number
-    product?: ProductCreateNestedManyWithoutNcmInput
+    product?: ProductCreateNestedOneWithoutNcmInput
   }
 
   export type ProductNCMUncheckedCreateInput = {
     id?: string
+    ncmId?: string
     code: number
     cofins: number
     icms: number
     ipi: number
     pis: number
     tax: number
-    product?: ProductUncheckedCreateNestedManyWithoutNcmInput
+    product?: ProductUncheckedCreateNestedOneWithoutNcmInput
   }
 
   export type ProductNCMUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ncmId?: StringFieldUpdateOperationsInput | string
     code?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     icms?: FloatFieldUpdateOperationsInput | number
     ipi?: FloatFieldUpdateOperationsInput | number
     pis?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
-    product?: ProductUpdateManyWithoutNcmNestedInput
+    product?: ProductUpdateOneWithoutNcmNestedInput
   }
 
   export type ProductNCMUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ncmId?: StringFieldUpdateOperationsInput | string
     code?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     icms?: FloatFieldUpdateOperationsInput | number
     ipi?: FloatFieldUpdateOperationsInput | number
     pis?: FloatFieldUpdateOperationsInput | number
     tax?: FloatFieldUpdateOperationsInput | number
-    product?: ProductUncheckedUpdateManyWithoutNcmNestedInput
+    product?: ProductUncheckedUpdateOneWithoutNcmNestedInput
   }
 
   export type ProductNCMCreateManyInput = {
     id?: string
+    ncmId?: string
     code: number
     cofins: number
     icms: number
@@ -11604,6 +11590,7 @@ export namespace Prisma {
 
   export type ProductNCMUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ncmId?: StringFieldUpdateOperationsInput | string
     code?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     icms?: FloatFieldUpdateOperationsInput | number
@@ -11614,6 +11601,7 @@ export namespace Prisma {
 
   export type ProductNCMUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ncmId?: StringFieldUpdateOperationsInput | string
     code?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     icms?: FloatFieldUpdateOperationsInput | number
@@ -12159,18 +12147,14 @@ export namespace Prisma {
     width?: SortOrder
   }
 
-  export type ProductListRelationFilter = {
-    every?: ProductWhereInput
-    some?: ProductWhereInput
-    none?: ProductWhereInput
-  }
-
-  export type ProductOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type ProductNullableScalarRelationFilter = {
+    is?: ProductWhereInput | null
+    isNot?: ProductWhereInput | null
   }
 
   export type ProductNCMCountOrderByAggregateInput = {
     id?: SortOrder
+    ncmId?: SortOrder
     code?: SortOrder
     cofins?: SortOrder
     icms?: SortOrder
@@ -12190,6 +12174,7 @@ export namespace Prisma {
 
   export type ProductNCMMaxOrderByAggregateInput = {
     id?: SortOrder
+    ncmId?: SortOrder
     code?: SortOrder
     cofins?: SortOrder
     icms?: SortOrder
@@ -12200,6 +12185,7 @@ export namespace Prisma {
 
   export type ProductNCMMinOrderByAggregateInput = {
     id?: SortOrder
+    ncmId?: SortOrder
     code?: SortOrder
     cofins?: SortOrder
     icms?: SortOrder
@@ -12590,46 +12576,36 @@ export namespace Prisma {
     update?: XOR<XOR<ProductNCMUpdateToOneWithWhereWithoutProductInput, ProductNCMUpdateWithoutProductInput>, ProductNCMUncheckedUpdateWithoutProductInput>
   }
 
-  export type ProductCreateNestedManyWithoutNcmInput = {
-    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput> | ProductCreateWithoutNcmInput[] | ProductUncheckedCreateWithoutNcmInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput | ProductCreateOrConnectWithoutNcmInput[]
-    createMany?: ProductCreateManyNcmInputEnvelope
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  export type ProductCreateNestedOneWithoutNcmInput = {
+    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput
+    connect?: ProductWhereUniqueInput
   }
 
-  export type ProductUncheckedCreateNestedManyWithoutNcmInput = {
-    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput> | ProductCreateWithoutNcmInput[] | ProductUncheckedCreateWithoutNcmInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput | ProductCreateOrConnectWithoutNcmInput[]
-    createMany?: ProductCreateManyNcmInputEnvelope
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  export type ProductUncheckedCreateNestedOneWithoutNcmInput = {
+    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput
+    connect?: ProductWhereUniqueInput
   }
 
-  export type ProductUpdateManyWithoutNcmNestedInput = {
-    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput> | ProductCreateWithoutNcmInput[] | ProductUncheckedCreateWithoutNcmInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput | ProductCreateOrConnectWithoutNcmInput[]
-    upsert?: ProductUpsertWithWhereUniqueWithoutNcmInput | ProductUpsertWithWhereUniqueWithoutNcmInput[]
-    createMany?: ProductCreateManyNcmInputEnvelope
-    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    update?: ProductUpdateWithWhereUniqueWithoutNcmInput | ProductUpdateWithWhereUniqueWithoutNcmInput[]
-    updateMany?: ProductUpdateManyWithWhereWithoutNcmInput | ProductUpdateManyWithWhereWithoutNcmInput[]
-    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  export type ProductUpdateOneWithoutNcmNestedInput = {
+    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput
+    upsert?: ProductUpsertWithoutNcmInput
+    disconnect?: ProductWhereInput | boolean
+    delete?: ProductWhereInput | boolean
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutNcmInput, ProductUpdateWithoutNcmInput>, ProductUncheckedUpdateWithoutNcmInput>
   }
 
-  export type ProductUncheckedUpdateManyWithoutNcmNestedInput = {
-    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput> | ProductCreateWithoutNcmInput[] | ProductUncheckedCreateWithoutNcmInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput | ProductCreateOrConnectWithoutNcmInput[]
-    upsert?: ProductUpsertWithWhereUniqueWithoutNcmInput | ProductUpsertWithWhereUniqueWithoutNcmInput[]
-    createMany?: ProductCreateManyNcmInputEnvelope
-    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    update?: ProductUpdateWithWhereUniqueWithoutNcmInput | ProductUpdateWithWhereUniqueWithoutNcmInput[]
-    updateMany?: ProductUpdateManyWithWhereWithoutNcmInput | ProductUpdateManyWithWhereWithoutNcmInput[]
-    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  export type ProductUncheckedUpdateOneWithoutNcmNestedInput = {
+    create?: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutNcmInput
+    upsert?: ProductUpsertWithoutNcmInput
+    disconnect?: ProductWhereInput | boolean
+    delete?: ProductWhereInput | boolean
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutNcmInput, ProductUpdateWithoutNcmInput>, ProductUncheckedUpdateWithoutNcmInput>
   }
 
   export type InvoiceProductCreateNestedManyWithoutInvoiceInput = {
@@ -12973,6 +12949,7 @@ export namespace Prisma {
 
   export type ProductNCMCreateWithoutProductInput = {
     id?: string
+    ncmId?: string
     code: number
     cofins: number
     icms: number
@@ -12983,6 +12960,7 @@ export namespace Prisma {
 
   export type ProductNCMUncheckedCreateWithoutProductInput = {
     id?: string
+    ncmId?: string
     code: number
     cofins: number
     icms: number
@@ -13009,6 +12987,7 @@ export namespace Prisma {
 
   export type ProductNCMUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ncmId?: StringFieldUpdateOperationsInput | string
     code?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     icms?: FloatFieldUpdateOperationsInput | number
@@ -13019,6 +12998,7 @@ export namespace Prisma {
 
   export type ProductNCMUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ncmId?: StringFieldUpdateOperationsInput | string
     code?: FloatFieldUpdateOperationsInput | number
     cofins?: FloatFieldUpdateOperationsInput | number
     icms?: FloatFieldUpdateOperationsInput | number
@@ -13050,38 +13030,33 @@ export namespace Prisma {
     create: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
   }
 
-  export type ProductCreateManyNcmInputEnvelope = {
-    data: ProductCreateManyNcmInput | ProductCreateManyNcmInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ProductUpsertWithWhereUniqueWithoutNcmInput = {
-    where: ProductWhereUniqueInput
+  export type ProductUpsertWithoutNcmInput = {
     update: XOR<ProductUpdateWithoutNcmInput, ProductUncheckedUpdateWithoutNcmInput>
     create: XOR<ProductCreateWithoutNcmInput, ProductUncheckedCreateWithoutNcmInput>
+    where?: ProductWhereInput
   }
 
-  export type ProductUpdateWithWhereUniqueWithoutNcmInput = {
-    where: ProductWhereUniqueInput
+  export type ProductUpdateToOneWithWhereWithoutNcmInput = {
+    where?: ProductWhereInput
     data: XOR<ProductUpdateWithoutNcmInput, ProductUncheckedUpdateWithoutNcmInput>
   }
 
-  export type ProductUpdateManyWithWhereWithoutNcmInput = {
-    where: ProductScalarWhereInput
-    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutNcmInput>
+  export type ProductUpdateWithoutNcmInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
   }
 
-  export type ProductScalarWhereInput = {
-    AND?: ProductScalarWhereInput | ProductScalarWhereInput[]
-    OR?: ProductScalarWhereInput[]
-    NOT?: ProductScalarWhereInput | ProductScalarWhereInput[]
-    id?: StringFilter<"Product"> | string
-    name?: StringFilter<"Product"> | string
-    weight?: FloatFilter<"Product"> | number
-    length?: FloatFilter<"Product"> | number
-    height?: FloatFilter<"Product"> | number
-    width?: FloatFilter<"Product"> | number
-    ncmId?: StringFilter<"Product"> | string
+  export type ProductUncheckedUpdateWithoutNcmInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    weight?: FloatFieldUpdateOperationsInput | number
+    length?: FloatFieldUpdateOperationsInput | number
+    height?: FloatFieldUpdateOperationsInput | number
+    width?: FloatFieldUpdateOperationsInput | number
   }
 
   export type InvoiceProductCreateWithoutInvoiceInput = {
@@ -13410,42 +13385,6 @@ export namespace Prisma {
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
     invoiceId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ProductCreateManyNcmInput = {
-    id?: string
-    name?: string
-    weight: number
-    length: number
-    height: number
-    width: number
-  }
-
-  export type ProductUpdateWithoutNcmInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    weight?: FloatFieldUpdateOperationsInput | number
-    length?: FloatFieldUpdateOperationsInput | number
-    height?: FloatFieldUpdateOperationsInput | number
-    width?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type ProductUncheckedUpdateWithoutNcmInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    weight?: FloatFieldUpdateOperationsInput | number
-    length?: FloatFieldUpdateOperationsInput | number
-    height?: FloatFieldUpdateOperationsInput | number
-    width?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type ProductUncheckedUpdateManyWithoutNcmInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    weight?: FloatFieldUpdateOperationsInput | number
-    length?: FloatFieldUpdateOperationsInput | number
-    height?: FloatFieldUpdateOperationsInput | number
-    width?: FloatFieldUpdateOperationsInput | number
   }
 
   export type InvoiceProductCreateManyInvoiceInput = {

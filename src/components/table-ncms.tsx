@@ -2,7 +2,7 @@
 import { removeNCMAction } from "@/actions/ncm-action";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { NCM } from "@/core/domain/entities/ncm";
-import { useNCM } from "@/lib/hooks/use-ncm";
+import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
 import { MODAL_CREATE_NCM } from "@/lib/modais";
 import type { ColumnDef } from "@tanstack/react-table";
 import { TableComponent } from "./table";
@@ -79,7 +79,7 @@ const columns: ColumnDef<NCM.Props>[] = [
 ];
 
 export const TableNCM: React.FC<Props> = (props) => {
-  const { setNCM } = useNCM();
+  const { setRegister } = useRegisterEdit();
 
   return (
     <TableComponent
@@ -88,7 +88,7 @@ export const TableNCM: React.FC<Props> = (props) => {
       defaultSortingColumn="code"
       keyToSearch="code"
       modalName={MODAL_CREATE_NCM}
-      onChangeRegister={setNCM}
+      onChangeRegister={setRegister}
       registers={props.ncms}
     />
   );

@@ -10,10 +10,10 @@ interface ProductRepository {
 }
 
 export class ProductDatabaseRepository implements ProductRepository {
-  private database = new PrismaClient().product;
+  private database = new PrismaClient();
 
   async retrieve(id: string) {
-    const response = await this.database.findFirst({
+    const response = await this.database.product.findFirst({
       where: {
         id,
       },
@@ -27,14 +27,17 @@ export class ProductDatabaseRepository implements ProductRepository {
       id: response.id,
       length: response.length,
       name: response.name,
-      ncm: ProductNCM.create(response.ncm),
+      ncm: ProductNCM.create({
+        ...response.ncm,
+        id: response.ncm.ncmId,
+      }),
       weight: response.weight,
       width: response.width,
     });
   }
 
   async save(product: Product) {
-    await this.database.create({
+    await this.database.product.create({
       data: {
         height: product.height,
         length: product.length,
@@ -44,6 +47,7 @@ export class ProductDatabaseRepository implements ProductRepository {
         name: product.name,
         ncm: {
           create: {
+            ncmId: product.ncm.id,
             code: product.ncm.code,
             cofins: product.ncm.cofins,
             icms: product.ncm.icms,
@@ -56,8 +60,54 @@ export class ProductDatabaseRepository implements ProductRepository {
     });
   }
 
+  async update(product: Product) {
+    const productsNCM = await this.database.productNCM.findMany({
+      where: {
+        product: {
+          id: product.id,
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+    await this.database.$transaction([
+      this.database.product.update({
+        data: {
+          height: product.height,
+          length: product.length,
+          weight: product.weight,
+          width: product.width,
+          id: product.id,
+          name: product.name,
+          ncm: {
+            create: {
+              ncmId: product.ncm.id,
+              code: product.ncm.code,
+              cofins: product.ncm.cofins,
+              icms: product.ncm.icms,
+              ipi: product.ncm.ipi,
+              pis: product.ncm.pis,
+              tax: product.ncm.tax,
+            },
+          },
+        },
+        where: {
+          id: product.id,
+        },
+      }),
+      this.database.productNCM.deleteMany({
+        where: {
+          id: {
+            in: productsNCM.map((p) => p.id),
+          },
+        },
+      }),
+    ]);
+  }
+
   async list(): Promise<Product[]> {
-    const response = await this.database.findMany({
+    const response = await this.database.product.findMany({
       include: {
         ncm: true,
       },
@@ -69,12 +119,8 @@ export class ProductDatabaseRepository implements ProductRepository {
         length: product.length,
         name: product.name,
         ncm: ProductNCM.create({
-          code: product.ncm.code,
-          cofins: product.ncm.cofins,
-          icms: product.ncm.icms,
-          ipi: product.ncm.ipi,
-          pis: product.ncm.pis,
-          tax: product.ncm.tax,
+          ...product.ncm,
+          id: product.ncm.ncmId,
         }),
         id: product.id,
         weight: product.weight,
@@ -84,9 +130,28 @@ export class ProductDatabaseRepository implements ProductRepository {
   }
 
   async remove(id: string): Promise<void> {
-    await this.database.delete({
-      where: { id },
+    const productsNCM = await this.database.productNCM.findMany({
+      where: {
+        product: {
+          id,
+        },
+      },
+      select: {
+        id: true,
+      },
     });
+    await this.database.$transaction([
+      this.database.product.delete({
+        where: { id },
+      }),
+      this.database.productNCM.deleteMany({
+        where: {
+          id: {
+            in: productsNCM.map((p) => p.id),
+          },
+        },
+      }),
+    ]);
   }
 
   static instance() {

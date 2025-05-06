@@ -13,6 +13,7 @@ export namespace Product {
   export interface CreateProps {
     name: string;
     ncm: {
+      id: string;
       code: number;
       cofins: number;
       icms: number;

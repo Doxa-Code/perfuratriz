@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { listNCMAction } from "@/actions/ncm-action";
 import { Menu } from "@/components/menu";
 import { ModalCreateNCM } from "@/components/modal-create-ncm";
+import { ModalCreateProduct } from "@/components/modal-create-product";
 import ReactQueryProvider from "@/components/react-query-provider";
 
 const geistSans = Geist({
@@ -20,19 +22,21 @@ export const metadata: Metadata = {
   description: "",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [ncms] = await listNCMAction();
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
           <Menu>{children}</Menu>
           <ModalCreateNCM />
+          <ModalCreateProduct ncms={ncms ?? []} />
         </ReactQueryProvider>
       </body>
     </html>

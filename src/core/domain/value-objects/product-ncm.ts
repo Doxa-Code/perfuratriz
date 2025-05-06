@@ -1,5 +1,6 @@
 export class ProductNCM {
   constructor(
+    readonly id: string,
     readonly code: number,
     readonly cofins: number,
     readonly icms: number,
@@ -10,6 +11,7 @@ export class ProductNCM {
 
   static create(input: ProductNCMProps) {
     return new ProductNCM(
+      input.id,
       input.code,
       input.cofins,
       input.icms,
@@ -21,6 +23,7 @@ export class ProductNCM {
 }
 
 type ProductNCMProps = {
+  id: string;
   code: number;
   cofins: number;
   icms: number;

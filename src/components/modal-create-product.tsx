@@ -1,8 +1,15 @@
 "use client";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import * as React from "react";
 
-import { createNCMAction } from "@/actions/ncm-action";
+import { createProductAction } from "@/actions/product-action";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -13,13 +20,14 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import type { NCM } from "@/core/domain/entities/ncm";
 import { useServerActionMutation } from "@/lib/hooks";
 import { useModais } from "@/lib/hooks/use-modais";
 import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
-import { MODAL_CREATE_NCM } from "@/lib/modais";
+import { MODAL_CREATE_PRODUCT } from "@/lib/modais";
 import { formatDecimalTwoNumber } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Percent } from "lucide-react";
+import { RulerDimensionLine, Weight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -33,21 +41,27 @@ import {
 import { Input } from "./ui/input";
 
 const formSchema = z.object({
-  code: z.string({ message: "Campo obrigatório" }),
-  tax: z.string({ message: "Campo obrigatório" }),
-  icms: z.string({ message: "Campo obrigatório" }),
-  pis: z.string({ message: "Campo obrigatório" }),
-  cofins: z.string({ message: "Campo obrigatório" }),
-  ipi: z.string({ message: "Campo obrigatório" }),
+  name: z.string({ message: "Campo obrigatório" }),
+  ncm: z.string({ message: "Campo obrigatório" }),
+  weight: z.string({ message: "Campo obrigatório" }),
+  length: z.string({ message: "Campo obrigatório" }),
+  height: z.string({ message: "Campo obrigatório" }),
+  width: z.string({ message: "Campo obrigatório" }),
 });
 
-export function ModalCreateNCM() {
+type Props = {
+  ncms: NCM.Props[];
+};
+
+export function ModalCreateProduct(props: Props) {
+  const [ncms] = React.useState(props.ncms);
   const { isOpen, toggleModal } = useModais();
   const { register, setRegister } = useRegisterEdit();
-  const { mutate, isPending } = useServerActionMutation(createNCMAction, {
+  const { mutate, isPending } = useServerActionMutation(createProductAction, {
     onSuccess() {
-      toggleModal(MODAL_CREATE_NCM);
+      toggleModal(MODAL_CREATE_PRODUCT);
       setRegister(null);
+      form.reset();
     },
   });
 
@@ -56,23 +70,23 @@ export function ModalCreateNCM() {
   });
 
   React.useEffect(() => {
-    if (register && isOpen(MODAL_CREATE_NCM)) {
+    if (register && isOpen(MODAL_CREATE_PRODUCT)) {
       form.reset({
-        code: register.code.toString(),
-        cofins: register.cofins.toFixed(2),
-        icms: register.icms.toFixed(2),
-        ipi: register.ipi.toFixed(2),
-        pis: register.pis.toFixed(2),
-        tax: register.tax.toFixed(2),
+        name: register.name,
+        ncm: register.ncm.id,
+        weight: register.weight.toFixed(2),
+        length: register.length.toFixed(2),
+        height: register.height.toFixed(2),
+        width: register.width.toFixed(2),
       });
     } else {
       form.reset({
-        code: "",
-        cofins: "",
-        icms: "",
-        ipi: "",
-        pis: "",
-        tax: "",
+        name: "",
+        ncm: "",
+        weight: "",
+        length: "",
+        height: "",
+        width: "",
       });
     }
   }, [isOpen, register, form.reset]);
@@ -86,18 +100,13 @@ export function ModalCreateNCM() {
 
   return (
     <Drawer
-      open={isOpen(MODAL_CREATE_NCM)}
-      onOpenChange={(open) => {
-        toggleModal(MODAL_CREATE_NCM, open);
-        if (!open) {
-          setRegister(null);
-        }
-      }}
+      open={isOpen(MODAL_CREATE_PRODUCT)}
+      onOpenChange={(open) => toggleModal(MODAL_CREATE_PRODUCT, open)}
     >
       <DrawerContent>
         <div className="mx-auto w-full overflow-auto max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Novo NCM</DrawerTitle>
+            <DrawerTitle>Novo Produto</DrawerTitle>
             <DrawerDescription>Preecha os campos abaixo</DrawerDescription>
           </DrawerHeader>
 
@@ -108,21 +117,12 @@ export function ModalCreateNCM() {
             >
               <FormField
                 control={form.control}
-                name="code"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Código NCM</FormLabel>
+                    <FormLabel>Nome do produto</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        onChange={(e) => {
-                          e.currentTarget.value = e.currentTarget.value.replace(
-                            /\D/,
-                            ""
-                          );
-                          field.onChange(e);
-                        }}
-                      />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -130,10 +130,35 @@ export function ModalCreateNCM() {
               />
               <FormField
                 control={form.control}
-                name="tax"
+                name="ncm"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Imposto da importação</FormLabel>
+                    <FormLabel>NCM</FormLabel>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Selecione" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {ncms.length &&
+                          ncms.map((ncm) => (
+                            <SelectItem value={String(ncm.id)} key={ncm.id}>
+                              {ncm.code}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="weight"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Peso (Kg)</FormLabel>
                     <FormControl>
                       <div className="flex overflow-hidden items-center shadow border-1 rounded-md">
                         <Input
@@ -142,7 +167,7 @@ export function ModalCreateNCM() {
                           onChange={formatDecimalTwoNumber(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
-                          <Percent className="w-4 h-4 stroke-zinc-500" />
+                          <Weight className="w-4 h-4 stroke-zinc-500" />
                         </div>
                       </div>
                     </FormControl>
@@ -152,10 +177,10 @@ export function ModalCreateNCM() {
               />
               <FormField
                 control={form.control}
-                name="icms"
+                name="length"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>ICMS</FormLabel>
+                    <FormLabel>Comprimento (mm)</FormLabel>
                     <FormControl>
                       <div className="flex overflow-hidden items-center shadow border-1 rounded-md">
                         <Input
@@ -164,7 +189,7 @@ export function ModalCreateNCM() {
                           onChange={formatDecimalTwoNumber(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
-                          <Percent className="w-4 h-4 stroke-zinc-500" />
+                          <RulerDimensionLine className="w-4 h-4 stroke-zinc-500" />
                         </div>
                       </div>
                     </FormControl>
@@ -174,10 +199,10 @@ export function ModalCreateNCM() {
               />
               <FormField
                 control={form.control}
-                name="pis"
+                name="height"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>PIS</FormLabel>
+                    <FormLabel>Altura (mm)</FormLabel>
                     <FormControl>
                       <div className="flex overflow-hidden items-center shadow border-1 rounded-md">
                         <Input
@@ -186,7 +211,7 @@ export function ModalCreateNCM() {
                           onChange={formatDecimalTwoNumber(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
-                          <Percent className="w-4 h-4 stroke-zinc-500" />
+                          <RulerDimensionLine className="w-4 h-4 stroke-zinc-500" />
                         </div>
                       </div>
                     </FormControl>
@@ -196,10 +221,10 @@ export function ModalCreateNCM() {
               />
               <FormField
                 control={form.control}
-                name="cofins"
+                name="width"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>COFINS</FormLabel>
+                    <FormLabel>Largura (mm)</FormLabel>
                     <FormControl>
                       <div className="flex overflow-hidden items-center shadow border-1 rounded-md">
                         <Input
@@ -208,29 +233,7 @@ export function ModalCreateNCM() {
                           onChange={formatDecimalTwoNumber(field)}
                         />
                         <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
-                          <Percent className="w-4 h-4 stroke-zinc-500" />
-                        </div>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="ipi"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>IPI</FormLabel>
-                    <FormControl>
-                      <div className="flex overflow-hidden items-center shadow border-1 rounded-md">
-                        <Input
-                          className="shadow-none border-0 rounded-none"
-                          {...field}
-                          onChange={formatDecimalTwoNumber(field)}
-                        />
-                        <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
-                          <Percent className="w-4 h-4 stroke-zinc-500" />
+                          <RulerDimensionLine className="w-4 h-4 stroke-zinc-500" />
                         </div>
                       </div>
                     </FormControl>

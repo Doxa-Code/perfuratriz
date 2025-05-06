@@ -142,6 +142,7 @@ exports.Prisma.ProductScalarFieldEnum = {
 
 exports.Prisma.ProductNCMScalarFieldEnum = {
   id: 'id',
+  ncmId: 'ncmId',
   code: 'code',
   cofins: 'cofins',
   icms: 'icms',
