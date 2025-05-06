@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "migrate:db": "prisma migrate dev && prisma generate"
+    "migrate:db": "prisma migrate dev && prisma generate",
+    "migrate:generate": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
