@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { listNCMAction } from "@/actions/ncm-action";
 import { Menu } from "@/components/menu";
+import { ModalCreateExpense } from "@/components/modal-create-expense";
 import { ModalCreateNCM } from "@/components/modal-create-ncm";
 import { ModalCreateProduct } from "@/components/modal-create-product";
 import ReactQueryProvider from "@/components/react-query-provider";
@@ -37,6 +38,7 @@ export default async function RootLayout({
           <Menu>{children}</Menu>
           <ModalCreateNCM />
           <ModalCreateProduct ncms={ncms ?? []} />
+          <ModalCreateExpense />
         </ReactQueryProvider>
       </body>
     </html>

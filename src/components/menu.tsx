@@ -3,6 +3,7 @@ import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
+  BanknoteArrowDown,
   BookText,
   Box,
   LayoutDashboard,
@@ -36,9 +37,9 @@ export const Menu: React.FC<Props> = (props) => {
     },
     {
       label: "Despesas",
-      href: "#",
+      href: "/expenses",
       icon: (
-        <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <BanknoteArrowDown className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {

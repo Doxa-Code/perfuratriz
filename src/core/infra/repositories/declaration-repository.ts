@@ -15,10 +15,11 @@ interface DeclarationRepository {
 }
 
 export class DeclarationDatabaseRepository implements DeclarationRepository {
-  private prisma = new PrismaClient();
+  private database = new PrismaClient();
 
   async save(declaration: Declaration): Promise<void> {
-    await this.prisma.declaration.create({
+    await this.database.$connect();
+    await this.database.declaration.create({
       data: {
         id: declaration.id,
         registration: declaration.registration,
@@ -36,10 +37,12 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         },
       },
     });
+    await this.database.$disconnect();
   }
 
   async retrieve(id: string): Promise<Declaration | null> {
-    const result = await this.prisma.declaration.findUnique({
+    await this.database.$connect();
+    const result = await this.database.declaration.findUnique({
       where: { id },
       include: {
         invoice: {
@@ -48,7 +51,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         expenses: true,
       },
     });
-
+    await this.database.$disconnect();
     if (!result) return null;
 
     return Declaration.instance({
@@ -99,7 +102,8 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
   }
 
   async list(): Promise<Declaration[]> {
-    const declarations = await this.prisma.declaration.findMany({
+    await this.database.$connect();
+    const declarations = await this.database.declaration.findMany({
       include: {
         invoice: {
           include: { products: true },
@@ -107,6 +111,8 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         expenses: true,
       },
     });
+
+    await this.database.$disconnect();
 
     return declarations.map((result) =>
       Declaration.instance({
@@ -158,9 +164,11 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
   }
 
   async remove(id: string): Promise<void> {
-    await this.prisma.declaration.delete({
+    await this.database.$connect();
+    await this.database.declaration.delete({
       where: { id },
     });
+    await this.database.$disconnect();
   }
 
   static instance() {

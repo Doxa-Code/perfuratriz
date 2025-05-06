@@ -12,13 +12,16 @@ interface InvoiceRepository {
 }
 
 export class InvoiceDatabaseRepository implements InvoiceRepository {
-  private database = new PrismaClient().invoice;
+  private database = new PrismaClient();
 
   async retrieve(id: string): Promise<Invoice | null> {
-    const invoice = await this.database.findUnique({
+    await this.database.$connect();
+    const invoice = await this.database.invoice.findUnique({
       where: { id },
       include: { products: true },
     });
+
+    await this.database.$disconnect();
 
     if (!invoice) return null;
 
@@ -53,7 +56,8 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
   }
 
   async save(invoice: Invoice): Promise<void> {
-    await this.database.create({
+    await this.database.$connect();
+    await this.database.invoice.create({
       data: {
         quote: invoice.quote,
         registration: invoice.registration,
@@ -79,14 +83,19 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         },
       },
     });
+    await this.database.$disconnect();
   }
 
   async list(): Promise<Invoice[]> {
-    const response = await this.database.findMany({
+    await this.database.$connect();
+
+    const response = await this.database.invoice.findMany({
       include: {
         products: true,
       },
     });
+
+    await this.database.$disconnect();
 
     return response.map((invoice) =>
       Invoice.instance({
@@ -121,11 +130,13 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
   }
 
   async remove(id: string): Promise<void> {
-    await this.database.delete({
+    await this.database.$connect();
+    await this.database.invoice.delete({
       where: {
         id,
       },
     });
+    await this.database.$disconnect();
   }
 
   static instance() {

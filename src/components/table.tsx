@@ -61,7 +61,7 @@ type Props<T> = {
 };
 
 export function TableComponent<T extends { id: string }>(props: Props<T>) {
-  const pageSize = 10;
+  const pageSize = 12;
   const [rowSelection, setRowSelection] = useState({});
   const { toggleModal } = useModais();
   const { mutate } = useServerActionMutation(props.actionRemove, {
@@ -363,7 +363,12 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
             </Pagination>
           </div>
 
-          <div className="flex flex-1 justify-end" />
+          <div className="flex flex-1 justify-end text-end">
+            <p className="flex-1 whitespace-nowrap text-sm text-muted-foreground">
+              <span className="text-foreground">{props.registers.length}</span>{" "}
+              registros
+            </p>
+          </div>
         </div>
       </div>
     </div>

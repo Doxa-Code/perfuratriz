@@ -15,8 +15,8 @@ export const ButtonCreate: React.FC<Props> = (props) => {
   return (
     <Button
       onClick={() => {
-        toggleModal(props.modalName);
         setRegister(null);
+        toggleModal(props.modalName);
       }}
     >
       {props.title ?? "Novo"}

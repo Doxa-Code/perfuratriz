@@ -13,6 +13,7 @@ export class ProductDatabaseRepository implements ProductRepository {
   private database = new PrismaClient();
 
   async retrieve(id: string) {
+    await this.database.$connect();
     const response = await this.database.product.findFirst({
       where: {
         id,
@@ -21,7 +22,10 @@ export class ProductDatabaseRepository implements ProductRepository {
         ncm: true,
       },
     });
+    await this.database.$disconnect();
+
     if (!response) return null;
+
     return Product.instance({
       height: response.height,
       id: response.id,
@@ -37,6 +41,7 @@ export class ProductDatabaseRepository implements ProductRepository {
   }
 
   async save(product: Product) {
+    await this.database.$connect();
     await this.database.product.create({
       data: {
         height: product.height,
@@ -58,9 +63,11 @@ export class ProductDatabaseRepository implements ProductRepository {
         },
       },
     });
+    await this.database.$disconnect();
   }
 
   async update(product: Product) {
+    await this.database.$connect();
     const productsNCM = await this.database.productNCM.findMany({
       where: {
         product: {
@@ -104,14 +111,18 @@ export class ProductDatabaseRepository implements ProductRepository {
         },
       }),
     ]);
+    await this.database.$disconnect();
   }
 
   async list(): Promise<Product[]> {
+    await this.database.$connect();
     const response = await this.database.product.findMany({
       include: {
         ncm: true,
       },
     });
+
+    await this.database.$disconnect();
 
     return response.map((product) => {
       return Product.instance({
@@ -130,6 +141,7 @@ export class ProductDatabaseRepository implements ProductRepository {
   }
 
   async remove(id: string): Promise<void> {
+    await this.database.$connect();
     const productsNCM = await this.database.productNCM.findMany({
       where: {
         product: {
@@ -152,6 +164,7 @@ export class ProductDatabaseRepository implements ProductRepository {
         },
       }),
     ]);
+    await this.database.$disconnect();
   }
 
   static instance() {
