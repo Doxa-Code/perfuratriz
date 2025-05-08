@@ -6,6 +6,7 @@ import {
   BanknoteArrowDown,
   BookText,
   Box,
+  FileAxis3dIcon,
   Files,
   LayoutDashboard,
   LogOut,
@@ -52,9 +53,9 @@ export const Menu: React.FC<Props> = (props) => {
     },
     {
       label: "Declarações (DI)",
-      href: "#",
+      href: "/declarations",
       icon: (
-        <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <FileAxis3dIcon className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
   ];
@@ -66,13 +67,12 @@ export const Menu: React.FC<Props> = (props) => {
         "h-screen w-full"
       )}
     >
-      <Sidebar open={open} setOpen={setOpen}>
+      <Sidebar animate open={open} setOpen={setOpen}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                 <SidebarLink key={idx} link={link} />
               ))}
             </div>

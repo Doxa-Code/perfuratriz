@@ -8383,6 +8383,7 @@ export namespace Prisma {
     id: string | null
     registration: string | null
     quote: number | null
+    createdAt: Date | null
     invoiceId: string | null
   }
 
@@ -8390,6 +8391,7 @@ export namespace Prisma {
     id: string | null
     registration: string | null
     quote: number | null
+    createdAt: Date | null
     invoiceId: string | null
   }
 
@@ -8397,6 +8399,7 @@ export namespace Prisma {
     id: number
     registration: number
     quote: number
+    createdAt: number
     invoiceId: number
     _all: number
   }
@@ -8414,6 +8417,7 @@ export namespace Prisma {
     id?: true
     registration?: true
     quote?: true
+    createdAt?: true
     invoiceId?: true
   }
 
@@ -8421,6 +8425,7 @@ export namespace Prisma {
     id?: true
     registration?: true
     quote?: true
+    createdAt?: true
     invoiceId?: true
   }
 
@@ -8428,6 +8433,7 @@ export namespace Prisma {
     id?: true
     registration?: true
     quote?: true
+    createdAt?: true
     invoiceId?: true
     _all?: true
   }
@@ -8522,6 +8528,7 @@ export namespace Prisma {
     id: string
     registration: string
     quote: number
+    createdAt: Date
     invoiceId: string
     _count: DeclarationCountAggregateOutputType | null
     _avg: DeclarationAvgAggregateOutputType | null
@@ -8548,6 +8555,7 @@ export namespace Prisma {
     id?: boolean
     registration?: boolean
     quote?: boolean
+    createdAt?: boolean
     invoiceId?: boolean
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
     expenses?: boolean | Declaration$expensesArgs<ExtArgs>
@@ -8558,6 +8566,7 @@ export namespace Prisma {
     id?: boolean
     registration?: boolean
     quote?: boolean
+    createdAt?: boolean
     invoiceId?: boolean
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["declaration"]>
@@ -8566,6 +8575,7 @@ export namespace Prisma {
     id?: boolean
     registration?: boolean
     quote?: boolean
+    createdAt?: boolean
     invoiceId?: boolean
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["declaration"]>
@@ -8574,10 +8584,11 @@ export namespace Prisma {
     id?: boolean
     registration?: boolean
     quote?: boolean
+    createdAt?: boolean
     invoiceId?: boolean
   }
 
-  export type DeclarationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "registration" | "quote" | "invoiceId", ExtArgs["result"]["declaration"]>
+  export type DeclarationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "registration" | "quote" | "createdAt" | "invoiceId", ExtArgs["result"]["declaration"]>
   export type DeclarationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
     expenses?: boolean | Declaration$expensesArgs<ExtArgs>
@@ -8600,6 +8611,7 @@ export namespace Prisma {
       id: string
       registration: string
       quote: number
+      createdAt: Date
       invoiceId: string
     }, ExtArgs["result"]["declaration"]>
     composites: {}
@@ -9029,6 +9041,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Declaration", 'String'>
     readonly registration: FieldRef<"Declaration", 'String'>
     readonly quote: FieldRef<"Declaration", 'Float'>
+    readonly createdAt: FieldRef<"Declaration", 'DateTime'>
     readonly invoiceId: FieldRef<"Declaration", 'String'>
   }
     
@@ -10701,6 +10714,7 @@ export namespace Prisma {
     id: 'id',
     registration: 'registration',
     quote: 'quote',
+    createdAt: 'createdAt',
     invoiceId: 'invoiceId'
   };
 
@@ -11270,6 +11284,7 @@ export namespace Prisma {
     id?: StringFilter<"Declaration"> | string
     registration?: StringFilter<"Declaration"> | string
     quote?: FloatFilter<"Declaration"> | number
+    createdAt?: DateTimeFilter<"Declaration"> | Date | string
     invoiceId?: StringFilter<"Declaration"> | string
     invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
     expenses?: ExpenseDeclarationListRelationFilter
@@ -11279,6 +11294,7 @@ export namespace Prisma {
     id?: SortOrder
     registration?: SortOrder
     quote?: SortOrder
+    createdAt?: SortOrder
     invoiceId?: SortOrder
     invoice?: InvoiceOrderByWithRelationInput
     expenses?: ExpenseDeclarationOrderByRelationAggregateInput
@@ -11292,6 +11308,7 @@ export namespace Prisma {
     NOT?: DeclarationWhereInput | DeclarationWhereInput[]
     registration?: StringFilter<"Declaration"> | string
     quote?: FloatFilter<"Declaration"> | number
+    createdAt?: DateTimeFilter<"Declaration"> | Date | string
     invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
     expenses?: ExpenseDeclarationListRelationFilter
   }, "id" | "invoiceId">
@@ -11300,6 +11317,7 @@ export namespace Prisma {
     id?: SortOrder
     registration?: SortOrder
     quote?: SortOrder
+    createdAt?: SortOrder
     invoiceId?: SortOrder
     _count?: DeclarationCountOrderByAggregateInput
     _avg?: DeclarationAvgOrderByAggregateInput
@@ -11315,6 +11333,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Declaration"> | string
     registration?: StringWithAggregatesFilter<"Declaration"> | string
     quote?: FloatWithAggregatesFilter<"Declaration"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Declaration"> | Date | string
     invoiceId?: StringWithAggregatesFilter<"Declaration"> | string
   }
 
@@ -11866,6 +11885,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     invoice: InvoiceCreateNestedOneWithoutDeclarationInput
     expenses?: ExpenseDeclarationCreateNestedManyWithoutDeclarationInput
   }
@@ -11874,6 +11894,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     invoiceId: string
     expenses?: ExpenseDeclarationUncheckedCreateNestedManyWithoutDeclarationInput
   }
@@ -11882,6 +11903,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoice?: InvoiceUpdateOneRequiredWithoutDeclarationNestedInput
     expenses?: ExpenseDeclarationUpdateManyWithoutDeclarationNestedInput
   }
@@ -11890,6 +11912,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoiceId?: StringFieldUpdateOperationsInput | string
     expenses?: ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationNestedInput
   }
@@ -11898,6 +11921,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     invoiceId: string
   }
 
@@ -11905,12 +11929,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DeclarationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoiceId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -12479,6 +12505,7 @@ export namespace Prisma {
     id?: SortOrder
     registration?: SortOrder
     quote?: SortOrder
+    createdAt?: SortOrder
     invoiceId?: SortOrder
   }
 
@@ -12490,6 +12517,7 @@ export namespace Prisma {
     id?: SortOrder
     registration?: SortOrder
     quote?: SortOrder
+    createdAt?: SortOrder
     invoiceId?: SortOrder
   }
 
@@ -12497,6 +12525,7 @@ export namespace Prisma {
     id?: SortOrder
     registration?: SortOrder
     quote?: SortOrder
+    createdAt?: SortOrder
     invoiceId?: SortOrder
   }
 
@@ -13109,6 +13138,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     expenses?: ExpenseDeclarationCreateNestedManyWithoutDeclarationInput
   }
 
@@ -13116,6 +13146,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     expenses?: ExpenseDeclarationUncheckedCreateNestedManyWithoutDeclarationInput
   }
 
@@ -13177,6 +13208,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: ExpenseDeclarationUpdateManyWithoutDeclarationNestedInput
   }
 
@@ -13184,6 +13216,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expenses?: ExpenseDeclarationUncheckedUpdateManyWithoutDeclarationNestedInput
   }
 
@@ -13347,6 +13380,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     invoice: InvoiceCreateNestedOneWithoutDeclarationInput
   }
 
@@ -13354,6 +13388,7 @@ export namespace Prisma {
     id?: string
     registration: string
     quote: number
+    createdAt?: Date | string
     invoiceId: string
   }
 
@@ -13377,6 +13412,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoice?: InvoiceUpdateOneRequiredWithoutDeclarationNestedInput
   }
 
@@ -13384,6 +13420,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registration?: StringFieldUpdateOperationsInput | string
     quote?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invoiceId?: StringFieldUpdateOperationsInput | string
   }
 

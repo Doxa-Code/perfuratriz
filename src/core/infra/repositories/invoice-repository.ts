@@ -19,7 +19,14 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
     await this.database.$connect();
     const invoice = await this.database.invoice.findUnique({
       where: { id },
-      include: { products: true },
+      include: {
+        products: true,
+        declaration: {
+          select: {
+            id: true,
+          },
+        },
+      },
     });
 
     await this.database.$disconnect();
@@ -29,6 +36,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
     return Invoice.instance({
       createdAt: invoice.createdAt,
       id: invoice.id,
+      isVinculated: Boolean(invoice.declaration?.id),
       products: invoice.products.map((p) =>
         InvoiceProduct.create({
           amount: p.amount,
@@ -147,6 +155,11 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
     const response = await this.database.invoice.findMany({
       include: {
         products: true,
+        declaration: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
@@ -156,6 +169,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
       Invoice.instance({
         createdAt: invoice.createdAt,
         id: invoice.id,
+        isVinculated: Boolean(invoice.declaration?.id),
         products: invoice.products.map((p) =>
           InvoiceProduct.create({
             amount: p.amount,

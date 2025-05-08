@@ -40,6 +40,48 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
     await this.database.$disconnect();
   }
 
+  async update(declaration: Declaration): Promise<void> {
+    await this.database.$connect();
+    const expenseDeclarationIds =
+      await this.database.expenseDeclaration.findMany({
+        where: {
+          declarationId: declaration.id,
+        },
+        select: {
+          id: true,
+        },
+      });
+    await this.database.$transaction([
+      this.database.declaration.update({
+        data: {
+          id: declaration.id,
+          registration: declaration.registration,
+          quote: declaration.quote,
+          invoiceId: declaration.invoice.id,
+          expenses: {
+            create: declaration.expenses.map((expense) => ({
+              name: expense.expense.name,
+              useICMSBase: expense.expense.useICMSBase,
+              useCustomsBase: expense.expense.useCustomsBase,
+              allocationMethod: expense.expense.allocationMethod,
+              currency: expense.expense.currency,
+              amount: expense.amount,
+            })),
+          },
+        },
+        where: { id: declaration.id },
+      }),
+      this.database.expenseDeclaration.deleteMany({
+        where: {
+          id: {
+            in: expenseDeclarationIds.map((ed) => ed.id),
+          },
+        },
+      }),
+    ]);
+    await this.database.$disconnect();
+  }
+
   async retrieve(id: string): Promise<Declaration | null> {
     await this.database.$connect();
     const result = await this.database.declaration.findUnique({
@@ -58,9 +100,11 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
       id: result.id,
       registration: result.registration,
       quote: result.quote,
+      createdAt: result.createdAt,
       invoice: Invoice.instance({
         createdAt: result.invoice.createdAt,
         id: result.invoice.id,
+        isVinculated: true,
         products: result.invoice.products.map((p) =>
           InvoiceProduct.create({
             amount: p.amount,
@@ -103,6 +147,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 
   async list(): Promise<Declaration[]> {
     await this.database.$connect();
+
     const declarations = await this.database.declaration.findMany({
       include: {
         invoice: {
@@ -119,9 +164,11 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         id: result.id,
         registration: result.registration,
         quote: result.quote,
+        createdAt: result.createdAt,
         invoice: Invoice.instance({
           createdAt: result.invoice.createdAt,
           id: result.invoice.id,
+          isVinculated: true,
           products: result.invoice.products.map((p) =>
             InvoiceProduct.create({
               amount: p.amount,

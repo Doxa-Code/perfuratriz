@@ -13,7 +13,7 @@ export default async function NCMs() {
   return (
     <main className="container mx-auto">
       <header className="flex w-full py-10 items-center justify-between">
-        <h1 className="font-bold text-2xl">Cadastro de NCMs</h1>
+        <h1 className="font-bold text-2xl">NCMs</h1>
         <ButtonCreate modalName={MODAL_CREATE_NCM} title="Novo NCM" />
       </header>
       <TableNCM ncms={ncms ?? []} />

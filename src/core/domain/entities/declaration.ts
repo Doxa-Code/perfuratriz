@@ -7,6 +7,7 @@ export namespace Declaration {
     id: string;
     registration: string;
     quote: number;
+    createdAt: Date;
     invoice: Invoice;
     expenses: ExpenseDeclaration[];
   }
@@ -14,12 +15,14 @@ export namespace Declaration {
     registration: string;
     quote: number;
     invoice: Invoice;
+    createdAt?: Date;
   }
 }
 
 export class Declaration {
   public id: string;
   public registration: string;
+  public createdAt: Date;
   public quote: number;
   public invoice: Invoice;
   public expenses: ExpenseDeclaration[];
@@ -28,6 +31,7 @@ export class Declaration {
     this.id = props.id;
     this.registration = props.registration;
     this.quote = props.quote;
+    this.createdAt = props.createdAt;
     this.invoice = props.invoice;
     this.expenses = props.expenses;
   }
@@ -117,6 +121,7 @@ export class Declaration {
       invoice: props.invoice,
       quote: props.quote,
       registration: props.registration,
+      createdAt: props.createdAt ?? new Date(),
     });
   }
 }

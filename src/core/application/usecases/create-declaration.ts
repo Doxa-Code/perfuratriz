@@ -1,18 +1,13 @@
 import { Declaration } from "@/core/domain/entities/declaration";
-import type { Expense } from "@/core/domain/entities/expense";
+import { Expense } from "@/core/domain/entities/expense";
 import { ExpenseDeclaration } from "@/core/domain/entities/expense-declaration";
 import type { Invoice } from "@/core/domain/entities/invoice";
 import { NotFound } from "@/core/domain/errors/not-found";
 import { DeclarationDatabaseRepository } from "@/core/infra/repositories/declaration-repository";
-import { ExpenseDatabaseRepository } from "@/core/infra/repositories/expense-repository";
 import { InvoiceDatabaseRepository } from "@/core/infra/repositories/invoice-repository";
 
 interface InvoiceRepository {
   retrieve(id: string): Promise<Invoice | null>;
-}
-
-interface ExpenseRepository {
-  retrieve(id: string): Promise<Expense | null>;
 }
 
 interface DeclarationRepository {
@@ -22,8 +17,7 @@ interface DeclarationRepository {
 export class CreateDeclaration {
   constructor(
     private readonly declarationRepository: DeclarationRepository,
-    private readonly invoiceRepository: InvoiceRepository,
-    private readonly expenseRepository: ExpenseRepository
+    private readonly invoiceRepository: InvoiceRepository
   ) {}
 
   async execute(input: InputDTO) {
@@ -37,7 +31,13 @@ export class CreateDeclaration {
     });
 
     for (const e of input.expenses) {
-      const expense = await this.expenseRepository.retrieve(e.id);
+      const expense = Expense.create({
+        allocationMethod: e.allocationMethod,
+        currency: e.currency,
+        name: e.name,
+        useCustomsBase: e.useCustomsBase,
+        useICMSBase: e.useICMSBase,
+      });
       if (!expense) throw new NotFound("Expense");
       declaration.addExpense(
         ExpenseDeclaration.create({
@@ -54,8 +54,7 @@ export class CreateDeclaration {
   static instance() {
     return new CreateDeclaration(
       DeclarationDatabaseRepository.instance(),
-      InvoiceDatabaseRepository.instance(),
-      ExpenseDatabaseRepository.instance()
+      InvoiceDatabaseRepository.instance()
     );
   }
 }
@@ -65,7 +64,11 @@ type InputDTO = {
   quote: number;
   invoiceId: string;
   expenses: {
-    id: string;
+    name: string;
+    useICMSBase: boolean;
+    useCustomsBase: boolean;
+    allocationMethod: Expense.AllocationMethod;
+    currency: Expense.Currency;
     amount: number;
   }[];
 };

@@ -7,6 +7,7 @@ export namespace Invoice {
     createdAt: Date;
     quote: number;
     products: InvoiceProduct[];
+    isVinculated: boolean;
   }
   export interface CreateProps {
     registration: string;
@@ -21,6 +22,7 @@ export class Invoice {
   public createdAt: Date;
   public quote: number;
   private _products: Map<string, InvoiceProduct>;
+  public isVinculated: boolean;
 
   constructor(props: Invoice.Props) {
     this.id = props.id;
@@ -28,6 +30,7 @@ export class Invoice {
     this.createdAt = props.createdAt;
     this.quote = props.quote;
     this.products = props.products;
+    this.isVinculated = props.isVinculated ?? false;
   }
 
   static instance(props: Invoice.Props) {
@@ -91,6 +94,7 @@ export class Invoice {
       quote: props.quote,
       registration: props.registration,
       products: [],
+      isVinculated: false,
     });
   }
 }

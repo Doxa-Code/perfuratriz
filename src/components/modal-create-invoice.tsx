@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Invoice } from "@/core/domain/entities/invoice";
 import { Product } from "@/core/domain/entities/product";
 import { InvoiceProduct } from "@/core/domain/value-objects/invoice-product";
 import { useServerActionMutation } from "@/lib/hooks";
@@ -54,7 +55,6 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { Invoice } from "@/core/domain/entities/invoice";
 
 const formSchema = z.object({
   registration: z.string({ message: "Campo obrigatório" }),
@@ -92,6 +92,7 @@ export function ModalCreateInvoice(props: Props) {
     resolver: zodResolver(formSchema),
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     form.watch((values) => {
       const invoiceCreated = Invoice.create({
@@ -99,7 +100,7 @@ export function ModalCreateInvoice(props: Props) {
         registration: values.registration ?? "",
         createdAt: values.createdAt ?? new Date(),
       });
-      values.products?.forEach((p) => {
+      values.products?.map((p) => {
         const product = products.find((prod) => prod.id === p?.productId);
         if (!product) return;
         invoiceCreated.add(
@@ -247,11 +248,11 @@ export function ModalCreateInvoice(props: Props) {
                       <table>
                         <thead>
                           <tr>
-                            <td></td>
+                            <td />
                             <th className="border p-2 bg-primary text-white text-xs text-left">
                               Total Peças
                             </th>
-                            <td></td>
+                            <td />
                             <th className="border p-2 bg-primary text-white text-xs text-left">
                               Total invoice
                             </th>
@@ -263,11 +264,11 @@ export function ModalCreateInvoice(props: Props) {
                             </th>
                           </tr>
                           <tr>
-                            <td></td>
+                            <td />
                             <td className="border p-2 text-xs">
                               {invoice?.quantity}
                             </td>
-                            <td></td>
+                            <td />
                             <td className="border text-xs">
                               <div className="flex gap-2">
                                 <div className="px-4 border-r text-center flex justify-center items-center bg-muted text-muted-foreground">
@@ -291,12 +292,12 @@ export function ModalCreateInvoice(props: Props) {
                             </td>
                           </tr>
                           <tr>
-                            <td className="p-2"></td>
-                            <td className="p-2"></td>
-                            <td className="p-2"></td>
-                            <td className="p-2"></td>
-                            <td className="p-2"></td>
-                            <td className="p-2"></td>
+                            <td className="p-2" />
+                            <td className="p-2" />
+                            <td className="p-2" />
+                            <td className="p-2" />
+                            <td className="p-2" />
+                            <td className="p-2" />
                           </tr>
                           <tr>
                             <th className="text-left text-xs p-2 bg-muted border">
@@ -317,7 +318,7 @@ export function ModalCreateInvoice(props: Props) {
                             <th className="text-left text-xs p-2 bg-muted w-[200px] border">
                               Volume Líquido
                             </th>
-                            <th className="p-2 w-[50px]"></th>
+                            <th className="p-2 w-[50px]" />
                           </tr>
                         </thead>
                         <tbody>
@@ -385,7 +386,7 @@ export function ModalCreateInvoice(props: Props) {
                               <Select
                                 onValueChange={(value) => {
                                   const product = products.find(
-                                    (p) => (p.id = value)
+                                    (p) => p.id === value
                                   );
 
                                   if (!product) {

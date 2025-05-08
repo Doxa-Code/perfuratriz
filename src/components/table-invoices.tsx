@@ -2,17 +2,20 @@
 import { removeInvoiceAction } from "@/actions/invoice-action";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Invoice } from "@/core/domain/entities/invoice";
-import { Product } from "@/core/domain/entities/product";
+import type { Product } from "@/core/domain/entities/product";
 import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
 import { MODAL_CREATE_INVOICE } from "@/lib/modais";
 import type { ColumnDef } from "@tanstack/react-table";
-import { TableComponent } from "./table";
+import { useState } from "react";
 import { toast } from "sonner";
+import { TableComponent } from "./table";
+import { Button } from "./ui/button";
 
 type InvoiceRaw = {
   id: string;
   registration: string;
   createdAt: Date;
+  isVinculated: boolean;
   quote: number;
   products: {
     product: Product.Props;
@@ -82,23 +85,54 @@ const columns: ColumnDef<InvoiceRaw>[] = [
 
 export const TableInvoices: React.FC<Props> = (props) => {
   const { setRegister } = useRegisterEdit();
+  const [filter, setFilter] = useState<"ALL" | "VINCULATED" | "NO-VINCULATED">(
+    "ALL"
+  );
   return (
-    <TableComponent
-      registers={props.invoices}
-      defaultSortingColumn="registration"
-      keyToSearch="registration"
-      modalName={MODAL_CREATE_INVOICE}
-      actionRemove={removeInvoiceAction}
-      onChangeRegister={setRegister}
-      columns={columns}
-      onError={() => {
-        toast.error(
-          "Não foi possível excluir pois há declarações vinculadas a esses registros...",
-          {
-            position: "top-center",
-          }
-        );
-      }}
-    />
+    <>
+      <header className="space-x-2">
+        <Button
+          onClick={() => setFilter("ALL")}
+          variant={filter === "ALL" ? "default" : "outline"}
+        >
+          Todas
+        </Button>
+        <Button
+          onClick={() => setFilter("VINCULATED")}
+          variant={filter === "VINCULATED" ? "default" : "outline"}
+        >
+          Vinculadas
+        </Button>
+        <Button
+          onClick={() => setFilter("NO-VINCULATED")}
+          variant={filter === "NO-VINCULATED" ? "default" : "outline"}
+        >
+          Não vinculadas
+        </Button>
+      </header>
+      <TableComponent
+        registers={props.invoices.filter((i) =>
+          filter === "ALL"
+            ? true
+            : filter === "VINCULATED"
+            ? i.isVinculated
+            : !i.isVinculated
+        )}
+        defaultSortingColumn="registration"
+        keyToSearch="registration"
+        modalName={MODAL_CREATE_INVOICE}
+        actionRemove={removeInvoiceAction}
+        onChangeRegister={setRegister}
+        columns={columns}
+        onError={() => {
+          toast.error(
+            "Não foi possível excluir pois há declarações vinculadas a esses registros...",
+            {
+              position: "top-center",
+            }
+          );
+        }}
+      />
+    </>
   );
 };

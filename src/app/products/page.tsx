@@ -13,7 +13,7 @@ export default async function Products() {
   return (
     <main className="container mx-auto">
       <header className="flex w-full py-10 items-center justify-between">
-        <h1 className="font-bold text-2xl">Cadastro de produtos</h1>
+        <h1 className="font-bold text-2xl">Produtos</h1>
         <ButtonCreate modalName={MODAL_CREATE_PRODUCT} title="Novo Produto" />
       </header>
       <TableProducts products={products ?? []} />

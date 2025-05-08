@@ -190,6 +190,7 @@ exports.Prisma.DeclarationScalarFieldEnum = {
   id: 'id',
   registration: 'registration',
   quote: 'quote',
+  createdAt: 'createdAt',
   invoiceId: 'invoiceId'
 };
 

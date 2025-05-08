@@ -119,6 +119,7 @@ model Declaration {
   id           String               @id @default(uuid())
   registration String
   quote        Float
+  createdAt    DateTime             @default(now())
   invoiceId    String               @unique
   invoice      Invoice              @relation(fields: [invoiceId], references: [id])
   expenses     ExpenseDeclaration[]

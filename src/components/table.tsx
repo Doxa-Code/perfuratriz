@@ -89,7 +89,7 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const filteredRegistered = useMemo(() => {
-    return props.registers.filter((register) =>
+    return props.registers?.filter((register) =>
       register[props.keyToSearch]
         ?.toString()
         .toLowerCase()
