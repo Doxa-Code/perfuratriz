@@ -32,6 +32,7 @@ export class UpdateInvoice {
       createdAt: input.createdAt ?? invoiceOld.createdAt,
       id: invoiceOld.id,
       products: invoiceOld.products,
+      isVinculated: invoiceOld.isVinculated,
     });
 
     for (const p of input.products) {
