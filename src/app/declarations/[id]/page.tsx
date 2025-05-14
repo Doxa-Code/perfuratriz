@@ -50,7 +50,7 @@ export default async function DeclarationSummary({
   const summary = clearance.calculate();
 
   return (
-    <main className="w-full">
+    <main className="w-full container mx-auto overflow-y-auto max-h-screen pb-96">
       <header>
         <Link href="/declarations">
           <Button variant="link">
@@ -237,19 +237,19 @@ export default async function DeclarationSummary({
                   </TableCell>
                   <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
                     {p.insurance.toLocaleString("pt-BR", {
-                      currency: "USD",
+                      currency: "BRL",
                       style: "currency",
                     })}
                   </TableCell>
                   <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
                     {p.freight.toLocaleString("pt-BR", {
-                      currency: "USD",
+                      currency: "BRL",
                       style: "currency",
                     })}
                   </TableCell>
                   <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
                     {p.customs.toLocaleString("pt-BR", {
-                      currency: "USD",
+                      currency: "BRL",
                       style: "currency",
                     })}
                   </TableCell>

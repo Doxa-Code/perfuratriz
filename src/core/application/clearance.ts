@@ -212,28 +212,6 @@ export class Clearance {
   }
 
   calculate() {
-    let expensesTotalAmount = 0;
-    const products = this.invoice.products.map((p) => {
-      const taxCalculated = this.calculateInvoiceProduct(p);
-      expensesTotalAmount += taxCalculated.expenseTotalAmount;
-      return {
-        name: p.product.name,
-        quantity: p.quantity,
-        amount: p.amount,
-        total: p.total,
-        insurance: taxCalculated.insuranceCostAllocation,
-        freight: taxCalculated.freightCostAllocation,
-        customs: taxCalculated.customsAmount,
-        siscomex: taxCalculated.siscomexCostAllocation,
-        ipi: taxCalculated.ipi,
-        pis: taxCalculated.pis,
-        cofins: taxCalculated.cofins,
-        expensesTotalAmount: taxCalculated.expenseTotalAmount,
-        factor: taxCalculated.factor,
-        finalAmount: taxCalculated.finalAmount,
-        icms: taxCalculated.icms,
-      };
-    });
     return {
       invoiceQuote: this.invoice.quote,
       declarationQuote: this.declaration.quote,
@@ -244,9 +222,31 @@ export class Clearance {
       vmld: this.vmld,
       weight: this.invoice.weight,
       quantity: this.invoice.quantity,
-      expensesTotalAmount,
-      expenses: this.otherExpenses,
-      products,
+      expensesTotalAmount: this.declaration.expenses.reduce(
+        (sum, expense) => sum + expense.amount,
+        0
+      ),
+      expenses: this.declaration.expenses,
+      products: this.invoice.products.map((p) => {
+        const taxCalculated = this.calculateInvoiceProduct(p);
+        return {
+          name: p.product.name,
+          quantity: p.quantity,
+          amount: p.amount,
+          total: p.total,
+          insurance: taxCalculated.insuranceCostAllocation,
+          freight: taxCalculated.freightCostAllocation,
+          customs: taxCalculated.customsAmount,
+          siscomex: taxCalculated.siscomexCostAllocation,
+          ipi: taxCalculated.ipi,
+          pis: taxCalculated.pis,
+          cofins: taxCalculated.cofins,
+          expensesTotalAmount: taxCalculated.expenseTotalAmount,
+          factor: taxCalculated.factor,
+          finalAmount: taxCalculated.finalAmount,
+          icms: taxCalculated.icms,
+        };
+      }),
     };
   }
 
