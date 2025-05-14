@@ -127,7 +127,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
             quantity: p.quantity,
           })
         ),
-        quote: result.quote,
+        quote: result.invoice.quote,
         registration: result.registration,
       }),
       expenses: result.expenses.map((e) =>
