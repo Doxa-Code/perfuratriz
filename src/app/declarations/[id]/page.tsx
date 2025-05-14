@@ -201,6 +201,9 @@ export default async function DeclarationSummary({
                   COFINS
                 </TableHead>
                 <TableHead className="text-center font-semibold border whitespace-nowrap px-3">
+                  ICMS
+                </TableHead>
+                <TableHead className="text-center font-semibold border whitespace-nowrap px-3">
                   Despesas
                 </TableHead>
                 <TableHead className="text-center font-semibold border whitespace-nowrap px-3">
@@ -270,6 +273,12 @@ export default async function DeclarationSummary({
                   </TableCell>
                   <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
                     {p.cofins.toLocaleString("pt-BR", {
+                      currency: "BRL",
+                      style: "currency",
+                    })}
+                  </TableCell>
+                  <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+                    {p.icms.toLocaleString("pt-BR", {
                       currency: "BRL",
                       style: "currency",
                     })}

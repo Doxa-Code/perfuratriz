@@ -231,6 +231,7 @@ export class Clearance {
         expensesTotalAmount: taxCalculated.expenseTotalAmount,
         factor: taxCalculated.factor,
         finalAmount: taxCalculated.finalAmount,
+        icms: taxCalculated.icms,
       };
     });
     return {
