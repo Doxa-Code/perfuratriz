@@ -22,7 +22,7 @@ export const createExpenseAction = createServerAction()
         allocationMethod: input.allocationMethod as Expense.AllocationMethod,
         currency: input.currency as Expense.Currency,
       });
-      revalidatePath("/expenses", "layout");
+      revalidatePath("/");
       return;
     }
     const expense = Expense.instance({
@@ -32,7 +32,7 @@ export const createExpenseAction = createServerAction()
       id: input.id,
     });
     await expensesRepository.update(expense);
-    revalidatePath("/expenses", "layout");
+    revalidatePath("/");
   });
 
 export const listExpenseAction = createServerAction()
@@ -45,5 +45,5 @@ export const removeExpenseAction = createServerAction()
   .input(removeExpenseInputSchema)
   .handler(async ({ input }) => {
     await Promise.all(input.ids.map((id) => expensesRepository.remove(id)));
-    revalidatePath("/expenses", "layout");
+    revalidatePath("/");
   });

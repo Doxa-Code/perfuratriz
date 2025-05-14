@@ -40,6 +40,7 @@ export default async function RootLayout({
     listInvoiceAction(),
     listExpenseAction(),
   ]);
+
   return (
     <html lang="pt-BR">
       <body

@@ -22,7 +22,7 @@ export const createDeclarationAction = createServerAction()
     if (!input.id) {
       const createDeclaration = CreateDeclaration.instance();
       await createDeclaration.execute(input);
-      revalidatePath("/declarations", "layout");
+      revalidatePath("/");
       return;
     }
     const invoice = await invoicesRepository.retrieve(input.invoiceId);
@@ -47,7 +47,7 @@ export const createDeclarationAction = createServerAction()
       registration: input.registration,
     });
     await declarationRepository.update(declaration);
-    revalidatePath("/declarations", "layout");
+    revalidatePath("/");
   });
 
 export const listDeclarationAction = createServerAction()
@@ -60,5 +60,5 @@ export const removeDeclarationAction = createServerAction()
   .input(removeDeclarationInputSchema)
   .handler(async ({ input }) => {
     await Promise.all(input.ids.map((id) => declarationRepository.remove(id)));
-    revalidatePath("/declarations", "layout");
+    revalidatePath("/");
   });

@@ -275,19 +275,19 @@ export function ModalCreateInvoice(props: Props) {
                                   <DollarSign size={15} />
                                 </div>
                                 {Intl.NumberFormat("pt-BR", {
-                                  minimumFractionDigits: 4,
-                                  maximumFractionDigits: 4,
+                                  minimumFractionDigits: 2,
+                                  maximumFractionDigits: 2,
                                 }).format(invoice?.amount ?? 0)}
                               </div>
                             </td>
                             <td className="border p-2 text-xs">
                               {(invoice?.weight ?? 0)
-                                .toFixed(2)
+                                .toFixed(4)
                                 .replace(".", ",")}
                             </td>
                             <td className="border p-2 text-xs">
                               {(invoice?.volume ?? 0)
-                                .toFixed(2)
+                                .toFixed(4)
                                 .replace(".", ",")}
                             </td>
                           </tr>
@@ -322,18 +322,9 @@ export function ModalCreateInvoice(props: Props) {
                           </tr>
                         </thead>
                         <tbody>
-                          {field.value?.map((p) => {
-                            const product = products.find(
-                              (product) => product.id === p?.productId
-                            );
-                            if (!product) return <></>;
-                            const invoiceProduct = InvoiceProduct.create({
-                              amount: p.amount,
-                              product: Product.instance(product),
-                              quantity: p.quantity,
-                            });
+                          {invoice?.products?.map((invoiceProduct) => {
                             return (
-                              <tr key={p.productId}>
+                              <tr key={invoiceProduct.product.id}>
                                 <td className="p-2 border text-xs">
                                   {invoiceProduct.product.name}
                                 </td>
@@ -342,24 +333,24 @@ export function ModalCreateInvoice(props: Props) {
                                 </td>
                                 <td className="p-2 border text-xs">
                                   {Intl.NumberFormat("pt-BR", {
-                                    minimumFractionDigits: 4,
-                                    maximumFractionDigits: 4,
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
                                   }).format(invoiceProduct?.amount ?? 0)}
                                 </td>
                                 <td className="p-2 border text-xs">
                                   {Intl.NumberFormat("pt-BR", {
-                                    minimumFractionDigits: 4,
-                                    maximumFractionDigits: 4,
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
                                   }).format(invoiceProduct?.total ?? 0)}
                                 </td>
                                 <td className="p-2 border text-xs">
                                   {(invoiceProduct?.weight ?? 0)
-                                    .toFixed(2)
+                                    .toFixed(4)
                                     .replace(".", ",")}
                                 </td>
                                 <td className="p-2 border text-xs">
                                   {(invoiceProduct?.volume ?? 0)
-                                    .toFixed(2)
+                                    .toFixed(4)
                                     .replace(".", ",")}
                                 </td>
                                 <td className="px-2">
@@ -370,7 +361,9 @@ export function ModalCreateInvoice(props: Props) {
                                     onClick={() => {
                                       field.onChange(
                                         field.value.filter(
-                                          (ip) => ip.productId !== p.productId
+                                          (ip) =>
+                                            ip.productId !==
+                                            invoiceProduct.product.id
                                         )
                                       );
                                     }}
@@ -462,8 +455,8 @@ export function ModalCreateInvoice(props: Props) {
                                 <Input
                                   className="w-full focus-visible:ring-0 shadow-none border-0 rounded-none max-w-[150px]"
                                   value={Intl.NumberFormat("pt-BR", {
-                                    minimumFractionDigits: 4,
-                                    maximumFractionDigits: 4,
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
                                   }).format(invoiceProductToAdd?.amount ?? 0)}
                                   onChange={formatDecimal(
                                     {
@@ -486,7 +479,7 @@ export function ModalCreateInvoice(props: Props) {
                                         }
                                       },
                                     },
-                                    4
+                                    2
                                   )}
                                 />
                               </div>
@@ -499,8 +492,8 @@ export function ModalCreateInvoice(props: Props) {
                                 <Input
                                   className="w-full bg-muted focus-visible:ring-0 shadow-none border-0 rounded-none"
                                   value={Intl.NumberFormat("pt-BR", {
-                                    minimumFractionDigits: 4,
-                                    maximumFractionDigits: 4,
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
                                   }).format(invoiceProductToAdd?.total ?? 0)}
                                   disabled
                                 />

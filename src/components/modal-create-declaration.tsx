@@ -23,8 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Declaration } from "@/core/domain/entities/declaration";
-import type { Expense } from "@/core/domain/entities/expense";
+import { Declaration } from "@/core/domain/entities/declaration";
+import { Expense } from "@/core/domain/entities/expense";
+import { ExpenseDeclaration } from "@/core/domain/entities/expense-declaration";
+import { Invoice } from "@/core/domain/entities/invoice";
 import { useServerActionMutation } from "@/lib/hooks";
 import { useModais } from "@/lib/hooks/use-modais";
 import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
@@ -87,6 +89,7 @@ export function ModalCreateDeclaration(props: Props) {
       onSuccess() {
         toggleModal(MODAL_CREATE_DECLARATION);
         setRegister(null);
+        setDeclaration(undefined);
         form.reset();
       },
       onError(error) {
@@ -124,7 +127,32 @@ export function ModalCreateDeclaration(props: Props) {
     form.watch((values) => {
       const invoice = invoices.find((i) => i.id === values.invoiceId);
       if (!invoice) return;
-      console.log(values);
+      setDeclaration(
+        Declaration.instance({
+          invoice: Invoice.create({
+            ...invoice,
+            quote: 0,
+          }),
+          quote: Number(values.quote?.replace(",", ".")),
+          registration: values.registration ?? "",
+          createdAt: values.createdAt ?? new Date(),
+          expenses:
+            values.expenses?.map((e) => {
+              return ExpenseDeclaration.create({
+                amount: e?.amount ?? 0,
+                expense: Expense.create({
+                  allocationMethod:
+                    e?.allocationMethod as Expense.AllocationMethod,
+                  currency: e?.currency as Expense.Currency,
+                  name: e?.name ?? "",
+                  useCustomsBase: e?.useCustomsBase,
+                  useICMSBase: e?.useICMSBase,
+                }),
+              });
+            }) ?? [],
+          id: "1",
+        })
+      );
     });
   }, []);
 
@@ -280,103 +308,109 @@ export function ModalCreateDeclaration(props: Props) {
                       <FormControl>
                         <table className="max-w-md">
                           <tbody>
-                            {field.value?.map((expense) => {
-                              const convertValue = (
-                                expense.currency === "USD"
-                                  ? form.getValues().quote
-                                    ? expense.amount *
-                                      Number(
-                                        form
-                                          .getValues()
-                                          .quote?.replace(",", ".")
-                                      )
-                                    : expense.amount
-                                  : expense.amount
-                              )
-                                .toFixed(2)
-                                .replace(".", ",");
-                              return (
-                                <>
-                                  <tr key={expense.name + 1}>
-                                    <td className="py-2">{expense.name}</td>
-                                  </tr>
-                                  <tr key={expense.name + 2}>
-                                    <td className="max-w-[100px]">
-                                      <div className="flex items-center border">
-                                        <span className="pl-2 text-muted-foreground">
-                                          {expense.currency}
-                                        </span>
-                                        <Input
-                                          defaultValue={
-                                            expense.amount
-                                              .toFixed(2)
-                                              .replace(".", ",") ?? "0,00"
-                                          }
-                                          onChange={formatDecimal(
-                                            {
-                                              onChange(event) {
-                                                field.onChange(
-                                                  field.value.map((e) => {
-                                                    if (e.name !== expense.name)
-                                                      return e;
-                                                    return {
-                                                      ...e,
-                                                      amount: Number(
-                                                        event.currentTarget.value.replace(
-                                                          ",",
-                                                          "."
-                                                        )
-                                                      ),
-                                                    };
-                                                  })
-                                                );
+                            {declaration?.expenses.map(
+                              ({ expense, amount }) => {
+                                const convertValue = (
+                                  expense.currency === "USD"
+                                    ? form.getValues().quote
+                                      ? amount *
+                                        Number(
+                                          form
+                                            .getValues()
+                                            .quote?.replace(",", ".")
+                                        )
+                                      : amount
+                                    : amount
+                                )
+                                  .toFixed(2)
+                                  .replace(".", ",");
+                                return (
+                                  <>
+                                    <tr key={expense.name + 1}>
+                                      <td className="py-2">{expense.name}</td>
+                                    </tr>
+                                    <tr key={expense.name + 2}>
+                                      <td className="max-w-[100px]">
+                                        <div className="flex items-center border">
+                                          <span className="pl-2 text-muted-foreground">
+                                            {expense.currency}
+                                          </span>
+                                          <Input
+                                            defaultValue={
+                                              amount
+                                                .toFixed(2)
+                                                .replace(".", ",") ?? "0,00"
+                                            }
+                                            onChange={formatDecimal(
+                                              {
+                                                onChange(event) {
+                                                  field.onChange(
+                                                    field.value.map((e) => {
+                                                      if (
+                                                        e.name !== expense.name
+                                                      )
+                                                        return e;
+                                                      return {
+                                                        ...e,
+                                                        amount: Number(
+                                                          event.currentTarget.value.replace(
+                                                            ",",
+                                                            "."
+                                                          )
+                                                        ),
+                                                      };
+                                                    })
+                                                  );
+                                                },
                                               },
-                                            },
-                                            2
-                                          )}
-                                          className="border-0 rounded-none outline-0 shadow-none focus-visible:ring-0"
-                                        />
-                                      </div>
-                                    </td>
-                                    <td className="max-w-[100px]">
-                                      <div
-                                        data-hidden={expense.currency === "BRL"}
-                                        className="flex data-[hidden=true]:hidden items-center border-y bg-muted border-r"
-                                      >
-                                        <span className="pl-2 text-muted-foreground">
-                                          R$
-                                        </span>
-                                        <Input
-                                          value={convertValue}
-                                          disabled
-                                          className="border-0 rounded-none outline-0 shadow-none focus-visible:ring-0"
-                                        />
-                                      </div>
-                                    </td>
-                                    <td className="px-4 w-[20px]">
-                                      <Button
-                                        type="button"
-                                        size="icon"
-                                        variant="destructive"
-                                        className="cursor-pointer"
-                                        onClick={() => {
-                                          field.onChange(
-                                            field.value.filter(
-                                              (e) => expense.name !== e.name
-                                            )
-                                          );
-                                        }}
-                                      >
-                                        <Trash />
-                                      </Button>
-                                    </td>
-                                  </tr>
-                                  <tr key={expense.name + 3}>
-                                    <td className="py-2" />
-                                  </tr>
-                                </>
-                              );
-                            })}
+                                              2
+                                            )}
+                                            className="border-0 rounded-none outline-0 shadow-none focus-visible:ring-0"
+                                          />
+                                        </div>
+                                      </td>
+                                      <td className="max-w-[100px]">
+                                        <div
+                                          data-hidden={
+                                            expense.currency === "BRL"
+                                          }
+                                          className="flex data-[hidden=true]:hidden items-center border-y bg-muted border-r"
+                                        >
+                                          <span className="pl-2 text-muted-foreground">
+                                            R$
+                                          </span>
+                                          <Input
+                                            value={convertValue}
+                                            disabled
+                                            className="border-0 rounded-none outline-0 shadow-none focus-visible:ring-0"
+                                          />
+                                        </div>
+                                      </td>
+                                      <td className="px-4 w-[20px]">
+                                        <Button
+                                          type="button"
+                                          size="icon"
+                                          variant="destructive"
+                                          className="cursor-pointer"
+                                          onClick={() => {
+                                            field.onChange(
+                                              field.value.filter(
+                                                (e) => expense.name !== e.name
+                                              )
+                                            );
+                                          }}
+                                        >
+                                          <Trash />
+                                        </Button>
+                                      </td>
+                                    </tr>
+                                    <tr key={expense.name + 3}>
+                                      <td className="py-2" />
+                                    </tr>
+                                  </>
+                                );
+                              }
+                            )}
                             <tr>
                               <td className="py-4" />
                               <td />
