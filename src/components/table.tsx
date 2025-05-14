@@ -257,6 +257,7 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
+                    onClick={() => row.toggleSelected()}
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>

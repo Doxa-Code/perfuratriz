@@ -17,6 +17,7 @@ const products = [
     weight: 1,
     width: 1,
     ncm: {
+      id: "1",
       code: 1,
       cofins: 1,
       icms: 1,
@@ -32,6 +33,7 @@ const products = [
     weight: 2,
     width: 2,
     ncm: {
+      id: "2",
       code: 2,
       cofins: 2,
       icms: 2,
@@ -133,9 +135,7 @@ test("create invoice", async () => {
   await new PrismaClient().productNCM.deleteMany({
     where: {
       product: {
-        every: {
-          ncmId: ncm.id,
-        },
+        ncmId: ncm.id,
       },
     },
   });

@@ -45,35 +45,51 @@ const columns: ColumnDef<NCM.Props>[] = [
   {
     header: "Imposto de importação",
     accessorKey: "tax",
-    cell: ({ row }) => <div className="font-medium">{row.getValue("tax")}</div>,
+    cell: ({ row }) => (
+      <div className="font-medium">
+        {Number(row.getValue("tax")).toFixed(2).replace(".", ",")}%
+      </div>
+    ),
     size: 180,
   },
   {
     header: "ICMS",
     accessorKey: "icms",
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("icms")}</div>
+      <div className="font-medium">
+        {Number(row.getValue("icms")).toFixed(2).replace(".", ",")}%
+      </div>
     ),
     size: 180,
   },
   {
     header: "PIS",
     accessorKey: "pis",
-    cell: ({ row }) => <div className="font-medium">{row.getValue("pis")}</div>,
+    cell: ({ row }) => (
+      <div className="font-medium">
+        {Number(row.getValue("pis")).toFixed(2).replace(".", ",")}%
+      </div>
+    ),
     size: 180,
   },
   {
     header: "COFINS",
     accessorKey: "cofins",
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("cofins")}</div>
+      <div className="font-medium">
+        {Number(row.getValue("cofins")).toFixed(2).replace(".", ",")}%
+      </div>
     ),
     size: 180,
   },
   {
     header: "IPI",
     accessorKey: "ipi",
-    cell: ({ row }) => <div className="font-medium">{row.getValue("ipi")}</div>,
+    cell: ({ row }) => (
+      <div className="font-medium">
+        {Number(row.getValue("ipi")).toFixed(2).replace(".", ",")}%
+      </div>
+    ),
     size: 180,
   },
 ];

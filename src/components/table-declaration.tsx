@@ -101,7 +101,11 @@ const columns: ColumnDef<Declaration>[] = [
     accessorKey: "quote",
     cell: ({ row }) => (
       <div className="font-medium">
-        {Number(row.getValue("quote")).toFixed(4)}
+        {Number(row.getValue("quote")).toLocaleString("pt-BR", {
+          currency: "USD",
+          style: "currency",
+          minimumFractionDigits: 4,
+        })}
       </div>
     ),
   },

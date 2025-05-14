@@ -1,5 +1,4 @@
-import { Expense } from "./expense";
-import { ExpenseDeclaration } from "./expense-declaration";
+import type { ExpenseDeclaration } from "./expense-declaration";
 import type { Invoice } from "./invoice";
 
 export namespace Declaration {
@@ -34,76 +33,6 @@ export class Declaration {
     this.createdAt = props.createdAt;
     this.invoice = props.invoice;
     this.expenses = props.expenses;
-  }
-
-  private get freightExpense() {
-    const expense = this.expenses.find(
-      (e) => e.expense.name === "Frete Internacional"
-    );
-
-    if (!expense)
-      return ExpenseDeclaration.create({
-        amount: 0,
-        expense: Expense.create({
-          allocationMethod: "NET_WEIGHT",
-          currency: "USD",
-          name: "Frete Internacional",
-          useCustomsBase: true,
-          useICMSBase: false,
-        }),
-      });
-
-    return expense;
-  }
-
-  private get insuranceExpense() {
-    const expense = this.expenses.find(
-      (e) => e.expense.name === "Seguro Internacional"
-    );
-
-    if (!expense)
-      return ExpenseDeclaration.create({
-        amount: 0,
-        expense: Expense.create({
-          allocationMethod: "NET_VALUE",
-          currency: "USD",
-          name: "Seguro Internacional",
-          useCustomsBase: true,
-          useICMSBase: false,
-        }),
-      });
-
-    return expense;
-  }
-
-  private get siscomexExpense() {
-    const expense = this.expenses.find((e) => e.expense.name === "Siscomex");
-
-    if (!expense)
-      return ExpenseDeclaration.create({
-        amount: 0,
-        expense: Expense.create({
-          allocationMethod: "NET_VALUE",
-          currency: "BRL",
-          name: "Siscomex",
-          useCustomsBase: false,
-          useICMSBase: true,
-        }),
-      });
-
-    return expense;
-  }
-
-  get freightExpenseAmount() {
-    return Math.round(this.freightExpense.amount * this.quote * 100) / 100;
-  }
-
-  get insuranceExpenseAmount() {
-    return Math.round(this.insuranceExpense.amount * this.quote * 100) / 100;
-  }
-
-  get siscomexExpenseAmount() {
-    return this.siscomexExpense.amount;
   }
 
   addExpense(expense: ExpenseDeclaration) {

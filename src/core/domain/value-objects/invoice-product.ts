@@ -36,18 +36,6 @@ export class InvoiceProduct {
     return amount;
   }
 
-  calculateFreightCostAllocation(
-    invoiceWeight: number,
-    declarationFreightAmount: number
-  ) {
-    const weight = this.percentWeight(invoiceWeight);
-    const freightCostAllocation = truncCurrency(
-      declarationFreightAmount * weight
-    );
-
-    return freightCostAllocation;
-  }
-
   calculateInsuranceCostAllocation(
     invoiceTotal: number,
     declarationInsuranceAmount: number

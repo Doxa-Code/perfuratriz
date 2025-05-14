@@ -405,8 +405,17 @@ export function ModalCreateInvoice(props: Props) {
                                 value={invoiceProductToAdd?.product.id ?? ""}
                               >
                                 <FormControl>
-                                  <SelectTrigger className="w-full border-0 rounded-none shadow-none">
-                                    <SelectValue placeholder="Selecione" />
+                                  <SelectTrigger
+                                    disabled={!products.length}
+                                    className="w-full border-0 rounded-none shadow-none"
+                                  >
+                                    <SelectValue
+                                      placeholder={
+                                        !products.length
+                                          ? "Cadastre um produto pra continuar"
+                                          : "Selecione"
+                                      }
+                                    />
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>

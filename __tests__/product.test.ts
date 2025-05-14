@@ -8,7 +8,7 @@ import { PrismaClient } from "../prisma";
 test("calcute volume", () => {
   const product = Product.create({
     name: "Product 1",
-    ncm: { code: 1, cofins: 1, icms: 1, ipi: 1, pis: 1, tax: 1 },
+    ncm: { id: "1", code: 1, cofins: 1, icms: 1, ipi: 1, pis: 1, tax: 1 },
     weight: 1,
     length: 2.3,
     height: 4,
@@ -56,9 +56,7 @@ test("create product", async () => {
   await new PrismaClient().productNCM.deleteMany({
     where: {
       product: {
-        every: {
-          id: product.id,
-        },
+        id: product.id,
       },
     },
   });

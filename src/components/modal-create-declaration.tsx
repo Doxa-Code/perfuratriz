@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { Declaration } from "@/core/domain/entities/declaration";
 import type { Expense } from "@/core/domain/entities/expense";
 import { useServerActionMutation } from "@/lib/hooks";
 import { useModais } from "@/lib/hooks/use-modais";
@@ -77,6 +78,7 @@ type Props = {
 export function ModalCreateDeclaration(props: Props) {
   const [invoices] = React.useState(props.invoices ?? []);
   const [expenses] = React.useState(props.expenses ?? []);
+  const [declaration, setDeclaration] = React.useState<Declaration>();
   const { isOpen, toggleModal } = useModais();
   const { register, setRegister } = useRegisterEdit();
   const { mutate, isPending } = useServerActionMutation(
@@ -116,6 +118,15 @@ export function ModalCreateDeclaration(props: Props) {
       });
     }
   }, [isOpen, register, form.reset]);
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  React.useEffect(() => {
+    form.watch((values) => {
+      const invoice = invoices.find((i) => i.id === values.invoiceId);
+      if (!invoice) return;
+      console.log(values);
+    });
+  }, []);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     mutate({
@@ -221,27 +232,35 @@ export function ModalCreateDeclaration(props: Props) {
                     <FormLabel>Invoice</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Selecione" />
+                        <SelectTrigger
+                          disabled={!invoices.length}
+                          className="w-full"
+                        >
+                          <SelectValue
+                            placeholder={
+                              !invoices.length
+                                ? "Cadastre uma invoice para continuar"
+                                : "Selecione"
+                            }
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {invoices.length &&
-                          invoices
-                            .filter((i) =>
-                              register?.invoiceId
-                                ? register.invoiceId === i.id || !i.isVinculated
-                                : !i.isVinculated
-                            )
-                            .map((invoice) => (
-                              <SelectItem
-                                value={String(invoice.id)}
-                                key={invoice.id}
-                              >
-                                {invoice.registration} -{" "}
-                                {invoice.createdAt.toLocaleDateString("pt-BR")}
-                              </SelectItem>
-                            ))}
+                        {invoices
+                          .filter((i) =>
+                            register?.invoiceId
+                              ? register.invoiceId === i.id || !i.isVinculated
+                              : !i.isVinculated
+                          )
+                          .map((invoice) => (
+                            <SelectItem
+                              value={String(invoice.id)}
+                              key={invoice.id}
+                            >
+                              {invoice.registration} -{" "}
+                              {invoice.createdAt.toLocaleDateString("pt-BR")}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -385,7 +404,13 @@ export function ModalCreateDeclaration(props: Props) {
                                       disabled={!expensesFiltered.length}
                                       className="w-full border-0 rounded-none shadow-none"
                                     >
-                                      <SelectValue placeholder="Adicione a despesa" />
+                                      <SelectValue
+                                        placeholder={
+                                          !expenses.length
+                                            ? "Cadastre uma despesa pra continuar"
+                                            : "Adicione a despesa"
+                                        }
+                                      />
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>

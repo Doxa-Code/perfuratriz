@@ -134,19 +134,28 @@ export function ModalCreateProduct(props: Props) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>NCM</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      disabled={!ncms.length}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Selecione" />
+                          <SelectValue
+                            placeholder={
+                              !ncms.length
+                                ? "Cadastre um ncm para continuar"
+                                : "Selecione"
+                            }
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {ncms.length &&
-                          ncms.map((ncm) => (
-                            <SelectItem value={String(ncm.id)} key={ncm.id}>
-                              {ncm.code}
-                            </SelectItem>
-                          ))}
+                        {ncms.map((ncm) => (
+                          <SelectItem value={String(ncm.id)} key={ncm.id}>
+                            {ncm.code}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
