@@ -78,3 +78,9 @@ export const listDeclarationOutputSchema = z.array(DeclarationSchema);
 export const removeDeclarationInputSchema = z.object({
   ids: z.array(z.string()),
 });
+
+export const retrieveDeclarationInputSchema = z.object({
+  id: z.string(),
+});
+
+export const retrieveDeclarationOutputSchema = DeclarationSchema.nullable();

@@ -11,6 +11,8 @@ import {
   createDeclarationInputSchema,
   listDeclarationOutputSchema,
   removeDeclarationInputSchema,
+  retrieveDeclarationInputSchema,
+  retrieveDeclarationOutputSchema,
 } from "./declaration-schema";
 
 const declarationRepository = DeclarationDatabaseRepository.instance();
@@ -54,6 +56,15 @@ export const listDeclarationAction = createServerAction()
   .output(listDeclarationOutputSchema)
   .handler(async () => {
     return await declarationRepository.list();
+  });
+
+export const retrieveDeclarationAction = createServerAction()
+  .input(retrieveDeclarationInputSchema)
+  .output(retrieveDeclarationOutputSchema)
+  .handler(async ({ input }) => {
+    const declaration = await declarationRepository.retrieve(input.id);
+    if (!declaration) return null;
+    return declaration;
   });
 
 export const removeDeclarationAction = createServerAction()

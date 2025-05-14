@@ -188,11 +188,65 @@ export class Clearance {
       expenses,
       finalAmount,
       factor,
+      ipi,
+      pis,
+      cofins,
     };
   }
 
+  getExpenseAmounts(expense: ExpenseDeclaration) {
+    return expense.expense.currency === "BRL"
+      ? { brl: expense.amount }
+      : {
+          usd: expense.amount,
+          brl: this.convertExpenseAmount(expense),
+        };
+  }
+
+  get vmld() {
+    return (
+      this.invoice.amount +
+      this.freightExpense.amount +
+      this.insuranceExpense.amount
+    );
+  }
+
   calculate() {
-    return this.invoice.products.map(this.calculateInvoiceProduct.bind(this));
+    let expensesTotalAmount = 0;
+    const products = this.invoice.products.map((p) => {
+      const taxCalculated = this.calculateInvoiceProduct(p);
+      expensesTotalAmount += taxCalculated.expenseTotalAmount;
+      return {
+        name: p.product.name,
+        quantity: p.quantity,
+        amount: p.amount,
+        total: p.total,
+        insurance: taxCalculated.insuranceCostAllocation,
+        freight: taxCalculated.freightCostAllocation,
+        customs: taxCalculated.customsAmount,
+        siscomex: taxCalculated.siscomexCostAllocation,
+        ipi: taxCalculated.ipi,
+        pis: taxCalculated.pis,
+        cofins: taxCalculated.cofins,
+        expensesTotalAmount: taxCalculated.expenseTotalAmount,
+        factor: taxCalculated.factor,
+        finalAmount: taxCalculated.finalAmount,
+      };
+    });
+    return {
+      invoiceQuote: this.invoice.quote,
+      declarationQuote: this.declaration.quote,
+      freight: this.getExpenseAmounts(this.freightExpense),
+      insurance: this.getExpenseAmounts(this.insuranceExpense),
+      siscomex: this.getExpenseAmounts(this.siscomexExpense),
+      vmle: this.invoice.amount,
+      vmld: this.vmld,
+      weight: this.invoice.weight,
+      quantity: this.invoice.quantity,
+      expensesTotalAmount,
+      expenses: this.otherExpenses,
+      products,
+    };
   }
 
   static create(declaration: Declaration) {

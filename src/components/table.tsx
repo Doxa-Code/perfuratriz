@@ -48,7 +48,7 @@ import {
   Edit,
   Trash,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 
 type Props<T> = {
   columns: ColumnDef<T>[];
@@ -59,6 +59,7 @@ type Props<T> = {
   keyToSearch: keyof T;
   modalName: string;
   onError?: (error: string) => void;
+  customButtons?: (rowsSelected?: T[]) => ReactNode;
 };
 
 export function TableComponent<T extends { id: string }>(props: Props<T>) {
@@ -129,7 +130,9 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="md:w-96"
         />
-
+        {props.customButtons?.(
+          table.getSelectedRowModel()?.rows?.map((r) => r.original) ?? []
+        )}
         <Button
           data-hidden={
             !table.getSelectedRowModel().rows.length ||

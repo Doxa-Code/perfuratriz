@@ -1,11 +1,13 @@
 "use client";
 import { removeDeclarationAction } from "@/actions/declaration-action";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { ProductNCM } from "@/core/domain/value-objects/product-ncm";
 import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
 import { MODAL_CREATE_DECLARATION } from "@/lib/modais";
 import type { ColumnDef } from "@tanstack/react-table";
+import { File } from "lucide-react";
+import Link from "next/link";
 import { TableComponent } from "./table";
+import { Button } from "./ui/button";
 
 type Declaration = {
   id: string;
@@ -144,6 +146,19 @@ export const TableDeclarations: React.FC<Props> = (props) => {
         setRegister(value);
       }}
       columns={columns}
+      customButtons={(rowsSelected) => {
+        return (
+          <Link href={`/declarations/${rowsSelected?.at(0)?.id}`}>
+            <Button
+              data-hidden={!rowsSelected?.length || rowsSelected.length > 1}
+              className="data-[hidden=true]:hidden bg-blue-600 hover:bg-blue-500"
+            >
+              <File />
+              Resumo
+            </Button>
+          </Link>
+        );
+      }}
     />
   );
 };
