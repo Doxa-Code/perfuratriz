@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: "Invoices - Perfuratriz",
 };
 
+export const revalidate = 1;
+
 export default async function Products() {
   const [invoices] = await listInvoiceAction();
   const [products] = await listProductAction();

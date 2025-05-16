@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   title: "NCMs - Perfuratriz",
 };
 
+export const revalidate = 1;
+
 export default async function NCMs() {
   const [ncms] = await listNCMAction();
   return (

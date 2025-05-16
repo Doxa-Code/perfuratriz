@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   title: "Declarações (DI) - Perfuratriz",
 };
 
+export const revalidate = 1;
+
 export default async function Declarations() {
   const [declarations] = await listDeclarationAction();
   const [invoices] = await listInvoiceAction();
