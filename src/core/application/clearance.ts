@@ -245,6 +245,7 @@ export class Clearance {
           factor: taxCalculated.factor,
           finalAmount: taxCalculated.finalAmount,
           icms: taxCalculated.icms,
+          tax: taxCalculated.tax,
         };
       }),
     };

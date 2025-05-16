@@ -204,6 +204,9 @@ export default async function DeclarationSummary({
                   ICMS
                 </TableHead>
                 <TableHead className="text-center font-semibold border whitespace-nowrap px-3">
+                  Imposto de importação
+                </TableHead>
+                <TableHead className="text-center font-semibold border whitespace-nowrap px-3">
                   Despesas
                 </TableHead>
                 <TableHead className="text-center font-semibold border whitespace-nowrap px-3">
@@ -284,6 +287,12 @@ export default async function DeclarationSummary({
                     })}
                   </TableCell>
                   <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+                    {p.tax.toLocaleString("pt-BR", {
+                      currency: "BRL",
+                      style: "currency",
+                    })}
+                  </TableCell>
+                  <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
                     {p.expensesTotalAmount.toLocaleString("pt-BR", {
                       currency: "BRL",
                       style: "currency",
@@ -331,7 +340,7 @@ export default async function DeclarationSummary({
                   </TableCell>
                   <TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
                     {expense.amount.toLocaleString("pt-BR", {
-                      currency: "BRL",
+                      currency: "USD",
                       style: "currency",
                     })}
                   </TableCell>
@@ -344,7 +353,7 @@ export default async function DeclarationSummary({
                 </TableCell>
                 <TableCell className="text-center bg-gray-100 font-bold border-x border-b border-gray-200 whitespace-nowrap">
                   {summary.expensesTotalAmount.toLocaleString("pt-BR", {
-                    currency: "BRL",
+                    currency: "USD",
                     style: "currency",
                   })}
                 </TableCell>

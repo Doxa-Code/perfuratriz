@@ -1,5 +1,6 @@
 import { listExpenseAction } from "@/actions/expense-action";
 import { ButtonCreate } from "@/components/button-create";
+import { ModalCreateExpense } from "@/components/modal-create-expense";
 import { TableExpenses } from "@/components/table-expenses";
 import { MODAL_CREATE_EXPENSE } from "@/lib/modais";
 import type { Metadata } from "next";
@@ -17,6 +18,7 @@ export default async function Products() {
         <ButtonCreate modalName={MODAL_CREATE_EXPENSE} title="Nova despesa" />
       </header>
       <TableExpenses expenses={expenses ?? []} />
+      <ModalCreateExpense />
     </main>
   );
 }

@@ -18,7 +18,7 @@ export const createInvoiceAction = createServerAction()
     if (!input.id) {
       const createInvoice = CreateInvoice.instance();
       await createInvoice.execute(input);
-      revalidatePath("/");
+      revalidatePath("/invoices", "page");
       return;
     }
     const updateInvoice = UpdateInvoice.instance();
@@ -26,7 +26,7 @@ export const createInvoiceAction = createServerAction()
       ...input,
       id: input.id,
     });
-    revalidatePath("/");
+    revalidatePath("/invoices", "page");
   });
 
 export const listInvoiceAction = createServerAction()
@@ -39,5 +39,5 @@ export const removeInvoiceAction = createServerAction()
   .input(removeInvoiceInputSchema)
   .handler(async ({ input }) => {
     await Promise.all(input.ids.map((id) => invoiceRepository.remove(id)));
-    revalidatePath("/");
+    revalidatePath("/invoices", "page");
   });

@@ -18,7 +18,7 @@ export const createNCMAction = createServerAction()
     if (!input.id) {
       const createNCM = CreateNCM.instance();
       await createNCM.execute(input);
-      revalidatePath("/");
+      revalidatePath("/ncms", "page");
       return;
     }
     const ncm = NCM.instance({
@@ -26,7 +26,7 @@ export const createNCMAction = createServerAction()
       id: input.id,
     });
     await ncmRepository.update(ncm);
-    revalidatePath("/");
+    revalidatePath("/ncms", "page");
   });
 
 export const listNCMAction = createServerAction()
@@ -39,5 +39,5 @@ export const removeNCMAction = createServerAction()
   .input(removeNCMInputSchema)
   .handler(async ({ input }) => {
     await Promise.all(input.ids.map((id) => ncmRepository.remove(id)));
-    revalidatePath("/");
+    revalidatePath("/ncms", "page");
   });

@@ -1,5 +1,6 @@
 import { listNCMAction } from "@/actions/ncm-action";
 import { ButtonCreate } from "@/components/button-create";
+import { ModalCreateNCM } from "@/components/modal-create-ncm";
 import { TableNCM } from "@/components/table-ncms";
 import { MODAL_CREATE_NCM } from "@/lib/modais";
 import type { Metadata } from "next";
@@ -17,6 +18,7 @@ export default async function NCMs() {
         <ButtonCreate modalName={MODAL_CREATE_NCM} title="Novo NCM" />
       </header>
       <TableNCM ncms={ncms ?? []} />
+      <ModalCreateNCM />
     </main>
   );
 }
