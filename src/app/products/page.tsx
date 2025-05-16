@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   title: "Produtos - Perfuratriz",
 };
 
-export const revalidate = 1;
-
 export default async function Products() {
   const [products] = await listProductAction();
   const [ncms] = await listNCMAction();

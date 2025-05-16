@@ -23,6 +23,7 @@ export const createExpenseAction = createServerAction()
         currency: input.currency as Expense.Currency,
       });
       revalidatePath("/expenses", "page");
+      revalidatePath("/declarations", "page");
       return;
     }
     const expense = Expense.instance({
@@ -33,6 +34,7 @@ export const createExpenseAction = createServerAction()
     });
     await expensesRepository.update(expense);
     revalidatePath("/expenses", "page");
+    revalidatePath("/declarations", "page");
   });
 
 export const listExpenseAction = createServerAction()
@@ -46,4 +48,5 @@ export const removeExpenseAction = createServerAction()
   .handler(async ({ input }) => {
     await Promise.all(input.ids.map((id) => expensesRepository.remove(id)));
     revalidatePath("/expenses", "page");
+    revalidatePath("/declarations", "page");
   });

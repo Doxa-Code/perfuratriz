@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   title: "Despesas - Perfuratriz",
 };
 
-export const revalidate = 1;
-
 export default async function Products() {
   const [expenses] = await listExpenseAction();
   return (

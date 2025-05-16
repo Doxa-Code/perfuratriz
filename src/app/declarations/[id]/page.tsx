@@ -17,8 +17,6 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export const revalidate = 1;
-
 export default async function DeclarationSummary({
   params,
 }: {

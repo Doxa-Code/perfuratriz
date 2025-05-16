@@ -21,6 +21,7 @@ export const createProductAction = createServerAction()
       const createProduct = CreateProduct.instance();
       await createProduct.execute(input);
       revalidatePath("/products", "page");
+      revalidatePath("/invoices", "page");
       return;
     }
     const ncm = await ncmRepository.retrieve(input.ncm);
@@ -32,6 +33,7 @@ export const createProductAction = createServerAction()
     });
     await productRepository.update(product).catch((err) => console.log(err));
     revalidatePath("/products", "page");
+    revalidatePath("/invoices", "page");
   });
 
 export const listProductAction = createServerAction()
@@ -45,4 +47,5 @@ export const removeProductAction = createServerAction()
   .handler(async ({ input }) => {
     await Promise.all(input.ids.map((id) => productRepository.remove(id)));
     revalidatePath("/products", "page");
+    revalidatePath("/invoices", "page");
   });
