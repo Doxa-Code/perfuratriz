@@ -144,7 +144,9 @@ export default async function DeclarationSummary({
 							style: "currency",
 						})}
 					</div>
-
+					<div className="bg-gray-500 text-white font-semibold uppercase px-2 py-1">
+						Peso de Custo
+					</div>
 					<div className="bg-gray-500 text-white font-semibold uppercase px-2 py-1">
 						Peso Líquido
 					</div>
@@ -208,6 +210,9 @@ export default async function DeclarationSummary({
 								</TableHead>
 								<TableHead className="text-center font-semibold border whitespace-nowrap px-3">
 									Despesas
+								</TableHead>
+								<TableHead className="text-center font-semibold border whitespace-nowrap px-3">
+									Preço de Custo
 								</TableHead>
 								<TableHead className="text-center font-semibold border whitespace-nowrap px-3">
 									Preço Final
@@ -299,6 +304,12 @@ export default async function DeclarationSummary({
 										})}
 									</TableCell>
 									<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+										{p.costPrice.toLocaleString("pt-BR", {
+											currency: "BRL",
+											style: "currency",
+										})}
+									</TableCell>
+									<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
 										{p.finalAmount.toLocaleString("pt-BR", {
 											currency: "BRL",
 											style: "currency",
@@ -313,81 +324,81 @@ export default async function DeclarationSummary({
 									</TableCell>
 								</TableRow>
 							))}
-							<TableRow className="hover:bg-gray-50">
+							<TableRow>
 								<TableCell />
 								<TableCell />
 								<TableCell />
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.amount.toLocaleString("pt-BR", {
 										currency: "USD",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.insurance.brl.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.freight.brl.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.customs.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.siscomex.brl.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.ipi.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.pis.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.cofins.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.icms.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.tax.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.expensesTotalAmountByProduct.toLocaleString(
 										"pt-BR",
 										{
@@ -397,7 +408,13 @@ export default async function DeclarationSummary({
 									)}
 								</TableCell>
 
-								<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
+									{summary.costPrice.toLocaleString("pt-BR", {
+										currency: "BRL",
+										style: "currency",
+									})}
+								</TableCell>
+								<TableCell className="text-center border-x border-b border-gray-200 bg-gray-100 whitespace-nowrap">
 									{summary.finalAmount.toLocaleString("pt-BR", {
 										currency: "BRL",
 										style: "currency",

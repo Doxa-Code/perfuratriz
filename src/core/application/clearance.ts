@@ -191,6 +191,7 @@ export class Clearance {
 			ipi,
 			pis,
 			cofins,
+			costPrice: product.amount * this.invoice.quote,
 		};
 	}
 
@@ -231,6 +232,7 @@ export class Clearance {
 				finalAmount: taxCalculated.finalAmount,
 				icms: taxCalculated.icms,
 				tax: taxCalculated.tax,
+				costPrice: taxCalculated.costPrice,
 			};
 		});
 		const customs = products.reduce((sum, p) => sum + p.customs, 0);
@@ -244,7 +246,9 @@ export class Clearance {
 			(sum, p) => sum + p.expensesTotalAmount,
 			0,
 		);
+		const costPrice = products.reduce((sum, p) => sum + p.costPrice, 0);
 		return {
+			costPrice,
 			tax,
 			cofins,
 			pis,
