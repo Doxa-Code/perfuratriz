@@ -268,7 +268,11 @@ export class Clearance {
 			quantity: this.invoice.quantity,
 			amount: this.invoice.amount,
 			expensesTotalAmount: this.declaration.expenses.reduce(
-				(sum, expense) => sum + expense.amount,
+				(sum, expense) =>
+					sum +
+					(expense.expense.currency === "USD"
+						? expense.amount * this.declaration.quote
+						: expense.amount),
 				0,
 			),
 			expenses: this.declaration.expenses,

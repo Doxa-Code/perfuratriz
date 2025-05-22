@@ -435,7 +435,10 @@ export default async function DeclarationSummary({
 									Descrição
 								</TableHead>
 								<TableHead className="text-center font-semibold border whitespace-nowrap px-3">
-									Valor
+									USD
+								</TableHead>
+								<TableHead className="text-center font-semibold border whitespace-nowrap px-3">
+									BRL
 								</TableHead>
 							</TableRow>
 						</TableHeader>
@@ -449,21 +452,39 @@ export default async function DeclarationSummary({
 										{expense.expense.name}
 									</TableCell>
 									<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
-										{expense.amount.toLocaleString("pt-BR", {
-											currency: "USD",
-											style: "currency",
-										})}
+										{expense.expense.currency === "USD"
+											? expense.amount.toLocaleString("pt-BR", {
+													currency: "USD",
+													style: "currency",
+												})
+											: "US$ 0,00"}
+									</TableCell>
+									<TableCell className="text-center border-x border-b border-gray-200 whitespace-nowrap">
+										{expense.expense.currency === "BRL"
+											? expense.amount.toLocaleString("pt-BR", {
+													currency: "BRL",
+													style: "currency",
+												})
+											: (
+													expense.amount * summary.declarationQuote
+												).toLocaleString("pt-BR", {
+													currency: "BRL",
+													style: "currency",
+												})}
 									</TableCell>
 								</TableRow>
 							))}
 
 							<TableRow className="border-b border-gray-200 hover:bg-gray-50">
-								<TableCell className="border-x bg-gray-100 font-bold text-right border-b border-gray-200 whitespace-nowrap">
+								<TableCell
+									colSpan={2}
+									className="border-x bg-gray-100 font-bold text-right border-b border-gray-200 whitespace-nowrap"
+								>
 									Total
 								</TableCell>
 								<TableCell className="text-center bg-gray-100 font-bold border-x border-b border-gray-200 whitespace-nowrap">
 									{summary.expensesTotalAmount.toLocaleString("pt-BR", {
-										currency: "USD",
+										currency: "BRL",
 										style: "currency",
 									})}
 								</TableCell>
