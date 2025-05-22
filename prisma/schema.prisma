@@ -72,12 +72,14 @@ model Invoice {
 model InvoiceProduct {
   id String @id @default(uuid())
 
-  productId     String
-  productName   String @default("")
-  productWeight Float
-  productLength Float
-  productHeight Float
-  productWidth  Float
+  productId          String
+  productName        String @default("")
+  productTid         String @default("")
+  productDescription String @default("")
+  productWeight      Float
+  productLength      Float
+  productHeight      Float
+  productWidth       Float
 
   ncmCode   Float
   ncmCofins Float

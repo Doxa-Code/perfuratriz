@@ -164,6 +164,8 @@ exports.Prisma.InvoiceProductScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   productName: 'productName',
+  productTid: 'productTid',
+  productDescription: 'productDescription',
   productWeight: 'productWeight',
   productLength: 'productLength',
   productHeight: 'productHeight',

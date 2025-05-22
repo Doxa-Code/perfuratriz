@@ -6144,6 +6144,8 @@ export namespace Prisma {
     id: string | null
     productId: string | null
     productName: string | null
+    productTid: string | null
+    productDescription: string | null
     productWeight: number | null
     productLength: number | null
     productHeight: number | null
@@ -6163,6 +6165,8 @@ export namespace Prisma {
     id: string | null
     productId: string | null
     productName: string | null
+    productTid: string | null
+    productDescription: string | null
     productWeight: number | null
     productLength: number | null
     productHeight: number | null
@@ -6182,6 +6186,8 @@ export namespace Prisma {
     id: number
     productId: number
     productName: number
+    productTid: number
+    productDescription: number
     productWeight: number
     productLength: number
     productHeight: number
@@ -6233,6 +6239,8 @@ export namespace Prisma {
     id?: true
     productId?: true
     productName?: true
+    productTid?: true
+    productDescription?: true
     productWeight?: true
     productLength?: true
     productHeight?: true
@@ -6252,6 +6260,8 @@ export namespace Prisma {
     id?: true
     productId?: true
     productName?: true
+    productTid?: true
+    productDescription?: true
     productWeight?: true
     productLength?: true
     productHeight?: true
@@ -6271,6 +6281,8 @@ export namespace Prisma {
     id?: true
     productId?: true
     productName?: true
+    productTid?: true
+    productDescription?: true
     productWeight?: true
     productLength?: true
     productHeight?: true
@@ -6377,6 +6389,8 @@ export namespace Prisma {
     id: string
     productId: string
     productName: string
+    productTid: string
+    productDescription: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -6415,6 +6429,8 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     productName?: boolean
+    productTid?: boolean
+    productDescription?: boolean
     productWeight?: boolean
     productLength?: boolean
     productHeight?: boolean
@@ -6435,6 +6451,8 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     productName?: boolean
+    productTid?: boolean
+    productDescription?: boolean
     productWeight?: boolean
     productLength?: boolean
     productHeight?: boolean
@@ -6455,6 +6473,8 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     productName?: boolean
+    productTid?: boolean
+    productDescription?: boolean
     productWeight?: boolean
     productLength?: boolean
     productHeight?: boolean
@@ -6475,6 +6495,8 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     productName?: boolean
+    productTid?: boolean
+    productDescription?: boolean
     productWeight?: boolean
     productLength?: boolean
     productHeight?: boolean
@@ -6490,7 +6512,7 @@ export namespace Prisma {
     invoiceId?: boolean
   }
 
-  export type InvoiceProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "productName" | "productWeight" | "productLength" | "productHeight" | "productWidth" | "ncmCode" | "ncmCofins" | "ncmIcms" | "ncmIpi" | "ncmPis" | "ncmTax" | "quantity" | "amount" | "invoiceId", ExtArgs["result"]["invoiceProduct"]>
+  export type InvoiceProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "productName" | "productTid" | "productDescription" | "productWeight" | "productLength" | "productHeight" | "productWidth" | "ncmCode" | "ncmCofins" | "ncmIcms" | "ncmIpi" | "ncmPis" | "ncmTax" | "quantity" | "amount" | "invoiceId", ExtArgs["result"]["invoiceProduct"]>
   export type InvoiceProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
   }
@@ -6510,6 +6532,8 @@ export namespace Prisma {
       id: string
       productId: string
       productName: string
+      productTid: string
+      productDescription: string
       productWeight: number
       productLength: number
       productHeight: number
@@ -6950,6 +6974,8 @@ export namespace Prisma {
     readonly id: FieldRef<"InvoiceProduct", 'String'>
     readonly productId: FieldRef<"InvoiceProduct", 'String'>
     readonly productName: FieldRef<"InvoiceProduct", 'String'>
+    readonly productTid: FieldRef<"InvoiceProduct", 'String'>
+    readonly productDescription: FieldRef<"InvoiceProduct", 'String'>
     readonly productWeight: FieldRef<"InvoiceProduct", 'Float'>
     readonly productLength: FieldRef<"InvoiceProduct", 'Float'>
     readonly productHeight: FieldRef<"InvoiceProduct", 'Float'>
@@ -10708,6 +10734,8 @@ export namespace Prisma {
     id: 'id',
     productId: 'productId',
     productName: 'productName',
+    productTid: 'productTid',
+    productDescription: 'productDescription',
     productWeight: 'productWeight',
     productLength: 'productLength',
     productHeight: 'productHeight',
@@ -11153,6 +11181,8 @@ export namespace Prisma {
     id?: StringFilter<"InvoiceProduct"> | string
     productId?: StringFilter<"InvoiceProduct"> | string
     productName?: StringFilter<"InvoiceProduct"> | string
+    productTid?: StringFilter<"InvoiceProduct"> | string
+    productDescription?: StringFilter<"InvoiceProduct"> | string
     productWeight?: FloatFilter<"InvoiceProduct"> | number
     productLength?: FloatFilter<"InvoiceProduct"> | number
     productHeight?: FloatFilter<"InvoiceProduct"> | number
@@ -11173,6 +11203,8 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     productName?: SortOrder
+    productTid?: SortOrder
+    productDescription?: SortOrder
     productWeight?: SortOrder
     productLength?: SortOrder
     productHeight?: SortOrder
@@ -11196,6 +11228,8 @@ export namespace Prisma {
     NOT?: InvoiceProductWhereInput | InvoiceProductWhereInput[]
     productId?: StringFilter<"InvoiceProduct"> | string
     productName?: StringFilter<"InvoiceProduct"> | string
+    productTid?: StringFilter<"InvoiceProduct"> | string
+    productDescription?: StringFilter<"InvoiceProduct"> | string
     productWeight?: FloatFilter<"InvoiceProduct"> | number
     productLength?: FloatFilter<"InvoiceProduct"> | number
     productHeight?: FloatFilter<"InvoiceProduct"> | number
@@ -11216,6 +11250,8 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     productName?: SortOrder
+    productTid?: SortOrder
+    productDescription?: SortOrder
     productWeight?: SortOrder
     productLength?: SortOrder
     productHeight?: SortOrder
@@ -11243,6 +11279,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"InvoiceProduct"> | string
     productId?: StringWithAggregatesFilter<"InvoiceProduct"> | string
     productName?: StringWithAggregatesFilter<"InvoiceProduct"> | string
+    productTid?: StringWithAggregatesFilter<"InvoiceProduct"> | string
+    productDescription?: StringWithAggregatesFilter<"InvoiceProduct"> | string
     productWeight?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
     productLength?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
     productHeight?: FloatWithAggregatesFilter<"InvoiceProduct"> | number
@@ -11742,6 +11780,8 @@ export namespace Prisma {
     id?: string
     productId: string
     productName?: string
+    productTid?: string
+    productDescription?: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -11761,6 +11801,8 @@ export namespace Prisma {
     id?: string
     productId: string
     productName?: string
+    productTid?: string
+    productDescription?: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -11780,6 +11822,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
@@ -11799,6 +11843,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
@@ -11818,6 +11864,8 @@ export namespace Prisma {
     id?: string
     productId: string
     productName?: string
+    productTid?: string
+    productDescription?: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -11837,6 +11885,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
@@ -11855,6 +11905,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
@@ -12376,6 +12428,8 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     productName?: SortOrder
+    productTid?: SortOrder
+    productDescription?: SortOrder
     productWeight?: SortOrder
     productLength?: SortOrder
     productHeight?: SortOrder
@@ -12410,6 +12464,8 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     productName?: SortOrder
+    productTid?: SortOrder
+    productDescription?: SortOrder
     productWeight?: SortOrder
     productLength?: SortOrder
     productHeight?: SortOrder
@@ -12429,6 +12485,8 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     productName?: SortOrder
+    productTid?: SortOrder
+    productDescription?: SortOrder
     productWeight?: SortOrder
     productLength?: SortOrder
     productHeight?: SortOrder
@@ -13158,6 +13216,8 @@ export namespace Prisma {
     id?: string
     productId: string
     productName?: string
+    productTid?: string
+    productDescription?: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -13176,6 +13236,8 @@ export namespace Prisma {
     id?: string
     productId: string
     productName?: string
+    productTid?: string
+    productDescription?: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -13244,6 +13306,8 @@ export namespace Prisma {
     id?: StringFilter<"InvoiceProduct"> | string
     productId?: StringFilter<"InvoiceProduct"> | string
     productName?: StringFilter<"InvoiceProduct"> | string
+    productTid?: StringFilter<"InvoiceProduct"> | string
+    productDescription?: StringFilter<"InvoiceProduct"> | string
     productWeight?: FloatFilter<"InvoiceProduct"> | number
     productLength?: FloatFilter<"InvoiceProduct"> | number
     productHeight?: FloatFilter<"InvoiceProduct"> | number
@@ -13494,6 +13558,8 @@ export namespace Prisma {
     id?: string
     productId: string
     productName?: string
+    productTid?: string
+    productDescription?: string
     productWeight: number
     productLength: number
     productHeight: number
@@ -13512,6 +13578,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
@@ -13530,6 +13598,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
@@ -13548,6 +13618,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    productTid?: StringFieldUpdateOperationsInput | string
+    productDescription?: StringFieldUpdateOperationsInput | string
     productWeight?: FloatFieldUpdateOperationsInput | number
     productLength?: FloatFieldUpdateOperationsInput | number
     productHeight?: FloatFieldUpdateOperationsInput | number
