@@ -28,12 +28,14 @@ model NCM {
 }
 
 model Product {
-  id     String @id @default(uuid())
-  name   String @default("")
-  weight Float
-  length Float
-  height Float
-  width  Float
+  id          String @id @default(uuid())
+  name        String @default("")
+  tid         String @default("")
+  description String @default("")
+  weight      Float
+  length      Float
+  height      Float
+  width       Float
 
   ncm   ProductNCM @relation(fields: [ncmId], references: [id], onDelete: Cascade)
   ncmId String     @unique
@@ -70,12 +72,14 @@ model Invoice {
 model InvoiceProduct {
   id String @id @default(uuid())
 
-  productId     String
-  productName   String @default("")
-  productWeight Float
-  productLength Float
-  productHeight Float
-  productWidth  Float
+  productId          String
+  productName        String @default("")
+  productTid         String @default("")
+  productDescription String @default("")
+  productWeight      Float
+  productLength      Float
+  productHeight      Float
+  productWidth       Float
 
   ncmCode   Float
   ncmCofins Float
