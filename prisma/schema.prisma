@@ -30,6 +30,7 @@ model NCM {
 model Product {
   id     String @id @default(uuid())
   name   String @default("")
+  tid    String @default("")
   weight Float
   length Float
   height Float

@@ -2701,6 +2701,7 @@ export namespace Prisma {
   export type ProductMinAggregateOutputType = {
     id: string | null
     name: string | null
+    tid: string | null
     weight: number | null
     length: number | null
     height: number | null
@@ -2711,6 +2712,7 @@ export namespace Prisma {
   export type ProductMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    tid: string | null
     weight: number | null
     length: number | null
     height: number | null
@@ -2721,6 +2723,7 @@ export namespace Prisma {
   export type ProductCountAggregateOutputType = {
     id: number
     name: number
+    tid: number
     weight: number
     length: number
     height: number
@@ -2747,6 +2750,7 @@ export namespace Prisma {
   export type ProductMinAggregateInputType = {
     id?: true
     name?: true
+    tid?: true
     weight?: true
     length?: true
     height?: true
@@ -2757,6 +2761,7 @@ export namespace Prisma {
   export type ProductMaxAggregateInputType = {
     id?: true
     name?: true
+    tid?: true
     weight?: true
     length?: true
     height?: true
@@ -2767,6 +2772,7 @@ export namespace Prisma {
   export type ProductCountAggregateInputType = {
     id?: true
     name?: true
+    tid?: true
     weight?: true
     length?: true
     height?: true
@@ -2864,6 +2870,7 @@ export namespace Prisma {
   export type ProductGroupByOutputType = {
     id: string
     name: string
+    tid: string
     weight: number
     length: number
     height: number
@@ -2893,6 +2900,7 @@ export namespace Prisma {
   export type ProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    tid?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2904,6 +2912,7 @@ export namespace Prisma {
   export type ProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    tid?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2915,6 +2924,7 @@ export namespace Prisma {
   export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    tid?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2926,6 +2936,7 @@ export namespace Prisma {
   export type ProductSelectScalar = {
     id?: boolean
     name?: boolean
+    tid?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2933,7 +2944,7 @@ export namespace Prisma {
     ncmId?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "weight" | "length" | "height" | "width" | "ncmId", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "tid" | "weight" | "length" | "height" | "width" | "ncmId", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ncm?: boolean | ProductNCMDefaultArgs<ExtArgs>
   }
@@ -2952,6 +2963,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      tid: string
       weight: number
       length: number
       height: number
@@ -3383,6 +3395,7 @@ export namespace Prisma {
   interface ProductFieldRefs {
     readonly id: FieldRef<"Product", 'String'>
     readonly name: FieldRef<"Product", 'String'>
+    readonly tid: FieldRef<"Product", 'String'>
     readonly weight: FieldRef<"Product", 'Float'>
     readonly length: FieldRef<"Product", 'Float'>
     readonly height: FieldRef<"Product", 'Float'>
@@ -10642,6 +10655,7 @@ export namespace Prisma {
   export const ProductScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    tid: 'tid',
     weight: 'weight',
     length: 'length',
     height: 'height',
@@ -10920,6 +10934,7 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     id?: StringFilter<"Product"> | string
     name?: StringFilter<"Product"> | string
+    tid?: StringFilter<"Product"> | string
     weight?: FloatFilter<"Product"> | number
     length?: FloatFilter<"Product"> | number
     height?: FloatFilter<"Product"> | number
@@ -10931,6 +10946,7 @@ export namespace Prisma {
   export type ProductOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    tid?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -10946,6 +10962,7 @@ export namespace Prisma {
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
     name?: StringFilter<"Product"> | string
+    tid?: StringFilter<"Product"> | string
     weight?: FloatFilter<"Product"> | number
     length?: FloatFilter<"Product"> | number
     height?: FloatFilter<"Product"> | number
@@ -10956,6 +10973,7 @@ export namespace Prisma {
   export type ProductOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    tid?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -10974,6 +10992,7 @@ export namespace Prisma {
     NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Product"> | string
     name?: StringWithAggregatesFilter<"Product"> | string
+    tid?: StringWithAggregatesFilter<"Product"> | string
     weight?: FloatWithAggregatesFilter<"Product"> | number
     length?: FloatWithAggregatesFilter<"Product"> | number
     height?: FloatWithAggregatesFilter<"Product"> | number
@@ -11482,6 +11501,7 @@ export namespace Prisma {
   export type ProductCreateInput = {
     id?: string
     name?: string
+    tid?: string
     weight: number
     length: number
     height: number
@@ -11492,6 +11512,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateInput = {
     id?: string
     name?: string
+    tid?: string
     weight: number
     length: number
     height: number
@@ -11502,6 +11523,7 @@ export namespace Prisma {
   export type ProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tid?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -11512,6 +11534,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tid?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -11522,6 +11545,7 @@ export namespace Prisma {
   export type ProductCreateManyInput = {
     id?: string
     name?: string
+    tid?: string
     weight: number
     length: number
     height: number
@@ -11532,6 +11556,7 @@ export namespace Prisma {
   export type ProductUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tid?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -11541,6 +11566,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tid?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -12132,6 +12158,7 @@ export namespace Prisma {
   export type ProductCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    tid?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -12149,6 +12176,7 @@ export namespace Prisma {
   export type ProductMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    tid?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -12159,6 +12187,7 @@ export namespace Prisma {
   export type ProductMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    tid?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -13039,6 +13068,7 @@ export namespace Prisma {
   export type ProductCreateWithoutNcmInput = {
     id?: string
     name?: string
+    tid?: string
     weight: number
     length: number
     height: number
@@ -13048,6 +13078,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutNcmInput = {
     id?: string
     name?: string
+    tid?: string
     weight: number
     length: number
     height: number
@@ -13073,6 +13104,7 @@ export namespace Prisma {
   export type ProductUpdateWithoutNcmInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tid?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -13082,6 +13114,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutNcmInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    tid?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
