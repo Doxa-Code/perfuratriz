@@ -38,6 +38,7 @@ export class ProductDatabaseRepository implements ProductRepository {
 			weight: response.weight,
 			width: response.width,
 			tid: response.tid,
+			description: response.description,
 		});
 	}
 
@@ -52,6 +53,7 @@ export class ProductDatabaseRepository implements ProductRepository {
 				id: product.id,
 				name: product.name,
 				tid: product.tid,
+				description: product.description,
 				ncm: {
 					create: {
 						ncmId: product.ncm.id,
@@ -88,6 +90,7 @@ export class ProductDatabaseRepository implements ProductRepository {
 					weight: product.weight,
 					width: product.width,
 					id: product.id,
+					description: product.description,
 					name: product.name,
 					tid: product.tid,
 					ncm: {
@@ -140,6 +143,7 @@ export class ProductDatabaseRepository implements ProductRepository {
 				weight: product.weight,
 				width: product.width,
 				tid: product.tid,
+				description: product.description,
 			});
 		});
 	}

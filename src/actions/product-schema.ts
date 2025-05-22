@@ -5,6 +5,7 @@ export const createProductInputSchema = z.object({
 	name: z.string(),
 	ncm: z.string(),
 	tid: z.string(),
+	description: z.string(),
 	weight: z
 		.string()
 		.transform((value) => Number.parseFloat(value.replace(",", "."))),
@@ -32,6 +33,7 @@ export const ProductSchema = z.object({
 		tax: z.number(),
 	}),
 	tid: z.string(),
+	description: z.string(),
 	weight: z.number(),
 	length: z.number(),
 	height: z.number(),

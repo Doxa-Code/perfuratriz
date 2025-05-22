@@ -5,6 +5,7 @@ export namespace Product {
 		tid: string;
 		id: string;
 		name: string;
+		description: string;
 		ncm: ProductNCM;
 		weight: number;
 		length: number;
@@ -14,6 +15,7 @@ export namespace Product {
 	export interface CreateProps {
 		tid: string;
 		name: string;
+		description: string;
 		ncm: {
 			id: string;
 			code: number;
@@ -34,6 +36,7 @@ export class Product {
 	public id: string;
 	public tid: string;
 	public name: string;
+	public description: string;
 	public ncm: ProductNCM;
 	public weight: number;
 	public length: number;
@@ -43,6 +46,7 @@ export class Product {
 		this.id = props.id;
 		this.tid = props.tid;
 		this.name = props.name;
+		this.description = props.description;
 		this.ncm = props.ncm;
 		this.weight = props.weight;
 		this.length = props.length;
@@ -69,6 +73,7 @@ export class Product {
 			ncm: ProductNCM.create(props.ncm),
 			weight: props.weight,
 			width: props.width,
+			description: props.description,
 		});
 	}
 }

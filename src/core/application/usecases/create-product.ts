@@ -31,6 +31,7 @@ export class CreateProduct {
 			weight: input.weight,
 			width: input.width,
 			tid: input.tid,
+			description: input.description,
 		});
 
 		await this.productRepository.save(product);
@@ -54,4 +55,5 @@ type InputDTO = {
 	height: number;
 	width: number;
 	tid: string;
+	description: string;
 };

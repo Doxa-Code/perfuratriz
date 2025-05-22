@@ -50,6 +50,14 @@ const columns: ColumnDef<Product.Props>[] = [
 		size: 180,
 	},
 	{
+		header: "Descrição",
+		accessorKey: "description",
+		cell: ({ row }) => (
+			<div className="font-medium">{row.getValue("description")}</div>
+		),
+		size: 180,
+	},
+	{
 		header: "Código do NCM",
 		accessorKey: "ncm",
 		cell: ({ row }) => (

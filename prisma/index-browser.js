@@ -134,6 +134,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
   tid: 'tid',
+  description: 'description',
   weight: 'weight',
   length: 'length',
   height: 'height',

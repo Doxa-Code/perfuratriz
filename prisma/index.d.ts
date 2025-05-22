@@ -2702,6 +2702,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     tid: string | null
+    description: string | null
     weight: number | null
     length: number | null
     height: number | null
@@ -2713,6 +2714,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     tid: string | null
+    description: string | null
     weight: number | null
     length: number | null
     height: number | null
@@ -2724,6 +2726,7 @@ export namespace Prisma {
     id: number
     name: number
     tid: number
+    description: number
     weight: number
     length: number
     height: number
@@ -2751,6 +2754,7 @@ export namespace Prisma {
     id?: true
     name?: true
     tid?: true
+    description?: true
     weight?: true
     length?: true
     height?: true
@@ -2762,6 +2766,7 @@ export namespace Prisma {
     id?: true
     name?: true
     tid?: true
+    description?: true
     weight?: true
     length?: true
     height?: true
@@ -2773,6 +2778,7 @@ export namespace Prisma {
     id?: true
     name?: true
     tid?: true
+    description?: true
     weight?: true
     length?: true
     height?: true
@@ -2871,6 +2877,7 @@ export namespace Prisma {
     id: string
     name: string
     tid: string
+    description: string
     weight: number
     length: number
     height: number
@@ -2901,6 +2908,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     tid?: boolean
+    description?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2913,6 +2921,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     tid?: boolean
+    description?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2925,6 +2934,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     tid?: boolean
+    description?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2937,6 +2947,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     tid?: boolean
+    description?: boolean
     weight?: boolean
     length?: boolean
     height?: boolean
@@ -2944,7 +2955,7 @@ export namespace Prisma {
     ncmId?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "tid" | "weight" | "length" | "height" | "width" | "ncmId", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "tid" | "description" | "weight" | "length" | "height" | "width" | "ncmId", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ncm?: boolean | ProductNCMDefaultArgs<ExtArgs>
   }
@@ -2964,6 +2975,7 @@ export namespace Prisma {
       id: string
       name: string
       tid: string
+      description: string
       weight: number
       length: number
       height: number
@@ -3396,6 +3408,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Product", 'String'>
     readonly name: FieldRef<"Product", 'String'>
     readonly tid: FieldRef<"Product", 'String'>
+    readonly description: FieldRef<"Product", 'String'>
     readonly weight: FieldRef<"Product", 'Float'>
     readonly length: FieldRef<"Product", 'Float'>
     readonly height: FieldRef<"Product", 'Float'>
@@ -10656,6 +10669,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     tid: 'tid',
+    description: 'description',
     weight: 'weight',
     length: 'length',
     height: 'height',
@@ -10935,6 +10949,7 @@ export namespace Prisma {
     id?: StringFilter<"Product"> | string
     name?: StringFilter<"Product"> | string
     tid?: StringFilter<"Product"> | string
+    description?: StringFilter<"Product"> | string
     weight?: FloatFilter<"Product"> | number
     length?: FloatFilter<"Product"> | number
     height?: FloatFilter<"Product"> | number
@@ -10947,6 +10962,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     tid?: SortOrder
+    description?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -10963,6 +10979,7 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     name?: StringFilter<"Product"> | string
     tid?: StringFilter<"Product"> | string
+    description?: StringFilter<"Product"> | string
     weight?: FloatFilter<"Product"> | number
     length?: FloatFilter<"Product"> | number
     height?: FloatFilter<"Product"> | number
@@ -10974,6 +10991,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     tid?: SortOrder
+    description?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -10993,6 +11011,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Product"> | string
     name?: StringWithAggregatesFilter<"Product"> | string
     tid?: StringWithAggregatesFilter<"Product"> | string
+    description?: StringWithAggregatesFilter<"Product"> | string
     weight?: FloatWithAggregatesFilter<"Product"> | number
     length?: FloatWithAggregatesFilter<"Product"> | number
     height?: FloatWithAggregatesFilter<"Product"> | number
@@ -11502,6 +11521,7 @@ export namespace Prisma {
     id?: string
     name?: string
     tid?: string
+    description?: string
     weight: number
     length: number
     height: number
@@ -11513,6 +11533,7 @@ export namespace Prisma {
     id?: string
     name?: string
     tid?: string
+    description?: string
     weight: number
     length: number
     height: number
@@ -11524,6 +11545,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tid?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -11535,6 +11557,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tid?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -11546,6 +11569,7 @@ export namespace Prisma {
     id?: string
     name?: string
     tid?: string
+    description?: string
     weight: number
     length: number
     height: number
@@ -11557,6 +11581,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tid?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -11567,6 +11592,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tid?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -12159,6 +12185,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     tid?: SortOrder
+    description?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -12177,6 +12204,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     tid?: SortOrder
+    description?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -12188,6 +12216,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     tid?: SortOrder
+    description?: SortOrder
     weight?: SortOrder
     length?: SortOrder
     height?: SortOrder
@@ -13069,6 +13098,7 @@ export namespace Prisma {
     id?: string
     name?: string
     tid?: string
+    description?: string
     weight: number
     length: number
     height: number
@@ -13079,6 +13109,7 @@ export namespace Prisma {
     id?: string
     name?: string
     tid?: string
+    description?: string
     weight: number
     length: number
     height: number
@@ -13105,6 +13136,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tid?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number
@@ -13115,6 +13147,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     tid?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     weight?: FloatFieldUpdateOperationsInput | number
     length?: FloatFieldUpdateOperationsInput | number
     height?: FloatFieldUpdateOperationsInput | number

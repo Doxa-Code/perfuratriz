@@ -39,6 +39,7 @@ import {
 	FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
 	name: z.string({ message: "Campo obrigatório" }),
@@ -48,6 +49,7 @@ const formSchema = z.object({
 	height: z.string({ message: "Campo obrigatório" }),
 	width: z.string({ message: "Campo obrigatório" }),
 	tid: z.string({ message: "Campo obrigatório" }),
+	description: z.string({ message: "Campo obrigatório" }),
 });
 
 type Props = {
@@ -80,6 +82,7 @@ export function ModalCreateProduct(props: Props) {
 				height: register.height.toFixed(2),
 				width: register.width.toFixed(2),
 				tid: register.tid,
+				description: register.description,
 			});
 		} else {
 			form.reset({
@@ -90,6 +93,7 @@ export function ModalCreateProduct(props: Props) {
 				height: "",
 				width: "",
 				tid: "",
+				description: "",
 			});
 		}
 	}, [isOpen, register, form.reset]);
@@ -139,6 +143,19 @@ export function ModalCreateProduct(props: Props) {
 										<FormLabel>Nome do produto</FormLabel>
 										<FormControl>
 											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="description"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Descrição</FormLabel>
+										<FormControl>
+											<Textarea {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
