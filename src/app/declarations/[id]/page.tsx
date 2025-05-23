@@ -11,8 +11,8 @@ import {
 import { Clearance } from "@/core/application/clearance";
 import { Declaration } from "@/core/domain/entities/declaration";
 import { Invoice } from "@/core/domain/entities/invoice";
+import { InvoiceProduct } from "@/core/domain/entities/invoice-product";
 import { Product } from "@/core/domain/entities/product";
-import { InvoiceProduct } from "@/core/domain/value-objects/invoice-product";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -31,7 +31,6 @@ export default async function DeclarationSummary({
 		Declaration.instance({
 			...declaration,
 			invoice: Invoice.instance({
-				isVinculated: false,
 				createdAt: declaration.invoice.createdAt,
 				id: declaration.invoice.id,
 				products: declaration.invoice.products.map((p) =>
@@ -145,12 +144,9 @@ export default async function DeclarationSummary({
 						})}
 					</div>
 					<div className="bg-gray-500 text-white font-semibold uppercase px-2 py-1">
-						Peso de Custo
-					</div>
-					<div className="bg-gray-500 text-white font-semibold uppercase px-2 py-1">
 						Peso Líquido
 					</div>
-					<div className="border border-gray-200 px-2 py-1">
+					<div className="border border-gray-200 px-2 py-1 text-right">
 						{summary.weight?.toLocaleString("pt-BR", {
 							style: "decimal",
 							minimumFractionDigits: 2,

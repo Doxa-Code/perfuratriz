@@ -183,55 +183,75 @@ exports.Prisma.ExpenseScalarFieldEnum = {
 };
 
 exports.Prisma.DeclarationScalarFieldEnum = {
+  declarationId: 'declarationId',
   id: 'id',
   registration: 'registration',
   quote: 'quote',
   createdAt: 'createdAt',
-  invoiceId: 'invoiceId',
   event: 'event',
   enable: 'enable',
   registeredAt: 'registeredAt'
 };
 
 exports.Prisma.DeclarationExpenseScalarFieldEnum = {
+  declarationExpenseId: 'declarationExpenseId',
+  declaration: 'declaration',
   id: 'id',
-  declarationId: 'declarationId',
   name: 'name',
   useICMSBase: 'useICMSBase',
   useCustomsBase: 'useCustomsBase',
   allocationMethod: 'allocationMethod',
   currency: 'currency',
-  amount: 'amount'
+  amount: 'amount',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.DeclarationInvoiceScalarFieldEnum = {
+  declarationInvoiceId: 'declarationInvoiceId',
+  declaration: 'declaration',
   id: 'id',
   registration: 'registration',
   createdAt: 'createdAt',
-  quote: 'quote'
+  quote: 'quote',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.DeclarationInvoiceProductScalarFieldEnum = {
+  declarationInvoiceProductId: 'declarationInvoiceProductId',
+  invoice: 'invoice',
   id: 'id',
-  invoiceId: 'invoiceId',
+  productId: 'productId',
   name: 'name',
   tid: 'tid',
   description: 'description',
   weight: 'weight',
   length: 'length',
   height: 'height',
-  width: 'width'
+  width: 'width',
+  amount: 'amount',
+  quantity: 'quantity',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.DeclarationInvoiceProductNCMScalarFieldEnum = {
+  declarationInvoiceProductNCMId: 'declarationInvoiceProductNCMId',
+  product: 'product',
   id: 'id',
-  productId: 'productId',
   code: 'code',
   tax: 'tax',
   icms: 'icms',
   pis: 'pis',
   cofins: 'cofins',
-  ipi: 'ipi'
+  ipi: 'ipi',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.SortOrder = {

@@ -110,14 +110,12 @@ enum Currency {
 }
 
 model Declaration {
-  id           String              @id @default(uuid())
-  registration String
-  quote        Float
-  createdAt    DateTime            @default(now())
-  invoice      DeclarationInvoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  invoiceId    String              @unique
+  declarationId String @id @default(uuid())
 
-  expenses DeclarationExpense[]
+  id           String
+  registration String
+  quote        Int
+  createdAt    DateTime @default(now())
 
   event        Events   @default(CREATED)
   enable       Boolean  @default(false)
@@ -127,62 +125,83 @@ model Declaration {
 }
 
 model DeclarationExpense {
-  id            String      @id @default(uuid())
-  declarationId String
-  declaration   Declaration @relation(fields: [declarationId], references: [id], onDelete: Cascade)
+  declarationExpenseId String @id @default(uuid())
 
+  declaration String
+
+  id               String
   name             String
   useICMSBase      Boolean          @default(false)
   useCustomsBase   Boolean          @default(false)
   allocationMethod AllocationMethod
   currency         Currency
 
-  amount Float @default(0)
+  amount Int @default(0)
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("declaration_expenses")
 }
 
 model DeclarationInvoice {
-  id           String   @id @default(uuid())
+  declarationInvoiceId String @id @default(uuid())
+
+  declaration String
+
+  id           String
   registration String
   createdAt    DateTime @default(now())
-  quote        Float
+  quote        Int
 
-  declaration Declaration?
-  products    DeclarationInvoiceProduct[]
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("declaration_invoices")
 }
 
 model DeclarationInvoiceProduct {
-  id        String             @id @default(uuid())
-  invoiceId String
-  invoice   DeclarationInvoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  declarationInvoiceProductId String @id @default(uuid())
 
+  invoice String
+
+  id          String
+  productId   String
   name        String @default("")
   tid         String @default("")
   description String @default("")
-  weight      Float
-  length      Float
-  height      Float
-  width       Float
+  weight      Int
+  length      Int
+  height      Int
+  width       Int
+  amount      Int
+  quantity    Int
 
-  ncms DeclarationInvoiceProductNCM[]
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("declaration_invoice_products")
 }
 
 model DeclarationInvoiceProductNCM {
-  id        String                    @id @default(uuid())
-  productId String
-  product   DeclarationInvoiceProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  declarationInvoiceProductNCMId String @id @default(uuid())
 
-  code   Float
-  tax    Float
-  icms   Float
-  pis    Float
-  cofins Float
-  ipi    Float
+  product String
+
+  id     String
+  code   Int
+  tax    Int
+  icms   Int
+  pis    Int
+  cofins Int
+  ipi    Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("declaration_invoice_product_ncms")
 }
