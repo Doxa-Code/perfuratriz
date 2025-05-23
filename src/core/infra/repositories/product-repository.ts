@@ -1,3 +1,4 @@
+import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper";
 import { Product } from "@/core/domain/entities/product";
 import { ProductNCM } from "@/core/domain/value-objects/product-ncm";
 import { PrismaClient } from "../../../../prisma";
@@ -14,31 +15,38 @@ export class ProductDatabaseRepository implements ProductRepository {
 
 	async retrieve(id: string) {
 		await this.database.$connect();
-		const response = await this.database.product.findFirst({
-			where: {
-				id,
-			},
-			include: {
-				ncm: true,
-			},
-		});
+		const product = await this.database.$queryRaw<Product>`
+			SELECT 
+				products.*,
+				to_jsonb(ncms) AS ncm
+			FROM products
+			LEFT JOIN ncms 
+			ON products."ncmId" = ncms."id" AND ncms."enable" = true
+      WHERE products."enable" = true AND products."id" = '${id}'
+		`;
+
 		await this.database.$disconnect();
 
-		if (!response) return null;
+		if (!product) return null;
 
 		return Product.instance({
-			height: response.height,
-			id: response.id,
-			length: response.length,
-			name: response.name,
+			id: product.id,
+			tid: product.tid,
+			name: product.name,
+			description: product.description,
+			height: FormatFloatNumberHelper.format(product.height),
+			length: FormatFloatNumberHelper.format(product.length),
+			weight: FormatFloatNumberHelper.format(product.weight),
+			width: FormatFloatNumberHelper.format(product.width),
 			ncm: ProductNCM.create({
-				...response.ncm,
-				id: response.ncm.ncmId,
+				code: product.ncm.code,
+				cofins: FormatFloatNumberHelper.format(product.ncm.cofins),
+				icms: FormatFloatNumberHelper.format(product.ncm.icms),
+				id: product.ncm.id,
+				ipi: FormatFloatNumberHelper.format(product.ncm.ipi),
+				pis: FormatFloatNumberHelper.format(product.ncm.pis),
+				tax: FormatFloatNumberHelper.format(product.ncm.tax),
 			}),
-			weight: response.weight,
-			width: response.width,
-			tid: response.tid,
-			description: response.description,
 		});
 	}
 
@@ -46,74 +54,69 @@ export class ProductDatabaseRepository implements ProductRepository {
 		await this.database.$connect();
 		await this.database.product.create({
 			data: {
-				height: product.height,
-				length: product.length,
-				weight: product.weight,
-				width: product.width,
+				height: FormatFloatNumberHelper.toPersist(product.height),
+				length: FormatFloatNumberHelper.toPersist(product.length),
+				weight: FormatFloatNumberHelper.toPersist(product.weight),
+				width: FormatFloatNumberHelper.toPersist(product.width),
 				id: product.id,
 				name: product.name,
 				tid: product.tid,
 				description: product.description,
-				ncm: {
-					create: {
-						ncmId: product.ncm.id,
-						code: product.ncm.code,
-						cofins: product.ncm.cofins,
-						icms: product.ncm.icms,
-						ipi: product.ncm.ipi,
-						pis: product.ncm.pis,
-						tax: product.ncm.tax,
-					},
-				},
+				ncmId: product.ncm.id,
+				enable: true,
+				event: "CREATED",
 			},
 		});
 		await this.database.$disconnect();
 	}
 
-	async update(product: Product) {
-		await this.database.$connect();
-		const productsNCM = await this.database.productNCM.findMany({
-			where: {
-				product: {
-					id: product.id,
-				},
+	private disable(productId?: string) {
+		return this.database.product.update({
+			data: {
+				enable: false,
 			},
-			select: {
-				id: true,
+			where: {
+				productId,
 			},
 		});
+	}
+
+	private async findActive(id: string) {
+		return await this.database.product.findFirst({
+			where: {
+				AND: [
+					{
+						id,
+					},
+					{
+						enable: true,
+					},
+				],
+			},
+		});
+	}
+
+	async update(product: Product) {
+		await this.database.$connect();
+		const productActive = await this.findActive(product.id);
+
+		if (!productActive) return await this.database.$disconnect();
+
 		await this.database.$transaction([
-			this.database.product.update({
+			this.disable(productActive.productId),
+			this.database.product.create({
 				data: {
-					height: product.height,
-					length: product.length,
-					weight: product.weight,
-					width: product.width,
+					height: FormatFloatNumberHelper.toPersist(product.height),
+					length: FormatFloatNumberHelper.toPersist(product.length),
+					weight: FormatFloatNumberHelper.toPersist(product.weight),
+					width: FormatFloatNumberHelper.toPersist(product.width),
 					id: product.id,
 					description: product.description,
 					name: product.name,
 					tid: product.tid,
-					ncm: {
-						create: {
-							ncmId: product.ncm.id,
-							code: product.ncm.code,
-							cofins: product.ncm.cofins,
-							icms: product.ncm.icms,
-							ipi: product.ncm.ipi,
-							pis: product.ncm.pis,
-							tax: product.ncm.tax,
-						},
-					},
-				},
-				where: {
-					id: product.id,
-				},
-			}),
-			this.database.productNCM.deleteMany({
-				where: {
-					id: {
-						in: productsNCM.map((p) => p.id),
-					},
+					ncmId: product.ncm.id,
+					enable: true,
+					event: "UPDATED",
 				},
 			}),
 		]);
@@ -122,53 +125,64 @@ export class ProductDatabaseRepository implements ProductRepository {
 
 	async list(): Promise<Product[]> {
 		await this.database.$connect();
-		const response = await this.database.product.findMany({
-			include: {
-				ncm: true,
-			},
-		});
+
+		const response = await this.database.$queryRaw<Product[]>`
+			SELECT 
+				products.*,
+				to_jsonb(ncms) AS ncm
+			FROM products
+			LEFT JOIN ncms 
+			ON products."ncmId" = ncms."id" AND ncms."enable" = true
+      WHERE products."enable" = true
+		`;
 
 		await this.database.$disconnect();
 
-		return response.map((product) => {
-			return Product.instance({
-				height: product.height,
-				length: product.length,
-				name: product.name,
-				ncm: ProductNCM.create({
-					...product.ncm,
-					id: product.ncm.ncmId,
-				}),
+		return response.map((product) =>
+			Product.instance({
 				id: product.id,
-				weight: product.weight,
-				width: product.width,
 				tid: product.tid,
+				name: product.name,
 				description: product.description,
-			});
-		});
+				height: FormatFloatNumberHelper.format(product.height),
+				length: FormatFloatNumberHelper.format(product.length),
+				weight: FormatFloatNumberHelper.format(product.weight),
+				width: FormatFloatNumberHelper.format(product.width),
+				ncm: ProductNCM.create({
+					code: product.ncm.code,
+					cofins: FormatFloatNumberHelper.format(product.ncm.cofins),
+					icms: FormatFloatNumberHelper.format(product.ncm.icms),
+					id: product.ncm.id,
+					ipi: FormatFloatNumberHelper.format(product.ncm.ipi),
+					pis: FormatFloatNumberHelper.format(product.ncm.pis),
+					tax: FormatFloatNumberHelper.format(product.ncm.tax),
+				}),
+			}),
+		);
 	}
 
 	async remove(id: string): Promise<void> {
 		await this.database.$connect();
-		const productsNCM = await this.database.productNCM.findMany({
-			where: {
-				product: {
-					id,
-				},
-			},
-			select: {
-				id: true,
-			},
-		});
+
+		const productActive = await this.findActive(id);
+
+		if (!productActive) return await this.database.$disconnect();
+
 		await this.database.$transaction([
-			this.database.product.delete({
-				where: { id },
-			}),
-			this.database.productNCM.deleteMany({
-				where: {
-					id: {
-						in: productsNCM.map((p) => p.id),
-					},
+			this.disable(productActive.productId),
+			this.database.product.create({
+				data: {
+					height: FormatFloatNumberHelper.toPersist(productActive.height),
+					length: FormatFloatNumberHelper.toPersist(productActive.length),
+					weight: FormatFloatNumberHelper.toPersist(productActive.weight),
+					width: FormatFloatNumberHelper.toPersist(productActive.width),
+					id: productActive.id,
+					description: productActive.description,
+					name: productActive.name,
+					tid: productActive.tid,
+					ncmId: productActive.ncmId,
+					enable: false,
+					event: "DELETED",
 				},
 			}),
 		]);

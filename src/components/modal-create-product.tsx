@@ -77,10 +77,10 @@ export function ModalCreateProduct(props: Props) {
 			form.reset({
 				name: register.name,
 				ncm: register.ncm.id,
-				weight: register.weight.toFixed(2),
-				length: register.length.toFixed(2),
-				height: register.height.toFixed(2),
-				width: register.width.toFixed(2),
+				weight: register.weight.toFixed(2).replace(".", ","),
+				length: register.length.toFixed(2).replace(".", ","),
+				height: register.height.toFixed(2).replace(".", ","),
+				width: register.width.toFixed(2).replace(".", ","),
 				tid: register.tid,
 				description: register.description,
 			});
