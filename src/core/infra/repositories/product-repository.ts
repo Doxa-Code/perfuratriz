@@ -15,14 +15,15 @@ export class ProductDatabaseRepository implements ProductRepository {
 
 	async retrieve(id: string) {
 		await this.database.$connect();
-		const product = await this.database.$queryRaw<Product>`
+
+		const [product] = await this.database.$queryRaw<Product[]>`
 			SELECT 
 				products.*,
 				to_jsonb(ncms) AS ncm
 			FROM products
 			LEFT JOIN ncms 
 			ON products."ncmId" = ncms."id" AND ncms."enable" = true
-      WHERE products."enable" = true AND products."id" = '${id}'
+      WHERE products."enable" = true AND products."id" = ${id}
 		`;
 
 		await this.database.$disconnect();

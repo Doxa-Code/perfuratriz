@@ -156,7 +156,18 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   registration: 'registration',
   createdAt: 'createdAt',
   quote: 'quote',
-  products: 'products',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
+};
+
+exports.Prisma.InvoiceProductScalarFieldEnum = {
+  invoiceProductId: 'invoiceProductId',
+  id: 'id',
+  productId: 'productId',
+  invoiceId: 'invoiceId',
+  amount: 'amount',
+  quantity: 'quantity',
   event: 'event',
   enable: 'enable',
   registeredAt: 'registeredAt'
@@ -253,6 +264,7 @@ exports.Prisma.ModelName = {
   NCM: 'NCM',
   Product: 'Product',
   Invoice: 'Invoice',
+  InvoiceProduct: 'InvoiceProduct',
   Expense: 'Expense',
   Declaration: 'Declaration',
   DeclarationExpense: 'DeclarationExpense',

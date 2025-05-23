@@ -62,14 +62,29 @@ model Invoice {
   id           String
   registration String
   createdAt    DateTime @default(now())
-  quote        Float
-  products     String[]
+  quote        Int
 
   event        Events   @default(CREATED)
   enable       Boolean  @default(false)
   registeredAt DateTime @default(now())
 
   @@map("invoices")
+}
+
+model InvoiceProduct {
+  invoiceProductId String @id @default(uuid())
+
+  id        String
+  productId String
+  invoiceId String
+  amount    Int
+  quantity  Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
+
+  @@map("invoice_products")
 }
 
 model Expense {

@@ -85,39 +85,10 @@ const columns: ColumnDef<InvoiceRaw>[] = [
 
 export const TableInvoices: React.FC<Props> = (props) => {
 	const { setRegister } = useRegisterEdit();
-	const [filter, setFilter] = useState<"ALL" | "VINCULATED" | "NO-VINCULATED">(
-		"ALL",
-	);
 	return (
 		<>
-			<header className="space-x-2">
-				<Button
-					onClick={() => setFilter("ALL")}
-					variant={filter === "ALL" ? "default" : "outline"}
-				>
-					Todas
-				</Button>
-				<Button
-					onClick={() => setFilter("VINCULATED")}
-					variant={filter === "VINCULATED" ? "default" : "outline"}
-				>
-					Vinculadas
-				</Button>
-				<Button
-					onClick={() => setFilter("NO-VINCULATED")}
-					variant={filter === "NO-VINCULATED" ? "default" : "outline"}
-				>
-					Não vinculadas
-				</Button>
-			</header>
 			<TableComponent
-				registers={props.invoices.filter((i) =>
-					filter === "ALL"
-						? true
-						: filter === "VINCULATED"
-							? i.isVinculated
-							: !i.isVinculated,
-				)}
+				registers={props.invoices}
 				defaultSortingColumn="createdAt"
 				defaultSorting="desc"
 				keyToSearch="registration"
