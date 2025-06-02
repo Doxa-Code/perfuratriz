@@ -101,6 +101,19 @@ export function ModalCreateDeclaration(props: Props) {
 		resolver: zodResolver(formSchema),
 	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	React.useEffect(() => {
+		if (!isOpen(MODAL_CREATE_DECLARATION)) {
+			form.reset({
+				createdAt: new Date(),
+				quote: "",
+				registration: "",
+				expenses: [],
+				invoiceId: "",
+			});
+		}
+	}, [isOpen(MODAL_CREATE_DECLARATION)]);
+
 	React.useEffect(() => {
 		if (register && isOpen(MODAL_CREATE_DECLARATION)) {
 			form.reset({
