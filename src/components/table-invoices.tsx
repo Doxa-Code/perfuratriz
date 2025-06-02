@@ -15,7 +15,6 @@ type InvoiceRaw = {
 	id: string;
 	registration: string;
 	createdAt: Date;
-	isVinculated: boolean;
 	quote: number;
 	products: {
 		product: Product.Props;

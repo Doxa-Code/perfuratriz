@@ -276,8 +276,8 @@ export function ModalCreateDeclaration(props: Props) {
 												{invoices
 													.filter((i) =>
 														register?.invoiceId
-															? register.invoiceId === i.id || !i.isVinculated
-															: !i.isVinculated,
+															? register.invoiceId === i.id
+															: true,
 													)
 													.map((invoice) => (
 														<SelectItem
