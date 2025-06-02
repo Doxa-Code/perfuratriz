@@ -1,7 +1,7 @@
 import type { Declaration } from "../domain/entities/declaration";
 import { Expense } from "../domain/entities/expense";
 import { ExpenseDeclaration } from "../domain/entities/expense-declaration";
-import type { InvoiceProduct } from "../domain/value-objects/invoice-product";
+import type { InvoiceProduct } from "../domain/entities/invoice-product";
 
 export class Clearance {
 	constructor(private readonly declaration: Declaration) {}
@@ -134,10 +134,14 @@ export class Clearance {
 			this.siscomexExpense,
 		);
 
-		const customsAmount =
-			this.convertAmount(product.total) +
-			freightCostAllocation +
-			insuranceCostAllocation;
+		let customsAmount = this.convertAmount(product.total);
+
+		for (const expense of this.declaration.expenses) {
+			if (expense.expense.useCustomsBase) {
+				console.log("Soma valor aduaneiro:", expense.expense.name);
+				customsAmount += expense.amount;
+			}
+		}
 
 		const tax = (product.product.ncm.tax * customsAmount) / 100;
 		const pis = (product.product.ncm.pis * customsAmount) / 100;
@@ -145,8 +149,14 @@ export class Clearance {
 
 		const ipi = ((customsAmount + tax) * product.product.ncm.ipi) / 100;
 
-		const sumTax =
-			customsAmount + siscomexCostAllocation + tax + pis + cofins + ipi;
+		let sumTax = customsAmount + tax + pis + cofins + ipi;
+
+		for (const expense of this.declaration.expenses) {
+			if (expense.expense.useICMSBase) {
+				console.log("Soma ICMS:", expense.expense.name);
+				sumTax += expense.amount;
+			}
+		}
 
 		const icms =
 			(sumTax / (100 - product.product.ncm.icms)) * product.product.ncm.icms;

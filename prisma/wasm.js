@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.7.0
- * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+ * Prisma Client JS version: 6.8.2
+ * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
  */
 Prisma.prismaVersion = {
-  client: "6.7.0",
-  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
+  client: "6.8.2",
+  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -121,16 +121,21 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.NCMScalarFieldEnum = {
+  ncmId: 'ncmId',
   id: 'id',
   code: 'code',
   tax: 'tax',
   icms: 'icms',
   pis: 'pis',
   cofins: 'cofins',
-  ipi: 'ipi'
+  ipi: 'ipi',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.ProductScalarFieldEnum = {
+  productId: 'productId',
   id: 'id',
   name: 'name',
   tid: 'tid',
@@ -139,46 +144,33 @@ exports.Prisma.ProductScalarFieldEnum = {
   length: 'length',
   height: 'height',
   width: 'width',
-  ncmId: 'ncmId'
-};
-
-exports.Prisma.ProductNCMScalarFieldEnum = {
-  id: 'id',
   ncmId: 'ncmId',
-  code: 'code',
-  cofins: 'cofins',
-  icms: 'icms',
-  ipi: 'ipi',
-  pis: 'pis',
-  tax: 'tax'
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.InvoiceScalarFieldEnum = {
+  invoiceId: 'invoiceId',
   id: 'id',
   registration: 'registration',
   createdAt: 'createdAt',
-  quote: 'quote'
+  quote: 'quote',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.InvoiceProductScalarFieldEnum = {
+  invoiceProductId: 'invoiceProductId',
   id: 'id',
   productId: 'productId',
-  productName: 'productName',
-  productTid: 'productTid',
-  productDescription: 'productDescription',
-  productWeight: 'productWeight',
-  productLength: 'productLength',
-  productHeight: 'productHeight',
-  productWidth: 'productWidth',
-  ncmCode: 'ncmCode',
-  ncmCofins: 'ncmCofins',
-  ncmIcms: 'ncmIcms',
-  ncmIpi: 'ncmIpi',
-  ncmPis: 'ncmPis',
-  ncmTax: 'ncmTax',
-  quantity: 'quantity',
+  invoiceId: 'invoiceId',
   amount: 'amount',
-  invoiceId: 'invoiceId'
+  quantity: 'quantity',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.ExpenseScalarFieldEnum = {
@@ -191,22 +183,75 @@ exports.Prisma.ExpenseScalarFieldEnum = {
 };
 
 exports.Prisma.DeclarationScalarFieldEnum = {
+  declarationId: 'declarationId',
   id: 'id',
   registration: 'registration',
   quote: 'quote',
   createdAt: 'createdAt',
-  invoiceId: 'invoiceId'
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
-exports.Prisma.ExpenseDeclarationScalarFieldEnum = {
+exports.Prisma.DeclarationExpenseScalarFieldEnum = {
+  declarationExpenseId: 'declarationExpenseId',
+  declaration: 'declaration',
   id: 'id',
-  declarationId: 'declarationId',
   name: 'name',
   useICMSBase: 'useICMSBase',
   useCustomsBase: 'useCustomsBase',
   allocationMethod: 'allocationMethod',
   currency: 'currency',
-  amount: 'amount'
+  amount: 'amount',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
+};
+
+exports.Prisma.DeclarationInvoiceScalarFieldEnum = {
+  declarationInvoiceId: 'declarationInvoiceId',
+  declaration: 'declaration',
+  id: 'id',
+  registration: 'registration',
+  createdAt: 'createdAt',
+  quote: 'quote',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
+};
+
+exports.Prisma.DeclarationInvoiceProductScalarFieldEnum = {
+  declarationInvoiceProductId: 'declarationInvoiceProductId',
+  invoice: 'invoice',
+  id: 'id',
+  productId: 'productId',
+  name: 'name',
+  tid: 'tid',
+  description: 'description',
+  weight: 'weight',
+  length: 'length',
+  height: 'height',
+  width: 'width',
+  amount: 'amount',
+  quantity: 'quantity',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
+};
+
+exports.Prisma.DeclarationInvoiceProductNCMScalarFieldEnum = {
+  declarationInvoiceProductNCMId: 'declarationInvoiceProductNCMId',
+  product: 'product',
+  id: 'id',
+  code: 'code',
+  tax: 'tax',
+  icms: 'icms',
+  pis: 'pis',
+  cofins: 'cofins',
+  ipi: 'ipi',
+  event: 'event',
+  enable: 'enable',
+  registeredAt: 'registeredAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -218,6 +263,12 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+exports.Events = exports.$Enums.Events = {
+  CREATED: 'CREATED',
+  UPDATED: 'UPDATED',
+  DELETED: 'DELETED'
+};
+
 exports.AllocationMethod = exports.$Enums.AllocationMethod = {
   NET_WEIGHT: 'NET_WEIGHT',
   NET_VALUE: 'NET_VALUE',
@@ -232,12 +283,14 @@ exports.Currency = exports.$Enums.Currency = {
 exports.Prisma.ModelName = {
   NCM: 'NCM',
   Product: 'Product',
-  ProductNCM: 'ProductNCM',
   Invoice: 'Invoice',
   InvoiceProduct: 'InvoiceProduct',
   Expense: 'Expense',
   Declaration: 'Declaration',
-  ExpenseDeclaration: 'ExpenseDeclaration'
+  DeclarationExpense: 'DeclarationExpense',
+  DeclarationInvoice: 'DeclarationInvoice',
+  DeclarationInvoiceProduct: 'DeclarationInvoiceProduct',
+  DeclarationInvoiceProductNCM: 'DeclarationInvoiceProductNCM'
 };
 
 /**

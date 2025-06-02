@@ -20,7 +20,6 @@ export const InvoiceSchema = z.object({
 	registration: z.string(),
 	createdAt: z.date(),
 	quote: z.number(),
-	isVinculated: z.boolean(),
 	products: z.array(
 		z.object({
 			product: ProductSchema,

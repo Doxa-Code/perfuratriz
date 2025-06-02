@@ -16,83 +16,73 @@ datasource db {
 }
 
 model NCM {
-  id     String @id @default(uuid())
-  code   Float
-  tax    Float
-  icms   Float
-  pis    Float
-  cofins Float
-  ipi    Float
+  ncmId  String @id @default(uuid())
+  id     String
+  code   Int
+  tax    Int
+  icms   Int
+  pis    Int
+  cofins Int
+  ipi    Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("ncms")
 }
 
+enum Events {
+  CREATED
+  UPDATED
+  DELETED
+}
+
 model Product {
-  id          String @id @default(uuid())
+  productId   String @id @default(uuid())
+  id          String
   name        String @default("")
   tid         String @default("")
   description String @default("")
-  weight      Float
-  length      Float
-  height      Float
-  width       Float
+  weight      Int
+  length      Int
+  height      Int
+  width       Int
+  ncmId       String
 
-  ncm   ProductNCM @relation(fields: [ncmId], references: [id], onDelete: Cascade)
-  ncmId String     @unique
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("products")
 }
 
-model ProductNCM {
-  id     String @id @default(uuid())
-  ncmId  String @default("")
-  code   Float
-  cofins Float
-  icms   Float
-  ipi    Float
-  pis    Float
-  tax    Float
-
-  product Product?
-
-  @@map("product_ncm")
-}
-
 model Invoice {
-  id           String           @id @default(uuid())
+  invoiceId    String   @id @default(uuid())
+  id           String
   registration String
-  createdAt    DateTime         @default(now())
-  quote        Float
-  products     InvoiceProduct[]
-  declaration  Declaration?
+  createdAt    DateTime @default(now())
+  quote        Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("invoices")
 }
 
 model InvoiceProduct {
-  id String @id @default(uuid())
+  invoiceProductId String @id @default(uuid())
 
-  productId          String
-  productName        String @default("")
-  productTid         String @default("")
-  productDescription String @default("")
-  productWeight      Float
-  productLength      Float
-  productHeight      Float
-  productWidth       Float
-
-  ncmCode   Float
-  ncmCofins Float
-  ncmIcms   Float
-  ncmIpi    Float
-  ncmPis    Float
-  ncmTax    Float
-
-  quantity Int   @default(1)
-  amount   Float @default(0)
-
-  invoice   Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  id        String
+  productId String
   invoiceId String
+  amount    Int
+  quantity  Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("invoice_products")
 }
@@ -120,27 +110,98 @@ enum Currency {
 }
 
 model Declaration {
-  id           String               @id @default(uuid())
+  declarationId String @id @default(uuid())
+
+  id           String
   registration String
-  quote        Float
-  createdAt    DateTime             @default(now())
-  invoiceId    String               @unique
-  invoice      Invoice              @relation(fields: [invoiceId], references: [id])
-  expenses     ExpenseDeclaration[]
+  quote        Int
+  createdAt    DateTime @default(now())
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
 
   @@map("declarations")
 }
 
-model ExpenseDeclaration {
-  id               String           @id @default(uuid())
-  declaration      Declaration      @relation(fields: [declarationId], references: [id], onDelete: Cascade)
-  declarationId    String
+model DeclarationExpense {
+  declarationExpenseId String @id @default(uuid())
+
+  declaration String
+
+  id               String
   name             String
   useICMSBase      Boolean          @default(false)
   useCustomsBase   Boolean          @default(false)
   allocationMethod AllocationMethod
   currency         Currency
-  amount           Float            @default(0)
 
-  @@map("expense_declarations")
+  amount Int @default(0)
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
+
+  @@map("declaration_expenses")
+}
+
+model DeclarationInvoice {
+  declarationInvoiceId String @id @default(uuid())
+
+  declaration String
+
+  id           String
+  registration String
+  createdAt    DateTime @default(now())
+  quote        Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
+
+  @@map("declaration_invoices")
+}
+
+model DeclarationInvoiceProduct {
+  declarationInvoiceProductId String @id @default(uuid())
+
+  invoice String
+
+  id          String
+  productId   String
+  name        String @default("")
+  tid         String @default("")
+  description String @default("")
+  weight      Int
+  length      Int
+  height      Int
+  width       Int
+  amount      Int
+  quantity    Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
+
+  @@map("declaration_invoice_products")
+}
+
+model DeclarationInvoiceProductNCM {
+  declarationInvoiceProductNCMId String @id @default(uuid())
+
+  product String
+
+  id     String
+  code   Int
+  tax    Int
+  icms   Int
+  pis    Int
+  cofins Int
+  ipi    Int
+
+  event        Events   @default(CREATED)
+  enable       Boolean  @default(false)
+  registeredAt DateTime @default(now())
+
+  @@map("declaration_invoice_product_ncms")
 }

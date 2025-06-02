@@ -1,7 +1,7 @@
 import { Invoice } from "@/core/domain/entities/invoice";
+import { InvoiceProduct } from "@/core/domain/entities/invoice-product";
 import type { Product } from "@/core/domain/entities/product";
 import { NotFound } from "@/core/domain/errors/not-found";
-import { InvoiceProduct } from "@/core/domain/value-objects/invoice-product";
 import { InvoiceDatabaseRepository } from "@/core/infra/repositories/invoice-repository";
 import { ProductDatabaseRepository } from "@/core/infra/repositories/product-repository";
 
