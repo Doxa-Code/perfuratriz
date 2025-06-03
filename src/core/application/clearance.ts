@@ -138,13 +138,18 @@ export class Clearance {
 
 		for (const expense of this.declaration.expenses) {
 			if (expense.expense.useCustomsBase) {
-				customsAmount += expense.amount;
+				customsAmount +=
+					expense.expense.currency === "USD"
+						? this.convertAmount(expense.amount)
+						: expense.amount;
 			}
 		}
 
+		// Valor aduaneiro = Reais a partir daqui
+
 		const tax = (product.product.ncm.tax * customsAmount) / 100;
 		const pis = (product.product.ncm.pis * customsAmount) / 100;
-		const cofins = (product.product.ncm.cofins * customsAmount) / 100;
+		const cofins = (10.65 * customsAmount) / 100;
 
 		const ipi = ((customsAmount + tax) * product.product.ncm.ipi) / 100;
 
@@ -152,7 +157,10 @@ export class Clearance {
 
 		for (const expense of this.declaration.expenses) {
 			if (expense.expense.useICMSBase) {
-				sumTax += expense.amount;
+				sumTax +=
+					expense.expense.currency === "USD"
+						? this.convertAmount(expense.amount)
+						: expense.amount;
 			}
 		}
 
@@ -165,15 +173,21 @@ export class Clearance {
 			["PER_UNIT", this.costAllocationPerUnit.bind(this)],
 		]);
 
-		const expenses = this.otherExpenses.map((expense) => {
-			const allocationMethodHandle = allocationMethodHandles.get(
-				expense.expense.allocationMethod,
-			);
-			return {
-				expense: expense.expense.name,
-				result: allocationMethodHandle?.(product, expense) ?? 0,
-			};
-		});
+		const expenses = this.declaration.expenses.reduce(
+			(acc, expense) => {
+				if (expense.expense.useCustomsBase || expense.expense.useICMSBase)
+					return acc;
+				const allocationMethodHandle = allocationMethodHandles.get(
+					expense.expense.allocationMethod,
+				);
+				acc.push({
+					expense: expense.expense.name,
+					result: allocationMethodHandle?.(product, expense) ?? 0,
+				});
+				return acc;
+			},
+			[] as { expense: string; result: number }[],
+		);
 
 		const expenseTotalAmount = expenses.reduce(
 			(sum, expense) => sum + expense.result,
@@ -214,10 +228,15 @@ export class Clearance {
 
 	get vmld() {
 		return (
-			this.invoice.amount +
-			this.freightExpense.amount +
-			this.insuranceExpense.amount
+			this.vmle + this.freightExpense.amount + this.insuranceExpense.amount
 		);
+	}
+
+	get vmle() {
+		const expense = this.declaration.expenses.find(
+			(e) => e.expense.name === "Total Acres. Trib.",
+		);
+		return this.invoice.amount + (expense?.amount ?? 0);
 	}
 
 	calculate() {
@@ -270,7 +289,7 @@ export class Clearance {
 			insurance: this.getExpenseAmounts(this.insuranceExpense),
 			siscomex: this.getExpenseAmounts(this.siscomexExpense),
 			customs,
-			vmle: this.invoice.amount,
+			vmle: this.vmle,
 			vmld: this.vmld,
 			weight: this.invoice.weight,
 			quantity: this.invoice.quantity,
