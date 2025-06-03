@@ -138,7 +138,6 @@ export class Clearance {
 
 		for (const expense of this.declaration.expenses) {
 			if (expense.expense.useCustomsBase) {
-				console.log("Soma valor aduaneiro:", expense.expense.name);
 				customsAmount += expense.amount;
 			}
 		}
@@ -153,7 +152,6 @@ export class Clearance {
 
 		for (const expense of this.declaration.expenses) {
 			if (expense.expense.useICMSBase) {
-				console.log("Soma ICMS:", expense.expense.name);
 				sumTax += expense.amount;
 			}
 		}

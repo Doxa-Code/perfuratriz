@@ -6,46 +6,49 @@ import { ProductDatabaseRepository } from "@/core/infra/repositories/product-rep
 import { revalidatePath } from "next/cache";
 import { createServerAction } from "zsa";
 import {
-  createProductInputSchema,
-  listProductOutputSchema,
-  removeProductInputSchema,
+	createProductInputSchema,
+	listProductOutputSchema,
+	removeProductInputSchema,
 } from "./product-schema";
 
 const ncmRepository = NCMDatabaseRepository.instance();
 const productRepository = ProductDatabaseRepository.instance();
 
 export const createProductAction = createServerAction()
-  .input(createProductInputSchema)
-  .handler(async ({ input }) => {
-    if (!input.id) {
-      const createProduct = CreateProduct.instance();
-      await createProduct.execute(input);
-      revalidatePath("/products", "page");
-      revalidatePath("/invoices", "page");
-      return;
-    }
-    const ncm = await ncmRepository.retrieve(input.ncm);
-    if (!ncm) return revalidatePath("/products", "layout");
-    const product = Product.instance({
-      ...input,
-      id: input.id,
-      ncm,
-    });
-    await productRepository.update(product).catch((err) => console.log(err));
-    revalidatePath("/products", "page");
-    revalidatePath("/invoices", "page");
-  });
+	.input(createProductInputSchema)
+	.handler(async ({ input }) => {
+		if (!input.id) {
+			const createProduct = CreateProduct.instance();
+			await createProduct.execute(input);
+			revalidatePath("/products", "page");
+			revalidatePath("/invoices", "page");
+			return;
+		}
+		const ncm = await ncmRepository.retrieve(input.ncm);
+		if (!ncm) return revalidatePath("/products", "layout");
+		const product = Product.instance({
+			...input,
+			id: input.id,
+			ncm,
+		});
+		await productRepository.update(product).catch((err) => console.log(err));
+		revalidatePath("/products", "page");
+		revalidatePath("/invoices", "page");
+	});
 
 export const listProductAction = createServerAction()
-  .output(listProductOutputSchema)
-  .handler(async () => {
-    return await productRepository.list();
-  });
+	.output(listProductOutputSchema)
+	.onError(async (err) => {
+		console.log(err);
+	})
+	.handler(async () => {
+		return await productRepository.list();
+	});
 
 export const removeProductAction = createServerAction()
-  .input(removeProductInputSchema)
-  .handler(async ({ input }) => {
-    await Promise.all(input.ids.map((id) => productRepository.remove(id)));
-    revalidatePath("/products", "page");
-    revalidatePath("/invoices", "page");
-  });
+	.input(removeProductInputSchema)
+	.handler(async ({ input }) => {
+		await Promise.all(input.ids.map((id) => productRepository.remove(id)));
+		revalidatePath("/products", "page");
+		revalidatePath("/invoices", "page");
+	});
