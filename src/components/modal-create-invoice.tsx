@@ -275,8 +275,8 @@ export function ModalCreateInvoice(props: Props) {
 																	<DollarSign size={15} />
 																</div>
 																{Intl.NumberFormat("pt-BR", {
-																	minimumFractionDigits: 4,
-																	maximumFractionDigits: 4,
+																	minimumFractionDigits: 2,
+																	maximumFractionDigits: 2,
 																}).format(invoice?.amount ?? 0)}
 															</div>
 														</td>
@@ -333,14 +333,14 @@ export function ModalCreateInvoice(props: Props) {
 																</td>
 																<td className="p-2 border text-xs">
 																	{Intl.NumberFormat("pt-BR", {
-																		minimumFractionDigits: 4,
-																		maximumFractionDigits: 4,
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
 																	}).format(invoiceProduct?.amount ?? 0)}
 																</td>
 																<td className="p-2 border text-xs">
 																	{Intl.NumberFormat("pt-BR", {
-																		minimumFractionDigits: 4,
-																		maximumFractionDigits: 4,
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
 																	}).format(invoiceProduct?.total ?? 0)}
 																</td>
 																<td className="p-2 border text-xs">
@@ -455,8 +455,8 @@ export function ModalCreateInvoice(props: Props) {
 																<Input
 																	className="w-full focus-visible:ring-0 shadow-none border-0 rounded-none max-w-[150px]"
 																	value={Intl.NumberFormat("pt-BR", {
-																		minimumFractionDigits: 4,
-																		maximumFractionDigits: 4,
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
 																	}).format(invoiceProductToAdd?.amount ?? 0)}
 																	onChange={formatDecimal(
 																		{
