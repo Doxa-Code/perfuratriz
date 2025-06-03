@@ -106,7 +106,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 			products: invoice.products.map((p) =>
 				InvoiceProduct.create({
 					...p,
-					amount: FormatFloatNumberHelper.format(p.amount, 10000),
+					amount: FormatFloatNumberHelper.format(p.amount, 100),
 					product: Product.instance({
 						...p.product,
 						ncm: NCM.create(p.product.ncm),
@@ -222,7 +222,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 					data: {
 						invoiceId: invoice.id,
 						id: p.id,
-						amount: FormatFloatNumberHelper.toPersist(p.amount, 10000),
+						amount: FormatFloatNumberHelper.toPersist(p.amount, 100),
 						quantity: p.quantity,
 						productId: p.product.id,
 						enable: true,
@@ -257,7 +257,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 						invoiceId: createdInvoice.id,
 						productId: p.product.id,
 						quantity: p.quantity,
-						amount: FormatFloatNumberHelper.toPersist(p.amount, 10000),
+						amount: FormatFloatNumberHelper.toPersist(p.amount, 100),
 						enable: true,
 						event: "CREATED",
 					},
@@ -331,7 +331,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 				products: invoice.products.map((p) =>
 					InvoiceProduct.create({
 						...p,
-						amount: FormatFloatNumberHelper.format(p.amount, 10000),
+						amount: FormatFloatNumberHelper.format(p.amount, 100),
 						product: Product.instance({
 							...p.product,
 							ncm: NCM.create(p.product.ncm),

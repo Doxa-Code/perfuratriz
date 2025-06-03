@@ -43,7 +43,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 						useCustomsBase: exp.useCustomsBase,
 						allocationMethod: exp.allocationMethod,
 						currency: exp.currency,
-						amount: FormatFloatNumberHelper.toPersist(expDecl.amount, 10000),
+						amount: FormatFloatNumberHelper.toPersist(expDecl.amount, 100),
 						enable: true,
 						event: "CREATED",
 						declaration: declaration.id,
@@ -82,7 +82,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 							width: prod.product.width,
 							enable: true,
 							event: "CREATED",
-							amount: FormatFloatNumberHelper.toPersist(prod.amount, 10000),
+							amount: FormatFloatNumberHelper.toPersist(prod.amount, 100),
 							quantity: prod.quantity,
 							productId: prod.product.id,
 						},
@@ -173,7 +173,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 						useCustomsBase: exp.useCustomsBase,
 						allocationMethod: exp.allocationMethod,
 						currency: exp.currency,
-						amount: FormatFloatNumberHelper.toPersist(expDecl.amount, 10000),
+						amount: FormatFloatNumberHelper.toPersist(expDecl.amount, 100),
 						enable: true,
 						event: "UPDATED",
 						declaration: declaration.id,
@@ -214,7 +214,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 							width: prod.product.width,
 							enable: true,
 							event: "UPDATED",
-							amount: FormatFloatNumberHelper.toPersist(prod.amount, 10000),
+							amount: FormatFloatNumberHelper.toPersist(prod.amount, 100),
 							quantity: prod.quantity,
 							productId: prod.product.id,
 						},
@@ -285,7 +285,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 			createdAt: declaration.createdAt,
 			expenses: expenses.map((e) =>
 				ExpenseDeclaration.create({
-					amount: FormatFloatNumberHelper.format(e.amount, 10000),
+					amount: FormatFloatNumberHelper.format(e.amount, 100),
 					expense: Expense.instance({
 						allocationMethod: e.allocationMethod,
 						currency: e.currency,
@@ -307,7 +307,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 				products: products.map((p) => {
 					const ncm = ncms.find((ncm) => ncm.product === p.id);
 					return InvoiceProduct.create({
-						amount: FormatFloatNumberHelper.format(p.amount, 10000),
+						amount: FormatFloatNumberHelper.format(p.amount, 100),
 						quantity: p.quantity,
 						id: p.id,
 						product: Product.instance({
