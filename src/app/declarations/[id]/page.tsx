@@ -137,11 +137,19 @@ export default async function DeclarationSummary({
 					<div className="bg-gray-500 text-white font-semibold uppercase px-2 py-1">
 						VMLD
 					</div>
-					<div className="border border-gray-200 px-2 py-1">
-						{summary.vmld?.toLocaleString("pt-BR", {
-							currency: "USD",
-							style: "currency",
-						})}
+					<div className="grid grid-cols-2 border border-gray-200 px-2 py-1">
+						<div>
+							{summary.vmld?.toLocaleString("pt-BR", {
+								currency: "USD",
+								style: "currency",
+							})}
+						</div>
+						<div className="text-right">
+							{summary.vmldBRL?.toLocaleString("pt-BR", {
+								currency: "BRL",
+								style: "currency",
+							})}
+						</div>
 					</div>
 					<div className="bg-gray-500 text-white font-semibold uppercase px-2 py-1">
 						Peso Líquido

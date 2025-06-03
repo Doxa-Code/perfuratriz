@@ -6,6 +6,8 @@ import type { InvoiceProduct } from "../domain/entities/invoice-product";
 export class Clearance {
 	constructor(private readonly declaration: Declaration) {}
 
+	sumAll = 0;
+
 	private get invoice() {
 		return this.declaration.invoice;
 	}
@@ -74,17 +76,6 @@ export class Clearance {
 		return expense;
 	}
 
-	private get otherExpenses() {
-		const filterExpense = [
-			"Siscomex",
-			"Seguro Internacional",
-			"Frete Internacional",
-		];
-		return this.declaration.expenses.filter(
-			(e) => !filterExpense.includes(e.expense.name),
-		);
-	}
-
 	private convertExpenseAmount(expense: ExpenseDeclaration) {
 		return expense.expense.currency === "USD"
 			? this.convertAmount(expense.amount)
@@ -134,14 +125,20 @@ export class Clearance {
 			this.siscomexExpense,
 		);
 
+		const allocationMethodHandles = new Map([
+			["NET_VALUE", this.costAllocationPerAmount.bind(this)],
+			["NET_WEIGHT", this.costAllocationPerWeight.bind(this)],
+			["PER_UNIT", this.costAllocationPerUnit.bind(this)],
+		]);
+
 		let customsAmount = this.convertAmount(product.total);
 
 		for (const expense of this.declaration.expenses) {
 			if (expense.expense.useCustomsBase) {
-				customsAmount +=
-					expense.expense.currency === "USD"
-						? this.convertAmount(expense.amount)
-						: expense.amount;
+				const allocationMethodHandle = allocationMethodHandles.get(
+					expense.expense.allocationMethod,
+				);
+				customsAmount += allocationMethodHandle?.(product, expense) ?? 0;
 			}
 		}
 
@@ -153,25 +150,21 @@ export class Clearance {
 
 		const ipi = ((customsAmount + tax) * product.product.ncm.ipi) / 100;
 
-		let sumTax = customsAmount + tax + pis + cofins + ipi;
+		let sumTax = tax + pis + cofins + ipi;
+
+		sumTax += customsAmount;
 
 		for (const expense of this.declaration.expenses) {
 			if (expense.expense.useICMSBase) {
-				sumTax +=
-					expense.expense.currency === "USD"
-						? this.convertAmount(expense.amount)
-						: expense.amount;
+				const allocationMethodHandle = allocationMethodHandles.get(
+					expense.expense.allocationMethod,
+				);
+				sumTax += allocationMethodHandle?.(product, expense) ?? 0;
 			}
 		}
 
 		const icms =
 			(sumTax / (100 - product.product.ncm.icms)) * product.product.ncm.icms;
-
-		const allocationMethodHandles = new Map([
-			["NET_VALUE", this.costAllocationPerAmount.bind(this)],
-			["NET_WEIGHT", this.costAllocationPerWeight.bind(this)],
-			["PER_UNIT", this.costAllocationPerUnit.bind(this)],
-		]);
 
 		const expenses = this.declaration.expenses.reduce(
 			(acc, expense) => {
@@ -197,7 +190,9 @@ export class Clearance {
 		const finalAmount =
 			(customsAmount + tax + expenseTotalAmount) / product.quantity;
 
-		const factor = finalAmount / (product.amount * this.invoice.quote);
+		const costPrice = product.amount * this.invoice.quote;
+
+		const factor = finalAmount / costPrice;
 
 		return {
 			customsAmount,
@@ -213,7 +208,7 @@ export class Clearance {
 			ipi,
 			pis,
 			cofins,
-			costPrice: product.amount * this.invoice.quote,
+			costPrice,
 		};
 	}
 
@@ -290,6 +285,7 @@ export class Clearance {
 			siscomex: this.getExpenseAmounts(this.siscomexExpense),
 			customs,
 			vmle: this.vmle,
+			vmldBRL: this.convertAmount(this.vmld),
 			vmld: this.vmld,
 			weight: this.invoice.weight,
 			quantity: this.invoice.quantity,
