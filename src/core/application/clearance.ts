@@ -120,11 +120,6 @@ export class Clearance {
       this.insuranceExpense
     );
 
-    const siscomexCostAllocation = this.costAllocationPerAmount(
-      product,
-      this.siscomexExpense
-    );
-
     const allocationMethodHandles = new Map([
       ["NET_VALUE", this.costAllocationPerAmount.bind(this)],
       ["NET_WEIGHT", this.costAllocationPerWeight.bind(this)],
@@ -146,13 +141,13 @@ export class Clearance {
 
     // Valor aduaneiro = Reais a partir daqui
 
-    const tax = (product.product.ncm.tax * customsAmount) / 100;
+    const ii = (product.product.ncm.tax * customsAmount) / 100;
     const pis = (product.product.ncm.pis * customsAmount) / 100;
     const cofins = (10.65 * customsAmount) / 100;
 
-    const ipi = ((customsAmount + tax) * product.product.ncm.ipi) / 100;
+    const ipi = ((customsAmount + ii) * product.product.ncm.ipi) / 100;
 
-    let sumTax = tax + pis + cofins + ipi;
+    let sumTax = ii + pis + cofins + ipi;
 
     sumTax += customsAmount;
 
@@ -180,23 +175,25 @@ export class Clearance {
       return acc;
     }, [] as { expense: string; result: number }[]);
 
-    const expenseTotalAmount = expenses.reduce(
-      (sum, expense) => sum + expense.result,
-      0
-    );
+    const expenseTotalAmount = expenses.reduce((sum, expense) => {
+      return sum + expense.result;
+    }, 0);
+
+    const variation =
+      product.total * this.invoice.quote -
+      product.total * this.declaration.quote;
 
     const finalAmount =
-      (customsAmount + tax + expenseTotalAmount) / product.quantity;
+      (customsAmount + ii + expenseTotalAmount + variation) / product.quantity;
 
-    const costPrice = product.amount * this.invoice.quote;
+    const costPrice = product.amount * this.declaration.quote;
 
     const factor = finalAmount / costPrice;
 
     return {
       customsAmount,
-      tax,
+      ii,
       icms,
-      siscomexCostAllocation,
       freightCostAllocation,
       insuranceCostAllocation,
       expenseTotalAmount,
@@ -207,6 +204,7 @@ export class Clearance {
       pis,
       cofins,
       costPrice,
+      variation,
     };
   }
 
@@ -243,7 +241,6 @@ export class Clearance {
         insurance: taxCalculated.insuranceCostAllocation,
         freight: taxCalculated.freightCostAllocation,
         customs: taxCalculated.customsAmount,
-        siscomex: taxCalculated.siscomexCostAllocation,
         ipi: taxCalculated.ipi,
         pis: taxCalculated.pis,
         cofins: taxCalculated.cofins,
@@ -251,8 +248,9 @@ export class Clearance {
         factor: taxCalculated.factor,
         finalAmount: taxCalculated.finalAmount,
         icms: taxCalculated.icms,
-        tax: taxCalculated.tax,
+        ii: taxCalculated.ii,
         costPrice: taxCalculated.costPrice,
+        variation: taxCalculated.variation,
       };
     });
     const customs = products.reduce((sum, p) => sum + p.customs, 0);
@@ -260,7 +258,8 @@ export class Clearance {
     const pis = products.reduce((sum, p) => sum + p.pis, 0);
     const cofins = products.reduce((sum, p) => sum + p.cofins, 0);
     const icms = products.reduce((sum, p) => sum + p.icms, 0);
-    const tax = products.reduce((sum, p) => sum + p.tax, 0);
+    const ii = products.reduce((sum, p) => sum + p.ii, 0);
+    const variation = products.reduce((sum, p) => sum + p.variation, 0);
     const finalAmount = products.reduce((sum, p) => sum + p.finalAmount, 0);
     const expensesTotalAmountByProduct = products.reduce(
       (sum, p) => sum + p.expensesTotalAmount,
@@ -269,18 +268,18 @@ export class Clearance {
     const costPrice = products.reduce((sum, p) => sum + p.costPrice, 0);
     return {
       costPrice,
-      tax,
+      ii,
       cofins,
       pis,
       ipi,
       icms,
       finalAmount,
+      variation,
       expensesTotalAmountByProduct,
       invoiceQuote: this.invoice.quote,
       declarationQuote: this.declaration.quote,
       freight: this.getExpenseAmounts(this.freightExpense),
       insurance: this.getExpenseAmounts(this.insuranceExpense),
-      siscomex: this.getExpenseAmounts(this.siscomexExpense),
       customs,
       vmle: this.vmle,
       vmldBRL: this.convertAmount(this.vmld),
