@@ -79,7 +79,9 @@ export const Menu: React.FC<Props> = (props) => {
           </div>
         </SidebarBody>
       </Sidebar>
-      <div className="w-full h-screen p-10">{props.children}</div>
+      <div className="w-full h-screen p-10 flex-1 overflow-auto">
+        {props.children}
+      </div>
     </div>
   );
 };
