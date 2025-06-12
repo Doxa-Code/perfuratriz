@@ -143,7 +143,7 @@ export class Clearance {
 
     const ii = (product.product.ncm.tax * customsAmount) / 100;
     const pis = (product.product.ncm.pis * customsAmount) / 100;
-    const cofins = (10.65 * customsAmount) / 100;
+    const cofins = (product.product.ncm.cofins * customsAmount) / 100;
 
     const ipi = ((customsAmount + ii) * product.product.ncm.ipi) / 100;
 
