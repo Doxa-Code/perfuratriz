@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "declarations" ADD COLUMN     "dateCreated" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
-
--- AlterTable
-ALTER TABLE "invoices" ADD COLUMN     "dateCreated" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
