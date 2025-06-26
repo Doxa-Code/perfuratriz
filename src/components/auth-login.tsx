@@ -1,7 +1,7 @@
 "use client";
 import { authenticate } from "@/actions/auth/actions";
 import { useServerActionMutation } from "@/hooks/server-actions-hooks";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useToast } from "@/hooks/use-toast";
 
 const AuthLogin = () => {
@@ -54,8 +54,20 @@ const AuthLogin = () => {
             className="form-control"
           />
         </div>
-        <Button color="primary" type="submit" className="w-full rounded-md">
-          Acessar
+        <Button
+          disabled={authenticateActions.isPending}
+          color="primary"
+          type="submit"
+          className="w-full rounded-md disabled:hover:opacity-70 disabled:opacity-70"
+        >
+          {!authenticateActions.isPending ? (
+            "Acessar"
+          ) : (
+            <>
+              <Spinner className="w-2" />
+              Acessando...
+            </>
+          )}
         </Button>
       </form>
     </>
