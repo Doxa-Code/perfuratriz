@@ -74,7 +74,7 @@ export const declarations = pgTable("declarations", {
 export const declarationExpenses = pgTable("declaration_expenses", {
   id: uuid("id").defaultRandom().primaryKey(),
   declarationId: uuid("declarationId")
-    .references(() => declarations.id)
+    .references(() => declarations.id, { onDelete: "cascade" })
     .notNull(),
   name: text("name").notNull(),
   useICMSBase: boolean("useICMSBase").default(false).notNull(),
@@ -90,7 +90,7 @@ export const declarationExpenses = pgTable("declaration_expenses", {
 export const declarationInvoices = pgTable("declaration_invoices", {
   id: uuid("id").defaultRandom().primaryKey(),
   declarationId: uuid("declarationId")
-    .references(() => declarations.id)
+    .references(() => declarations.id, { onDelete: "cascade" })
     .notNull(),
   registration: text("registration").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -102,7 +102,7 @@ export const declarationInvoiceProducts = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     invoiceId: uuid("invoiceId")
-      .references(() => declarationInvoices.id)
+      .references(() => declarationInvoices.id, { onDelete: "cascade" })
       .notNull(),
     productId: uuid("productId").notNull(),
     name: text("name").default("").notNull(),
@@ -122,7 +122,7 @@ export const declarationInvoiceProductNcms = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey(),
     productId: uuid("productId")
-      .references(() => declarationInvoiceProducts.id)
+      .references(() => declarationInvoiceProducts.id, { onDelete: "cascade" })
       .notNull(),
     code: integer("code").notNull(),
     tax: integer("tax").notNull(),
