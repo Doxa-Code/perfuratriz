@@ -1,81 +1,103 @@
+// expense-database-repository.ts
+import { eq } from "drizzle-orm";
 import { Expense } from "@/core/domain/entities/expense";
-import { PrismaClient } from "../../../../prisma";
+import { createDatabaseConnection } from "../database";
+import { expenseEvents, expenses } from "../database/schemas";
 
 interface ExpenseRepository {
   save(expense: Expense): Promise<void>;
+  update(expense: Expense): Promise<void>;
+  remove(id: string): Promise<void>;
   list(): Promise<Expense[]>;
   retrieve(id: string): Promise<Expense | null>;
-  remove(id: string): Promise<void>;
 }
 
 export class ExpenseDatabaseRepository implements ExpenseRepository {
-  private database = new PrismaClient();
-
   async retrieve(id: string): Promise<Expense | null> {
-    await this.database.$connect();
-    const response = await this.database.expense.findFirst({
-      where: { id },
-    });
-    await this.database.$disconnect();
+    const db = createDatabaseConnection();
 
-    if (!response) return null;
+    const [row] = await db.select().from(expenses).where(eq(expenses.id, id));
+
+    await db.$client.end();
+
+    if (!row) return null;
 
     return Expense.instance({
-      id: response.id,
-      name: response.name,
-      allocationMethod: response.allocationMethod,
-      currency: response.currency,
-      useCustomsBase: response.useCustomsBase,
-      useICMSBase: response.useICMSBase,
+      id: row.id,
+      name: row.name,
+      allocationMethod: row.allocationMethod,
+      currency: row.currency,
+      useCustomsBase: row.useCustomsBase,
+      useICMSBase: row.useICMSBase,
     });
   }
 
   async list(): Promise<Expense[]> {
-    await this.database.$connect();
-    const response = await this.database.expense.findMany();
-    await this.database.$disconnect();
-    return response.map(Expense.instance);
-  }
+    const db = createDatabaseConnection();
 
-  async remove(id: string): Promise<void> {
-    await this.database.$connect();
-    await this.database.expense.delete({
-      where: { id },
-    });
-    await this.database.$disconnect();
+    const rows = await db.select().from(expenses);
+
+    await db.$client.end();
+
+    return rows.map(Expense.instance);
   }
 
   async save(expense: Expense): Promise<void> {
-    await this.database.$connect();
-    await this.database.expense.create({
-      data: {
-        id: expense.id,
-        name: expense.name,
-        allocationMethod: expense.allocationMethod,
-        currency: expense.currency,
-        useCustomsBase: expense.useCustomsBase,
-        useICMSBase: expense.useICMSBase,
-      },
+    const db = createDatabaseConnection();
+
+    await db.insert(expenses).values({
+      id: expense.id,
+      name: expense.name,
+      allocationMethod: expense.allocationMethod,
+      currency: expense.currency,
+      useCustomsBase: expense.useCustomsBase,
+      useICMSBase: expense.useICMSBase,
     });
-    await this.database.$disconnect();
+
+    await db.insert(expenseEvents).values({
+      expenseId: expense.id,
+      type: "CREATED",
+      payload: expense,
+    });
+
+    await db.$client.end();
   }
 
   async update(expense: Expense): Promise<void> {
-    await this.database.$connect();
-    await this.database.expense.update({
-      data: {
-        id: expense.id,
+    const db = createDatabaseConnection();
+
+    await db
+      .update(expenses)
+      .set({
         name: expense.name,
         allocationMethod: expense.allocationMethod,
         currency: expense.currency,
         useCustomsBase: expense.useCustomsBase,
         useICMSBase: expense.useICMSBase,
-      },
-      where: {
-        id: expense.id,
-      },
+      })
+      .where(eq(expenses.id, expense.id));
+
+    await db.insert(expenseEvents).values({
+      expenseId: expense.id,
+      type: "UPDATED",
+      payload: expense,
     });
-    await this.database.$disconnect();
+
+    await db.$client.end();
+  }
+
+  async remove(id: string): Promise<void> {
+    const db = createDatabaseConnection();
+
+    await db.delete(expenses).where(eq(expenses.id, id));
+
+    await db.insert(expenseEvents).values({
+      expenseId: id,
+      type: "DELETED",
+      payload: { id },
+    });
+
+    await db.$client.end();
   }
 
   static instance() {
