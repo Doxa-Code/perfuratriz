@@ -14,10 +14,10 @@ interface NCMRepository {
 }
 
 export class NCMDatabaseRepository implements NCMRepository {
-  private db = createDatabaseConnection();
-
   async retrieve(id: string) {
-    const [ncm] = await this.db.select().from(ncms).where(eq(ncms.id, id));
+    const db = createDatabaseConnection();
+    const [ncm] = await db.select().from(ncms).where(eq(ncms.id, id));
+    await db.$client.end();
 
     if (!ncm) return null;
 
@@ -33,7 +33,10 @@ export class NCMDatabaseRepository implements NCMRepository {
   }
 
   async list() {
-    const rows = await this.db.select().from(ncms);
+    const db = createDatabaseConnection();
+    const rows = await db.select().from(ncms);
+    await db.$client.end();
+
     return rows.map((ncm) =>
       NCM.instance({
         id: ncm.id,
@@ -48,7 +51,9 @@ export class NCMDatabaseRepository implements NCMRepository {
   }
 
   async save(ncm: NCM): Promise<void> {
-    await this.db.transaction(async (tx) => {
+    const db = createDatabaseConnection();
+
+    await db.transaction(async (tx) => {
       await tx.insert(ncms).values({
         id: ncm.id,
         code: ncm.code,
@@ -73,10 +78,14 @@ export class NCMDatabaseRepository implements NCMRepository {
         },
       });
     });
+
+    await db.$client.end();
   }
 
   async update(ncm: NCM): Promise<void> {
-    await this.db.transaction(async (tx) => {
+    const db = createDatabaseConnection();
+
+    await db.transaction(async (tx) => {
       await tx
         .update(ncms)
         .set({
@@ -103,31 +112,37 @@ export class NCMDatabaseRepository implements NCMRepository {
         },
       });
     });
+
+    await db.$client.end();
   }
 
   async remove(id: string): Promise<void> {
+    const db = createDatabaseConnection();
     const existing = await this.retrieve(id);
-    if (!existing) return;
+    if (!existing) {
+      await db.$client.end();
+      return;
+    }
 
-    await this.db
-      .transaction(async (tx) => {
-        await tx.delete(ncms).where(eq(ncms.id, id));
+    await db.transaction(async (tx) => {
+      await tx.delete(ncms).where(eq(ncms.id, id));
 
-        await tx.insert(ncmEvents).values({
-          id: randomUUID(),
-          ncmId: id,
-          type: "DELETED",
-          payload: {
-            code: existing.code,
-            cofins: existing.cofins,
-            icms: existing.icms,
-            ipi: existing.ipi,
-            pis: existing.pis,
-            tax: existing.tax,
-          },
-        });
-      })
-      .catch((err) => console.log(err));
+      await tx.insert(ncmEvents).values({
+        id: randomUUID(),
+        ncmId: id,
+        type: "DELETED",
+        payload: {
+          code: existing.code,
+          cofins: existing.cofins,
+          icms: existing.icms,
+          ipi: existing.ipi,
+          pis: existing.pis,
+          tax: existing.tax,
+        },
+      });
+    });
+
+    await db.$client.end();
   }
 
   static instance() {

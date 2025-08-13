@@ -1,196 +1,158 @@
+import { eq } from "drizzle-orm";
 import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper";
 import { Product } from "@/core/domain/entities/product";
 import { ProductNCM } from "@/core/domain/value-objects/product-ncm";
-import { PrismaClient } from "../../../../prisma";
+import { createDatabaseConnection } from "../database";
+import { ncms, productEvents, products } from "../database/schemas";
 
 interface ProductRepository {
-	save(product: Product): Promise<void>;
-	remove(id: string): Promise<void>;
-	list(): Promise<Product[]>;
-	retrieve(id: string): Promise<Product | null>;
+  save(product: Product): Promise<void>;
+  update(product: Product): Promise<void>;
+  remove(id: string): Promise<void>;
+  list(): Promise<Product[]>;
+  retrieve(id: string): Promise<Product | null>;
 }
 
 export class ProductDatabaseRepository implements ProductRepository {
-	private database = new PrismaClient();
+  async retrieve(id: string): Promise<Product | null> {
+    const db = createDatabaseConnection();
 
-	async retrieve(id: string) {
-		await this.database.$connect();
+    const rows = await db
+      .select({
+        product: products,
+        ncm: ncms,
+      })
+      .from(products)
+      .leftJoin(ncms, eq(products.ncmId, ncms.id))
+      .where(eq(products.id, id));
 
-		const [product] = await this.database.$queryRaw<Product[]>`
-			SELECT 
-				products.*,
-				to_jsonb(ncms) AS ncm
-			FROM products
-			LEFT JOIN ncms 
-			ON products."ncmId" = ncms."id" AND ncms."enable" = true
-      WHERE products."enable" = true AND products."id" = ${id}
-		`;
+    await db.$client.end();
 
-		await this.database.$disconnect();
+    const row = rows[0];
+    if (!row || !row.product) return null;
 
-		if (!product) return null;
+    return Product.instance({
+      id: row.product.id,
+      tid: row.product.tid,
+      name: row.product.name,
+      description: row.product.description,
+      height: FormatFloatNumberHelper.format(row.product.height),
+      length: FormatFloatNumberHelper.format(row.product.length),
+      weight: FormatFloatNumberHelper.format(row.product.weight),
+      width: FormatFloatNumberHelper.format(row.product.width),
+      ncm: ProductNCM.create({
+        code: row.ncm!.code,
+        cofins: FormatFloatNumberHelper.format(row.ncm!.cofins),
+        icms: FormatFloatNumberHelper.format(row.ncm!.icms),
+        id: row.ncm!.id,
+        ipi: FormatFloatNumberHelper.format(row.ncm!.ipi),
+        pis: FormatFloatNumberHelper.format(row.ncm!.pis),
+        tax: FormatFloatNumberHelper.format(row.ncm!.tax),
+      }),
+    });
+  }
 
-		return Product.instance({
-			id: product.id,
-			tid: product.tid,
-			name: product.name,
-			description: product.description,
-			height: FormatFloatNumberHelper.format(product.height),
-			length: FormatFloatNumberHelper.format(product.length),
-			weight: FormatFloatNumberHelper.format(product.weight),
-			width: FormatFloatNumberHelper.format(product.width),
-			ncm: ProductNCM.create({
-				code: product.ncm.code,
-				cofins: FormatFloatNumberHelper.format(product.ncm.cofins),
-				icms: FormatFloatNumberHelper.format(product.ncm.icms),
-				id: product.ncm.id,
-				ipi: FormatFloatNumberHelper.format(product.ncm.ipi),
-				pis: FormatFloatNumberHelper.format(product.ncm.pis),
-				tax: FormatFloatNumberHelper.format(product.ncm.tax),
-			}),
-		});
-	}
+  async save(product: Product): Promise<void> {
+    const db = createDatabaseConnection();
 
-	async save(product: Product) {
-		await this.database.$connect();
-		await this.database.product.create({
-			data: {
-				height: FormatFloatNumberHelper.toPersist(product.height),
-				length: FormatFloatNumberHelper.toPersist(product.length),
-				weight: FormatFloatNumberHelper.toPersist(product.weight),
-				width: FormatFloatNumberHelper.toPersist(product.width),
-				id: product.id,
-				name: product.name,
-				tid: product.tid,
-				description: product.description,
-				ncmId: product.ncm.id,
-				enable: true,
-				event: "CREATED",
-			},
-		});
-		await this.database.$disconnect();
-	}
+    await db.insert(products).values({
+      id: product.id,
+      name: product.name,
+      tid: product.tid,
+      description: product.description,
+      height: FormatFloatNumberHelper.toPersist(product.height),
+      length: FormatFloatNumberHelper.toPersist(product.length),
+      weight: FormatFloatNumberHelper.toPersist(product.weight),
+      width: FormatFloatNumberHelper.toPersist(product.width),
+      ncmId: product.ncm.id,
+    });
 
-	private disable(productId?: string) {
-		return this.database.product.update({
-			data: {
-				enable: false,
-			},
-			where: {
-				productId,
-			},
-		});
-	}
+    await db.insert(productEvents).values({
+      productId: product.id,
+      type: "CREATED",
+      payload: product,
+    });
 
-	private async findActive(id: string) {
-		return await this.database.product.findFirst({
-			where: {
-				AND: [
-					{
-						id,
-					},
-					{
-						enable: true,
-					},
-				],
-			},
-		});
-	}
+    await db.$client.end();
+  }
 
-	async update(product: Product) {
-		await this.database.$connect();
-		const productActive = await this.findActive(product.id);
+  async update(product: Product): Promise<void> {
+    const db = createDatabaseConnection();
 
-		if (!productActive) return await this.database.$disconnect();
+    await db
+      .update(products)
+      .set({
+        name: product.name,
+        tid: product.tid,
+        description: product.description,
+        height: FormatFloatNumberHelper.toPersist(product.height),
+        length: FormatFloatNumberHelper.toPersist(product.length),
+        weight: FormatFloatNumberHelper.toPersist(product.weight),
+        width: FormatFloatNumberHelper.toPersist(product.width),
+        ncmId: product.ncm.id,
+      })
+      .where(eq(products.id, product.id));
 
-		await this.database.$transaction([
-			this.disable(productActive.productId),
-			this.database.product.create({
-				data: {
-					height: FormatFloatNumberHelper.toPersist(product.height),
-					length: FormatFloatNumberHelper.toPersist(product.length),
-					weight: FormatFloatNumberHelper.toPersist(product.weight),
-					width: FormatFloatNumberHelper.toPersist(product.width),
-					id: product.id,
-					description: product.description,
-					name: product.name,
-					tid: product.tid,
-					ncmId: product.ncm.id,
-					enable: true,
-					event: "UPDATED",
-				},
-			}),
-		]);
-		await this.database.$disconnect();
-	}
+    await db.insert(productEvents).values({
+      productId: product.id,
+      type: "UPDATED",
+      payload: product,
+    });
 
-	async list(): Promise<Product[]> {
-		await this.database.$connect();
+    await db.$client.end();
+  }
 
-		const response = await this.database.$queryRaw<Product[]>`
-			SELECT 
-				products.*,
-				to_jsonb(ncms) AS ncm
-			FROM products
-			LEFT JOIN ncms 
-			ON products."ncmId" = ncms."id" AND ncms."enable" = true
-      WHERE products."enable" = true
-		`;
+  async list(): Promise<Product[]> {
+    const db = createDatabaseConnection();
 
-		await this.database.$disconnect();
+    const rows = await db
+      .select({
+        product: products,
+        ncm: ncms,
+      })
+      .from(products)
+      .leftJoin(ncms, eq(products.ncmId, ncms.id));
 
-		return response.map((product) =>
-			Product.instance({
-				id: product.id,
-				tid: product.tid,
-				name: product.name,
-				description: product.description,
-				height: FormatFloatNumberHelper.format(product.height),
-				length: FormatFloatNumberHelper.format(product.length),
-				weight: FormatFloatNumberHelper.format(product.weight),
-				width: FormatFloatNumberHelper.format(product.width),
-				ncm: ProductNCM.create({
-					code: product.ncm.code,
-					cofins: FormatFloatNumberHelper.format(product.ncm.cofins),
-					icms: FormatFloatNumberHelper.format(product.ncm.icms),
-					id: product.ncm.id,
-					ipi: FormatFloatNumberHelper.format(product.ncm.ipi),
-					pis: FormatFloatNumberHelper.format(product.ncm.pis),
-					tax: FormatFloatNumberHelper.format(product.ncm.tax),
-				}),
-			}),
-		);
-	}
+    await db.$client.end();
 
-	async remove(id: string): Promise<void> {
-		await this.database.$connect();
+    return rows.map((row) =>
+      Product.instance({
+        id: row.product.id,
+        tid: row.product.tid,
+        name: row.product.name,
+        description: row.product.description,
+        height: FormatFloatNumberHelper.format(row.product.height),
+        length: FormatFloatNumberHelper.format(row.product.length),
+        weight: FormatFloatNumberHelper.format(row.product.weight),
+        width: FormatFloatNumberHelper.format(row.product.width),
+        ncm: ProductNCM.create({
+          code: row.ncm!.code,
+          cofins: FormatFloatNumberHelper.format(row.ncm!.cofins),
+          icms: FormatFloatNumberHelper.format(row.ncm!.icms),
+          id: row.ncm!.id,
+          ipi: FormatFloatNumberHelper.format(row.ncm!.ipi),
+          pis: FormatFloatNumberHelper.format(row.ncm!.pis),
+          tax: FormatFloatNumberHelper.format(row.ncm!.tax),
+        }),
+      })
+    );
+  }
 
-		const productActive = await this.findActive(id);
+  async remove(id: string): Promise<void> {
+    const db = createDatabaseConnection();
 
-		if (!productActive) return await this.database.$disconnect();
+    await db.delete(products).where(eq(products.id, id));
 
-		await this.database.$transaction([
-			this.disable(productActive.productId),
-			this.database.product.create({
-				data: {
-					height: FormatFloatNumberHelper.toPersist(productActive.height),
-					length: FormatFloatNumberHelper.toPersist(productActive.length),
-					weight: FormatFloatNumberHelper.toPersist(productActive.weight),
-					width: FormatFloatNumberHelper.toPersist(productActive.width),
-					id: productActive.id,
-					description: productActive.description,
-					name: productActive.name,
-					tid: productActive.tid,
-					ncmId: productActive.ncmId,
-					enable: false,
-					event: "DELETED",
-				},
-			}),
-		]);
-		await this.database.$disconnect();
-	}
+    await db.insert(productEvents).values({
+      productId: id,
+      type: "DELETED",
+      payload: { id },
+    });
 
-	static instance() {
-		return new ProductDatabaseRepository();
-	}
+    await db.$client.end();
+  }
+
+  static instance() {
+    return new ProductDatabaseRepository();
+  }
 }
