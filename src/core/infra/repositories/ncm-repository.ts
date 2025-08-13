@@ -1,168 +1,136 @@
+import { eq } from "drizzle-orm";
 import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper";
 import { NCM } from "@/core/domain/entities/ncm";
-import { PrismaClient } from "../../../../prisma";
+import { randomUUID } from "crypto";
+import { createDatabaseConnection } from "../database";
+import { ncmEvents, ncms } from "../database/schemas";
 
 interface NCMRepository {
-	save(ncm: NCM): Promise<void>;
-	list(): Promise<NCM[]>;
-	retrieve(id: string): Promise<NCM | null>;
-	update(ncm: NCM): Promise<void>;
+  save(ncm: NCM): Promise<void>;
+  list(): Promise<NCM[]>;
+  retrieve(id: string): Promise<NCM | null>;
+  update(ncm: NCM): Promise<void>;
+  remove(id: string): Promise<void>;
 }
 
 export class NCMDatabaseRepository implements NCMRepository {
-	private database = new PrismaClient();
+  private db = createDatabaseConnection();
 
-	async retrieve(id: string) {
-		await this.database.$connect();
-		const ncm = await this.database.nCM.findFirst({
-			where: {
-				AND: [
-					{
-						id,
-					},
-					{
-						enable: true,
-					},
-				],
-			},
-		});
+  async retrieve(id: string) {
+    const [ncm] = await this.db.select().from(ncms).where(eq(ncms.id, id));
 
-		await this.database.$disconnect();
+    if (!ncm) return null;
 
-		if (!ncm) return null;
+    return NCM.instance({
+      id: ncm.id,
+      code: ncm.code,
+      cofins: FormatFloatNumberHelper.format(ncm.cofins),
+      icms: FormatFloatNumberHelper.format(ncm.icms),
+      ipi: FormatFloatNumberHelper.format(ncm.ipi),
+      pis: FormatFloatNumberHelper.format(ncm.pis),
+      tax: FormatFloatNumberHelper.format(ncm.tax),
+    });
+  }
 
-		return NCM.instance({
-			id: ncm.id,
-			code: ncm.code,
-			cofins: FormatFloatNumberHelper.format(ncm.cofins),
-			icms: FormatFloatNumberHelper.format(ncm.icms),
-			ipi: FormatFloatNumberHelper.format(ncm.ipi),
-			pis: FormatFloatNumberHelper.format(ncm.pis),
-			tax: FormatFloatNumberHelper.format(ncm.tax),
-		});
-	}
+  async list() {
+    const rows = await this.db.select().from(ncms);
+    return rows.map((ncm) =>
+      NCM.instance({
+        id: ncm.id,
+        code: ncm.code,
+        cofins: FormatFloatNumberHelper.format(ncm.cofins),
+        icms: FormatFloatNumberHelper.format(ncm.icms),
+        ipi: FormatFloatNumberHelper.format(ncm.ipi),
+        pis: FormatFloatNumberHelper.format(ncm.pis),
+        tax: FormatFloatNumberHelper.format(ncm.tax),
+      })
+    );
+  }
 
-	async list() {
-		await this.database.$connect();
-		const response = await this.database.nCM.findMany({
-			where: {
-				enable: true,
-			},
-		});
-		await this.database.$disconnect();
-		return response.map((ncm) =>
-			NCM.instance({
-				id: ncm.id,
-				code: ncm.code,
-				cofins: FormatFloatNumberHelper.format(ncm.cofins),
-				icms: FormatFloatNumberHelper.format(ncm.icms),
-				ipi: FormatFloatNumberHelper.format(ncm.ipi),
-				pis: FormatFloatNumberHelper.format(ncm.pis),
-				tax: FormatFloatNumberHelper.format(ncm.tax),
-			}),
-		);
-	}
+  async save(ncm: NCM): Promise<void> {
+    await this.db.transaction(async (tx) => {
+      await tx.insert(ncms).values({
+        id: ncm.id,
+        code: ncm.code,
+        cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
+        icms: FormatFloatNumberHelper.toPersist(ncm.icms),
+        ipi: FormatFloatNumberHelper.toPersist(ncm.ipi),
+        pis: FormatFloatNumberHelper.toPersist(ncm.pis),
+        tax: FormatFloatNumberHelper.toPersist(ncm.tax),
+      });
 
-	private disable(ncmId?: string) {
-		return this.database.nCM.update({
-			data: {
-				enable: false,
-			},
-			where: {
-				ncmId,
-			},
-		});
-	}
+      await tx.insert(ncmEvents).values({
+        id: randomUUID(),
+        ncmId: ncm.id,
+        type: "CREATED",
+        payload: {
+          code: ncm.code,
+          cofins: ncm.cofins,
+          icms: ncm.icms,
+          ipi: ncm.ipi,
+          pis: ncm.pis,
+          tax: ncm.tax,
+        },
+      });
+    });
+  }
 
-	private async findActive(id: string) {
-		return await this.database.nCM.findFirst({
-			where: {
-				AND: [
-					{
-						id,
-					},
-					{
-						enable: true,
-					},
-				],
-			},
-		});
-	}
+  async update(ncm: NCM): Promise<void> {
+    await this.db.transaction(async (tx) => {
+      await tx
+        .update(ncms)
+        .set({
+          code: ncm.code,
+          cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
+          icms: FormatFloatNumberHelper.toPersist(ncm.icms),
+          ipi: FormatFloatNumberHelper.toPersist(ncm.ipi),
+          pis: FormatFloatNumberHelper.toPersist(ncm.pis),
+          tax: FormatFloatNumberHelper.toPersist(ncm.tax),
+        })
+        .where(eq(ncms.id, ncm.id));
 
-	async remove(id: string) {
-		await this.database.$connect();
+      await tx.insert(ncmEvents).values({
+        id: randomUUID(),
+        ncmId: ncm.id,
+        type: "UPDATED",
+        payload: {
+          code: ncm.code,
+          cofins: ncm.cofins,
+          icms: ncm.icms,
+          ipi: ncm.ipi,
+          pis: ncm.pis,
+          tax: ncm.tax,
+        },
+      });
+    });
+  }
 
-		const ncmActive = await this.findActive(id);
+  async remove(id: string): Promise<void> {
+    const existing = await this.retrieve(id);
+    if (!existing) return;
 
-		if (!ncmActive) {
-			await this.database.$disconnect();
-			return;
-		}
+    await this.db
+      .transaction(async (tx) => {
+        await tx.delete(ncms).where(eq(ncms.id, id));
 
-		await this.database.$transaction([
-			this.disable(ncmActive?.ncmId),
-			this.database.nCM.create({
-				data: {
-					code: ncmActive.code,
-					cofins: ncmActive.cofins,
-					icms: ncmActive.icms,
-					ipi: ncmActive.ipi,
-					pis: ncmActive.pis,
-					tax: ncmActive.tax,
-					enable: false,
-					id: ncmActive.id,
-					event: "DELETED",
-				},
-			}),
-		]);
+        await tx.insert(ncmEvents).values({
+          id: randomUUID(),
+          ncmId: id,
+          type: "DELETED",
+          payload: {
+            code: existing.code,
+            cofins: existing.cofins,
+            icms: existing.icms,
+            ipi: existing.ipi,
+            pis: existing.pis,
+            tax: existing.tax,
+          },
+        });
+      })
+      .catch((err) => console.log(err));
+  }
 
-		await this.database.$disconnect();
-	}
-
-	async save(ncm: NCM): Promise<void> {
-		await this.database.$connect();
-		await this.database.nCM.create({
-			data: {
-				id: ncm.id,
-				code: ncm.code,
-				cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
-				icms: FormatFloatNumberHelper.toPersist(ncm.icms),
-				ipi: FormatFloatNumberHelper.toPersist(ncm.ipi),
-				pis: FormatFloatNumberHelper.toPersist(ncm.pis),
-				tax: FormatFloatNumberHelper.toPersist(ncm.tax),
-				enable: true,
-				event: "CREATED",
-			},
-		});
-		await this.database.$disconnect();
-	}
-
-	async update(ncm: NCM): Promise<void> {
-		await this.database.$connect();
-
-		const ncmActive = await this.findActive(ncm.id);
-
-		await this.database.$transaction([
-			this.disable(ncmActive?.ncmId),
-			this.database.nCM.create({
-				data: {
-					id: ncm.id,
-					code: ncm.code,
-					cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
-					icms: FormatFloatNumberHelper.toPersist(ncm.icms),
-					ipi: FormatFloatNumberHelper.toPersist(ncm.ipi),
-					pis: FormatFloatNumberHelper.toPersist(ncm.pis),
-					tax: FormatFloatNumberHelper.toPersist(ncm.tax),
-					enable: true,
-					event: "UPDATED",
-				},
-			}),
-		]);
-
-		await this.database.$disconnect();
-	}
-
-	static instance() {
-		return new NCMDatabaseRepository();
-	}
+  static instance() {
+    return new NCMDatabaseRepository();
+  }
 }
