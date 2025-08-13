@@ -2,14 +2,16 @@ import {
   boolean,
   integer,
   jsonb,
-  pgTable,
+  pgSchema,
   text,
   timestamp,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 
-export const ncms = pgTable("ncms", {
+const schemas = pgSchema("perfuratriz");
+
+export const ncms = schemas.table("ncms", {
   id: uuid("id").defaultRandom().primaryKey(),
   code: integer("code").notNull(),
   tax: integer("tax").notNull(),
@@ -19,7 +21,7 @@ export const ncms = pgTable("ncms", {
   ipi: integer("ipi").notNull(),
 });
 
-export const products = pgTable("products", {
+export const products = schemas.table("products", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").default("").notNull(),
   tid: text("tid").default("").notNull(),
@@ -33,14 +35,14 @@ export const products = pgTable("products", {
     .notNull(),
 });
 
-export const invoices = pgTable("invoices", {
+export const invoices = schemas.table("invoices", {
   id: uuid("id").defaultRandom().primaryKey(),
   registration: text("registration").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   quote: integer("quote").notNull(),
 });
 
-export const invoiceProducts = pgTable("invoice_products", {
+export const invoiceProducts = schemas.table("invoice_products", {
   id: uuid("id").defaultRandom().primaryKey(),
   productId: uuid("productId")
     .references(() => products.id, { onDelete: "cascade" })
@@ -52,7 +54,7 @@ export const invoiceProducts = pgTable("invoice_products", {
   quantity: integer("quantity").notNull(),
 });
 
-export const expenses = pgTable("expenses", {
+export const expenses = schemas.table("expenses", {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   useICMSBase: boolean("useICMSBase").default(false).notNull(),
@@ -64,14 +66,14 @@ export const expenses = pgTable("expenses", {
   currency: varchar("currency", { enum: ["USD", "BRL"], length: 3 }).notNull(),
 });
 
-export const declarations = pgTable("declarations", {
+export const declarations = schemas.table("declarations", {
   id: uuid("id").defaultRandom().primaryKey(),
   registration: text("registration").notNull(),
   quote: integer("quote").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const declarationExpenses = pgTable("declaration_expenses", {
+export const declarationExpenses = schemas.table("declaration_expenses", {
   id: uuid("id").defaultRandom().primaryKey(),
   declarationId: uuid("declarationId")
     .references(() => declarations.id, { onDelete: "cascade" })
@@ -87,7 +89,7 @@ export const declarationExpenses = pgTable("declaration_expenses", {
   amount: integer("amount").default(0).notNull(),
 });
 
-export const declarationInvoices = pgTable("declaration_invoices", {
+export const declarationInvoices = schemas.table("declaration_invoices", {
   id: uuid("id").defaultRandom().primaryKey(),
   declarationId: uuid("declarationId")
     .references(() => declarations.id, { onDelete: "cascade" })
@@ -97,7 +99,7 @@ export const declarationInvoices = pgTable("declaration_invoices", {
   quote: integer("quote").notNull(),
 });
 
-export const declarationInvoiceProducts = pgTable(
+export const declarationInvoiceProducts = schemas.table(
   "declaration_invoice_products",
   {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -117,7 +119,7 @@ export const declarationInvoiceProducts = pgTable(
   }
 );
 
-export const declarationInvoiceProductNcms = pgTable(
+export const declarationInvoiceProductNcms = schemas.table(
   "declaration_invoice_product_ncms",
   {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -133,7 +135,7 @@ export const declarationInvoiceProductNcms = pgTable(
   }
 );
 
-export const ncmEvents = pgTable("ncm_events", {
+export const ncmEvents = schemas.table("ncm_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   ncmId: uuid("ncmId").notNull(),
   type: varchar("type", {
@@ -144,7 +146,7 @@ export const ncmEvents = pgTable("ncm_events", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const productEvents = pgTable("product_events", {
+export const productEvents = schemas.table("product_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   productId: uuid("productId").notNull(),
   type: varchar("type", {
@@ -155,7 +157,7 @@ export const productEvents = pgTable("product_events", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const invoiceEvents = pgTable("invoice_events", {
+export const invoiceEvents = schemas.table("invoice_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   invoiceId: uuid("invoiceId").notNull(),
   type: varchar("type", {
@@ -166,7 +168,7 @@ export const invoiceEvents = pgTable("invoice_events", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const expenseEvents = pgTable("expense_events", {
+export const expenseEvents = schemas.table("expense_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   expenseId: uuid("expenseId").notNull(),
   type: varchar("type", {
@@ -177,7 +179,7 @@ export const expenseEvents = pgTable("expense_events", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const declarationEvents = pgTable("declaration_events", {
+export const declarationEvents = schemas.table("declaration_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   declarationId: uuid("declarationId").notNull(),
   type: varchar("type", {

@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1755086872714,
-      "tag": "0000_superb_bruce_banner",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1755087800866,
-      "tag": "0001_fast_hedge_knight",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1755087923534,
-      "tag": "0002_lucky_patch",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1755089807438,
-      "tag": "0003_rare_sunfire",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1755093477543,
-      "tag": "0004_lying_venus",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1755099552466,
-      "tag": "0005_confused_black_tom",
+      "when": 1755101534980,
+      "tag": "0000_famous_the_phantom",
       "breakpoints": true
     }
   ]

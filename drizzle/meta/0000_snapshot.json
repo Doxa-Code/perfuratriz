@@ -1,12 +1,12 @@
 {
-  "id": "bfe5df4d-5028-44af-a103-803fb9f30c93",
+  "id": "194360c9-ce7b-4bb2-85ea-2b2560df9ea0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.declaration_events": {
+    "perfuratriz.declaration_events": {
       "name": "declaration_events",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -42,89 +42,16 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "declaration_events_declarationId_declarations_id_fk": {
-          "name": "declaration_events_declarationId_declarations_id_fk",
-          "tableFrom": "declaration_events",
-          "tableTo": "declarations",
-          "columnsFrom": [
-            "declarationId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.declaration_expense_events": {
-      "name": "declaration_expense_events",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "declarationExpenseId": {
-          "name": "declarationExpenseId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(8)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payload": {
-          "name": "payload",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "declaration_expense_events_declarationExpenseId_declaration_expenses_id_fk": {
-          "name": "declaration_expense_events_declarationExpenseId_declaration_expenses_id_fk",
-          "tableFrom": "declaration_expense_events",
-          "tableTo": "declaration_expenses",
-          "columnsFrom": [
-            "declarationExpenseId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.declaration_expenses": {
+    "perfuratriz.declaration_expenses": {
       "name": "declaration_expenses",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -185,13 +112,14 @@
           "name": "declaration_expenses_declarationId_declarations_id_fk",
           "tableFrom": "declaration_expenses",
           "tableTo": "declarations",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "declarationId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -201,186 +129,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.declaration_invoice_events": {
-      "name": "declaration_invoice_events",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "declarationInvoiceId": {
-          "name": "declarationInvoiceId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(8)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payload": {
-          "name": "payload",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "declaration_invoice_events_declarationInvoiceId_declaration_invoices_id_fk": {
-          "name": "declaration_invoice_events_declarationInvoiceId_declaration_invoices_id_fk",
-          "tableFrom": "declaration_invoice_events",
-          "tableTo": "declaration_invoices",
-          "columnsFrom": [
-            "declarationInvoiceId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.declaration_invoice_product_events": {
-      "name": "declaration_invoice_product_events",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "declarationInvoiceProductId": {
-          "name": "declarationInvoiceProductId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(8)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payload": {
-          "name": "payload",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "declaration_invoice_product_events_declarationInvoiceProductId_declaration_invoice_products_id_fk": {
-          "name": "declaration_invoice_product_events_declarationInvoiceProductId_declaration_invoice_products_id_fk",
-          "tableFrom": "declaration_invoice_product_events",
-          "tableTo": "declaration_invoice_products",
-          "columnsFrom": [
-            "declarationInvoiceProductId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.declaration_invoice_product_ncm_events": {
-      "name": "declaration_invoice_product_ncm_events",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "declarationInvoiceProductNcmId": {
-          "name": "declarationInvoiceProductNcmId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(8)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payload": {
-          "name": "payload",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "declaration_invoice_product_ncm_events_declarationInvoiceProductNcmId_declaration_invoice_product_ncms_id_fk": {
-          "name": "declaration_invoice_product_ncm_events_declarationInvoiceProductNcmId_declaration_invoice_product_ncms_id_fk",
-          "tableFrom": "declaration_invoice_product_ncm_events",
-          "tableTo": "declaration_invoice_product_ncms",
-          "columnsFrom": [
-            "declarationInvoiceProductNcmId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.declaration_invoice_product_ncms": {
+    "perfuratriz.declaration_invoice_product_ncms": {
       "name": "declaration_invoice_product_ncms",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -438,13 +189,14 @@
           "name": "declaration_invoice_product_ncms_productId_declaration_invoice_products_id_fk",
           "tableFrom": "declaration_invoice_product_ncms",
           "tableTo": "declaration_invoice_products",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "productId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -454,9 +206,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.declaration_invoice_products": {
+    "perfuratriz.declaration_invoice_products": {
       "name": "declaration_invoice_products",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -541,13 +293,14 @@
           "name": "declaration_invoice_products_invoiceId_declaration_invoices_id_fk",
           "tableFrom": "declaration_invoice_products",
           "tableTo": "declaration_invoices",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "invoiceId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -557,9 +310,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.declaration_invoices": {
+    "perfuratriz.declaration_invoices": {
       "name": "declaration_invoices",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -600,13 +353,14 @@
           "name": "declaration_invoices_declarationId_declarations_id_fk",
           "tableFrom": "declaration_invoices",
           "tableTo": "declarations",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "declarationId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -616,9 +370,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.declarations": {
+    "perfuratriz.declarations": {
       "name": "declarations",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -655,9 +409,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.expense_events": {
+    "perfuratriz.expense_events": {
       "name": "expense_events",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -693,30 +447,16 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "expense_events_expenseId_expenses_id_fk": {
-          "name": "expense_events_expenseId_expenses_id_fk",
-          "tableFrom": "expense_events",
-          "tableTo": "expenses",
-          "columnsFrom": [
-            "expenseId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.expenses": {
+    "perfuratriz.expenses": {
       "name": "expenses",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -766,9 +506,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.invoice_events": {
+    "perfuratriz.invoice_events": {
       "name": "invoice_events",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -804,89 +544,16 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "invoice_events_invoiceId_invoices_id_fk": {
-          "name": "invoice_events_invoiceId_invoices_id_fk",
-          "tableFrom": "invoice_events",
-          "tableTo": "invoices",
-          "columnsFrom": [
-            "invoiceId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.invoice_product_events": {
-      "name": "invoice_product_events",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "invoiceProductId": {
-          "name": "invoiceProductId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type": {
-          "name": "type",
-          "type": "varchar(8)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "payload": {
-          "name": "payload",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "invoice_product_events_invoiceProductId_invoice_products_id_fk": {
-          "name": "invoice_product_events_invoiceProductId_invoice_products_id_fk",
-          "tableFrom": "invoice_product_events",
-          "tableTo": "invoice_products",
-          "columnsFrom": [
-            "invoiceProductId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.invoice_products": {
+    "perfuratriz.invoice_products": {
       "name": "invoice_products",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -926,26 +593,28 @@
           "name": "invoice_products_productId_products_id_fk",
           "tableFrom": "invoice_products",
           "tableTo": "products",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "productId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "invoice_products_invoiceId_invoices_id_fk": {
           "name": "invoice_products_invoiceId_invoices_id_fk",
           "tableFrom": "invoice_products",
           "tableTo": "invoices",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "invoiceId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -955,9 +624,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.invoices": {
+    "perfuratriz.invoices": {
       "name": "invoices",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -994,9 +663,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.ncm_events": {
+    "perfuratriz.ncm_events": {
       "name": "ncm_events",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -1032,30 +701,16 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "ncm_events_ncmId_ncms_id_fk": {
-          "name": "ncm_events_ncmId_ncms_id_fk",
-          "tableFrom": "ncm_events",
-          "tableTo": "ncms",
-          "columnsFrom": [
-            "ncmId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.ncms": {
+    "perfuratriz.ncms": {
       "name": "ncms",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -1109,9 +764,9 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.product_events": {
+    "perfuratriz.product_events": {
       "name": "product_events",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -1147,30 +802,16 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "product_events_productId_products_id_fk": {
-          "name": "product_events_productId_products_id_fk",
-          "tableFrom": "product_events",
-          "tableTo": "products",
-          "columnsFrom": [
-            "productId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.products": {
+    "perfuratriz.products": {
       "name": "products",
-      "schema": "",
+      "schema": "perfuratriz",
       "columns": {
         "id": {
           "name": "id",
@@ -1237,13 +878,14 @@
           "name": "products_ncmId_ncms_id_fk",
           "tableFrom": "products",
           "tableTo": "ncms",
+          "schemaTo": "perfuratriz",
           "columnsFrom": [
             "ncmId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },
