@@ -1,6 +1,6 @@
 "use client";
 
-import { createInvoiceAction } from "@/actions/invoice-action";
+import { registerInvoiceAction } from "@/actions/invoice-action";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -80,7 +80,10 @@ export function ModalCreateInvoice(props: Props) {
   const [invoice, setInvoice] = React.useState<Invoice | null>(null);
   const { isOpen, toggleModal } = useModais();
   const { register, setRegister } = useRegisterEdit();
-  const { mutate, isPending } = useServerActionMutation(createInvoiceAction, {
+  const { mutate, isPending } = useServerActionMutation(registerInvoiceAction, {
+    onError(err) {
+      console.log(err);
+    },
     onSuccess() {
       toggleModal(MODAL_CREATE_INVOICE);
       setRegister(null);

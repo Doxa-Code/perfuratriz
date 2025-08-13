@@ -22,6 +22,20 @@
       "when": 1755087923534,
       "tag": "0002_lucky_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1755089807438,
+      "tag": "0003_rare_sunfire",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1755093477543,
+      "tag": "0004_lying_venus",
+      "breakpoints": true
     }
   ]
 }

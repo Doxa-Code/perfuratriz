@@ -43,10 +43,10 @@ export const invoices = pgTable("invoices", {
 export const invoiceProducts = pgTable("invoice_products", {
   id: uuid("id").defaultRandom().primaryKey(),
   productId: uuid("productId")
-    .references(() => products.id)
+    .references(() => products.id, { onDelete: "cascade" })
     .notNull(),
   invoiceId: uuid("invoiceId")
-    .references(() => invoices.id)
+    .references(() => invoices.id, { onDelete: "cascade" })
     .notNull(),
   amount: integer("amount").notNull(),
   quantity: integer("quantity").notNull(),
@@ -166,17 +166,6 @@ export const invoiceEvents = pgTable("invoice_events", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
-export const invoiceProductEvents = pgTable("invoice_product_events", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  invoiceProductId: uuid("invoiceProductId").notNull(),
-  type: varchar("type", {
-    length: 8,
-    enum: ["CREATED", "UPDATED", "DELETED"],
-  }).notNull(),
-  payload: jsonb("payload").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
 export const expenseEvents = pgTable("expense_events", {
   id: uuid("id").defaultRandom().primaryKey(),
   expenseId: uuid("expenseId").notNull(),
@@ -198,55 +187,3 @@ export const declarationEvents = pgTable("declaration_events", {
   payload: jsonb("payload").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
-
-export const declarationExpenseEvents = pgTable("declaration_expense_events", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  declarationExpenseId: uuid("declarationExpenseId").notNull(),
-  type: varchar("type", {
-    length: 8,
-    enum: ["CREATED", "UPDATED", "DELETED"],
-  }).notNull(),
-  payload: jsonb("payload").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export const declarationInvoiceEvents = pgTable("declaration_invoice_events", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  declarationInvoiceId: uuid("declarationInvoiceId").notNull(),
-  type: varchar("type", {
-    length: 8,
-    enum: ["CREATED", "UPDATED", "DELETED"],
-  }).notNull(),
-  payload: jsonb("payload").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export const declarationInvoiceProductEvents = pgTable(
-  "declaration_invoice_product_events",
-  {
-    id: uuid("id").defaultRandom().primaryKey(),
-    declarationInvoiceProductId: uuid("declarationInvoiceProductId").notNull(),
-    type: varchar("type", {
-      length: 8,
-      enum: ["CREATED", "UPDATED", "DELETED"],
-    }).notNull(),
-    payload: jsonb("payload").notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-  }
-);
-
-export const declarationInvoiceProductNcmEvents = pgTable(
-  "declaration_invoice_product_ncm_events",
-  {
-    id: uuid("id").defaultRandom().primaryKey(),
-    declarationInvoiceProductNcmId: uuid(
-      "declarationInvoiceProductNcmId"
-    ).notNull(),
-    type: varchar("type", {
-      length: 8,
-      enum: ["CREATED", "UPDATED", "DELETED"],
-    }).notNull(),
-    payload: jsonb("payload").notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-  }
-);
