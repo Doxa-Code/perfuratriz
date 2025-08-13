@@ -1,13 +1,14 @@
 "use server";
+import { COOKIE_TOKEN_NAME } from "@/app/constants";
 import { db } from "@/core/database";
 import { users } from "@/core/database/schemas";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
-import { createServerAction } from "zsa";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { z } from "zod";
+import { createServerAction } from "zsa";
+import { checkPassword, generateToken } from "../security";
+import { securityProcedure } from "../procedure";
 
 export const authenticate = createServerAction()
   .input(
@@ -17,17 +18,22 @@ export const authenticate = createServerAction()
     })
   )
   .handler(async ({ input }) => {
+    console.log(input);
     const [user] = await db
       .select()
       .from(users)
       .where(eq(users.email, input.email));
     if (!user) throw new Error("Credenciais inválidas");
-
-    const passIsCorrect = bcrypt.compareSync(input.password, user.password);
+    const passIsCorrect = checkPassword(input.password, user.password);
     if (!passIsCorrect) throw new Error("Credenciais inválidas");
-
-    const token = jwt.sign({ id: user.id }, "shhh-perfuratriz");
     const cookieStore = await cookies();
-    cookieStore.set("X-TOKEN-PERFURATRIZ", token);
+    const cookie = await generateToken(user.id);
+    cookieStore.set(cookie.name, cookie.value);
     redirect("/ncms");
   });
+
+export const signOut = securityProcedure.handler(async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete(COOKIE_TOKEN_NAME);
+  redirect("/");
+});

@@ -1,5 +1,6 @@
 import AuthLogin from "@/components/auth-login";
 import LeftSidebarPart from "@/components/left-sidebar-part";
+
 const Login = () => {
   return (
     <>

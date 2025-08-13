@@ -1,5 +1,5 @@
 "use client";
-import { authenticate } from "@/actions/auth/actions";
+import { authenticate } from "@/app/actions/auth";
 import { useServerActionMutation } from "@/hooks/server-actions-hooks";
 import { Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useToast } from "@/hooks/use-toast";

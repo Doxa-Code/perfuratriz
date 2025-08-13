@@ -1,9 +1,8 @@
-import { cookies } from "next/headers";
+import { getUserAuthenticate } from "@/app/actions/security";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("x-token-perfuratriz");
-  if (!token?.value) redirect("/signin");
+  const user = await getUserAuthenticate();
+  if (!user) redirect("/signin");
   redirect("/ncms");
 }
