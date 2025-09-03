@@ -17,7 +17,6 @@ export class NCMDatabaseRepository implements NCMRepository {
   async retrieve(id: string) {
     const db = createDatabaseConnection();
     const [ncm] = await db.select().from(ncms).where(eq(ncms.id, id));
-    await db.$client.end();
 
     if (!ncm) return null;
 
@@ -35,7 +34,6 @@ export class NCMDatabaseRepository implements NCMRepository {
   async list() {
     const db = createDatabaseConnection();
     const rows = await db.select().from(ncms);
-    await db.$client.end();
 
     return rows.map((ncm) =>
       NCM.instance({
@@ -78,8 +76,6 @@ export class NCMDatabaseRepository implements NCMRepository {
         },
       });
     });
-
-    await db.$client.end();
   }
 
   async update(ncm: NCM): Promise<void> {
@@ -112,15 +108,12 @@ export class NCMDatabaseRepository implements NCMRepository {
         },
       });
     });
-
-    await db.$client.end();
   }
 
   async remove(id: string): Promise<void> {
     const db = createDatabaseConnection();
     const existing = await this.retrieve(id);
     if (!existing) {
-      await db.$client.end();
       return;
     }
 
@@ -141,8 +134,6 @@ export class NCMDatabaseRepository implements NCMRepository {
         },
       });
     });
-
-    await db.$client.end();
   }
 
   static instance() {

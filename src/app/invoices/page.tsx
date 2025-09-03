@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Invoices() {
-  const [invoices] = await listInvoiceAction();
-  const [products] = await listProductAction();
+  const [invoices, err1] = await listInvoiceAction();
+  const [products, err2] = await listProductAction();
 
   return (
     <main className="container mx-auto">

@@ -38,7 +38,14 @@ export class Expense {
   }
 
   static instance(props: Expense.Props) {
-    return new Expense(props);
+    return new Expense({
+      allocationMethod: props.allocationMethod ?? "NET_VALUE",
+      currency: props.currency ?? "USD",
+      id: props.id ?? "",
+      name: props.name ?? "",
+      useCustomsBase: props.useCustomsBase ?? false,
+      useICMSBase: props.useICMSBase ?? false,
+    });
   }
 
   static create(props: Expense.CreateProps) {

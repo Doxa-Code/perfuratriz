@@ -52,48 +52,43 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 
     const [invoice] = await db.$client<InvoiceRaw[]>`
 			SELECT 
-				i.id,
-				i.registration,
-				i."createdAt",
-				i.quote,
-				jsonb_agg(
-					jsonb_build_object(
-						'id', ip.id,
-						'amount', ip.amount,
-						'quantity', ip.quantity,
-						'product', jsonb_build_object(
-							'id', p.id,
-							'tid', p.tid,
-							'name', p.name,
-							'width', p.width,
-							'height', p.height,
-							'length', p.length,
-							'weight', p.weight,
-							'description', p.description,
-							'ncm', jsonb_build_object(
-								'id', n.id,
-								'code', n.code,
-								'tax', n.tax,
-								'icms', n.icms,
-								'pis', n.pis,
-								'cofins', n.cofins,
-								'ipi', n.ipi
-							)
-						)
-					)
-				) AS products
-			FROM invoices i
-			LEFT JOIN invoice_products ip 
-				ON ip."invoiceId" = i.id
-			LEFT JOIN products p 
-				ON p.id = ip."productId"
-			LEFT JOIN ncms n 
-				ON n.id = p."ncmId"
+        i.id,
+        i.registration,
+        i."createdAt",
+        i.quote,
+        COALESCE(jsonb_agg(
+            jsonb_build_object(
+                'id', ip.id,
+                'amount', ip.amount,
+                'quantity', ip.quantity,
+                'product', jsonb_build_object(
+                    'id', p.id,
+                    'tid', p.tid,
+                    'name', p.name,
+                    'width', p.width,
+                    'height', p.height,
+                    'length', p.length,
+                    'weight', p.weight,
+                    'description', p.description,
+                    'ncm', jsonb_build_object(
+                        'id', n.id,
+                        'code', n.code,
+                        'tax', n.tax,
+                        'icms', n.icms,
+                        'pis', n.pis,
+                        'cofins', n.cofins,
+                        'ipi', n.ipi
+                    )
+                )
+            )
+        ), '[]'::jsonb) AS products
+      FROM perfuratriz.invoices i
+      LEFT JOIN perfuratriz.invoice_products ip ON ip."invoiceId" = i.id
+      LEFT JOIN perfuratriz.products p ON p.id = ip."productId"
+      LEFT JOIN perfuratriz.ncms n ON n.id = p."ncmId"
       WHERE i.id = ${id}
       GROUP BY i.id, i.registration, i."createdAt", i.quote;
 		`;
-
-    await db.$client.end();
 
     if (!invoice) return null;
 
@@ -154,7 +149,6 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         type: "UPDATED",
       });
     });
-    await db.$client.end();
   }
 
   async save(invoice: Invoice): Promise<void> {
@@ -194,7 +188,6 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         type: "CREATED",
       });
     });
-    await db.$client.end();
   }
 
   async list(): Promise<Invoice[]> {
@@ -202,47 +195,45 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 
     const allInvoices = await db.$client<InvoiceRaw[]>`
 			SELECT 
-				i.id,
-				i.registration,
-				i."createdAt",
-				i.quote,
-				jsonb_agg(
-					jsonb_build_object(
-						'id', ip.id,
-						'amount', ip.amount,
-						'quantity', ip.quantity,
-						'product', jsonb_build_object(
-							'id', p.id,
-							'tid', p.tid,
-							'name', p.name,
-							'width', p.width,
-							'height', p.height,
-							'length', p.length,
-							'weight', p.weight,
-							'description', p.description,
-							'ncm', jsonb_build_object(
-								'id', n.id,
-								'code', n.code,
-								'tax', n.tax,
-								'icms', n.icms,
-								'pis', n.pis,
-								'cofins', n.cofins,
-								'ipi', n.ipi
-							)
-						)
-					)
-				) AS products
-			FROM invoices i
-			LEFT JOIN invoice_products ip 
-				ON ip."invoiceId" = i.id
-			LEFT JOIN products p 
-				ON p.id = ip."productId"
-			LEFT JOIN ncms n 
-				ON n.id = p."ncmId"
-			GROUP BY i.id, i.registration, i."createdAt", i.quote;
+        i.id,
+        i.registration,
+        i."createdAt",
+        i.quote,
+        jsonb_agg(
+          jsonb_build_object(
+            'id', ip.id,
+            'amount', ip.amount,
+            'quantity', ip.quantity,
+            'product', jsonb_build_object(
+              'id', p.id,
+              'tid', p.tid,
+              'name', p.name,
+              'width', p.width,
+              'height', p.height,
+              'length', p.length,
+              'weight', p.weight,
+              'description', p.description,
+              'ncm', jsonb_build_object(
+                'id', n.id,
+                'code', n.code,
+                'tax', n.tax,
+                'icms', n.icms,
+                'pis', n.pis,
+                'cofins', n.cofins,
+                'ipi', n.ipi
+              )
+            )
+          )
+        ) AS products
+      FROM perfuratriz.invoices i
+      LEFT JOIN perfuratriz.invoice_products ip 
+        ON ip."invoiceId" = i.id
+      LEFT JOIN perfuratriz.products p 
+        ON p.id = ip."productId"
+      LEFT JOIN perfuratriz.ncms n 
+        ON n.id = p."ncmId"
+      GROUP BY i.id, i.registration, i."createdAt", i.quote;
 		`;
-
-    await db.$client.end();
 
     return allInvoices.map((invoice) =>
       Invoice.instance({
@@ -268,7 +259,6 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
     const db = createDatabaseConnection();
     const invoice = await this.retrieve(id);
     if (!invoice) {
-      await db.$client.end();
       return;
     }
     await db.transaction(async (tx) => {
@@ -280,7 +270,6 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         type: "DELETED",
       });
     });
-    await db.$client.end();
   }
 
   static instance() {

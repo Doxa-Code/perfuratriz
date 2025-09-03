@@ -26,8 +26,6 @@ export class ProductDatabaseRepository implements ProductRepository {
       .leftJoin(ncms, eq(products.ncmId, ncms.id))
       .where(eq(products.id, id));
 
-    await db.$client.end();
-
     const row = rows[0];
     if (!row || !row.product) return null;
 
@@ -72,8 +70,6 @@ export class ProductDatabaseRepository implements ProductRepository {
       type: "CREATED",
       payload: product,
     });
-
-    await db.$client.end();
   }
 
   async update(product: Product): Promise<void> {
@@ -98,8 +94,6 @@ export class ProductDatabaseRepository implements ProductRepository {
       type: "UPDATED",
       payload: product,
     });
-
-    await db.$client.end();
   }
 
   async list(): Promise<Product[]> {
@@ -112,8 +106,6 @@ export class ProductDatabaseRepository implements ProductRepository {
       })
       .from(products)
       .leftJoin(ncms, eq(products.ncmId, ncms.id));
-
-    await db.$client.end();
 
     return rows.map((row) =>
       Product.instance({
@@ -148,8 +140,6 @@ export class ProductDatabaseRepository implements ProductRepository {
       type: "DELETED",
       payload: { id },
     });
-
-    await db.$client.end();
   }
 
   static instance() {

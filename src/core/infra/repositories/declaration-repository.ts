@@ -152,8 +152,6 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         payload: declaration,
       });
     });
-
-    await db.$client.end();
   }
 
   async update(declaration: Declaration): Promise<void> {
@@ -301,66 +299,66 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         payload: declaration,
       });
     });
-
-    await db.$client.end();
   }
 
   async retrieve(id: string): Promise<Declaration | null> {
     const db = createDatabaseConnection();
     const [declarationRaw] = await db.$client<any[]>`
 			SELECT 
-				d.id,
-				d.registration,
-				d."createdAt",
-				d.quote,
-				di.id AS invoice_id,
-				di.registration AS invoice_registration,
-				di."createdAt" AS invoice_createdAt,
-				di.quote AS invoice_quote,
-				jsonb_agg(DISTINCT jsonb_build_object(
-					'id', dip.id,
-					'productId', dip."productId",
-					'name', dip.name,
-					'tid', dip.tid,
-					'description', dip.description,
-					'weight', dip.weight,
-					'length', dip.length,
-					'height', dip.height,
-					'width', dip.width,
-					'amount', dip.amount,
-					'quantity', dip.quantity,
-					'ncm', jsonb_build_object(
-						'id', n.id,
-						'code', n.code,
-						'tax', n.tax,
-						'icms', n.icms,
-						'pis', n.pis,
-						'cofins', n.cofins,
-						'ipi', n.ipi
-					)
-				)) AS products,
-				jsonb_agg(DISTINCT jsonb_build_object(
-					'id', de.id,
-					'name', de.name,
-					'useICMSBase', de."useICMSBase",
-					'useCustomsBase', de."useCustomsBase",
-					'allocationMethod', de."allocationMethod",
-					'currency', de.currency,
-					'amount', de.amount
-				)) AS expenses
-			FROM declarations d
-			LEFT JOIN declaration_invoices di
-				ON di."declarationId" = d.id
-			LEFT JOIN declaration_invoice_products dip
-				ON dip."invoiceId" = di.id
-			LEFT JOIN ncms n
-				ON n.id = dip."productId" -- ou ajuste conforme seu relacionamento de NCM
-			LEFT JOIN declaration_expenses de
-				ON de."declarationId" = d.id
-			WHERE d.id = ${id}
-			GROUP BY d.id, d.registration, d."createdAt", d.quote, di.id, di.registration, di."createdAt", di.quote;
+        d.id,
+        d.registration,
+        d."createdAt",
+        d.quote,
+        di.id AS invoice_id,
+        di.registration AS invoice_registration,
+        di."createdAt" AS invoice_createdAt,
+        di.quote AS invoice_quote,
+        COALESCE(jsonb_agg(DISTINCT jsonb_build_object(
+            'id', dip.id,
+            'productId', dip."productId",
+            'name', dip.name,
+            'tid', dip.tid,
+            'description', dip.description,
+            'weight', dip.weight,
+            'length', dip.length,
+            'height', dip.height,
+            'width', dip.width,
+            'amount', dip.amount,
+            'quantity', dip.quantity,
+            'ncm', jsonb_build_object(
+                'id', n.id,
+                'code', n.code,
+                'tax', n.tax,
+                'icms', n.icms,
+                'pis', n.pis,
+                'cofins', n.cofins,
+                'ipi', n.ipi
+            )
+        )), '[]'::jsonb) AS products,
+        COALESCE(jsonb_agg(DISTINCT jsonb_build_object(
+            'id', de.id,
+            'name', de.name,
+            'useICMSBase', de."useICMSBase",
+            'useCustomsBase', de."useCustomsBase",
+            'allocationMethod', de."allocationMethod",
+            'currency', de.currency,
+            'amount', de.amount
+        )), '[]'::jsonb) AS expenses
+    FROM perfuratriz.declarations d
+    LEFT JOIN perfuratriz.declaration_invoices di
+        ON di."declarationId" = d.id
+    LEFT JOIN perfuratriz.declaration_invoice_products dip
+        ON dip."invoiceId" = di.id
+    LEFT JOIN perfuratriz.products p
+        ON p.id = dip."productId"
+    LEFT JOIN perfuratriz.ncms n
+        ON n.id = p."ncmId"
+    LEFT JOIN perfuratriz.declaration_expenses de
+        ON de."declarationId" = d.id
+    WHERE d.id = ${id}
+    GROUP BY d.id, d.registration, d."createdAt", d.quote, 
+            di.id, di.registration, di."createdAt", di.quote;
 		`;
-    await db.$client.end();
 
     if (!declarationRaw) return null;
     const invoice = Invoice.instance({
@@ -433,57 +431,59 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
     const db = createDatabaseConnection();
     const declarationsRaw = await db.$client<any[]>`
 			SELECT 
-				d.id,
-				d.registration,
-				d."createdAt",
-				d.quote,
-				di.id AS invoice_id,
-				di.registration AS invoice_registration,
-				di."createdAt" AS invoice_createdAt,
-				di.quote AS invoice_quote,
-				jsonb_agg(DISTINCT jsonb_build_object(
-					'id', dip.id,
-					'productId', dip."productId",
-					'name', dip.name,
-					'tid', dip.tid,
-					'description', dip.description,
-					'weight', dip.weight,
-					'length', dip.length,
-					'height', dip.height,
-					'width', dip.width,
-					'amount', dip.amount,
-					'quantity', dip.quantity,
-					'ncm', jsonb_build_object(
-						'id', n.id,
-						'code', n.code,
-						'tax', n.tax,
-						'icms', n.icms,
-						'pis', n.pis,
-						'cofins', n.cofins,
-						'ipi', n.ipi
-					)
-				)) AS products,
-				jsonb_agg(DISTINCT jsonb_build_object(
-					'id', de.id,
-					'name', de.name,
-					'useICMSBase', de."useICMSBase",
-					'useCustomsBase', de."useCustomsBase",
-					'allocationMethod', de."allocationMethod",
-					'currency', de.currency,
-					'amount', de.amount
-				)) AS expenses
-			FROM declarations d
-			LEFT JOIN declaration_invoices di
-				ON di."declarationId" = d.id
-			LEFT JOIN declaration_invoice_products dip
-				ON dip."invoiceId" = di.id
-			LEFT JOIN ncms n
-				ON n.id = dip."productId"
-			LEFT JOIN declaration_expenses de
-				ON de."declarationId" = d.id
-			GROUP BY d.id, d.registration, d."createdAt", d.quote, di.id, di.registration, di."createdAt", di.quote;
+        d.id,
+        d.registration,
+        d."createdAt",
+        d.quote,
+        di.id AS invoice_id,
+        di.registration AS invoice_registration,
+        di."createdAt" AS invoice_createdAt,
+        di.quote AS invoice_quote,
+        jsonb_agg(DISTINCT jsonb_build_object(
+            'id', dip.id,
+            'productId', dip."productId",
+            'name', dip.name,
+            'tid', dip.tid,
+            'description', dip.description,
+            'weight', dip.weight,
+            'length', dip.length,
+            'height', dip.height,
+            'width', dip.width,
+            'amount', dip.amount,
+            'quantity', dip.quantity,
+            'ncm', jsonb_build_object(
+                'id', n.id,
+                'code', n.code,
+                'tax', n.tax,
+                'icms', n.icms,
+                'pis', n.pis,
+                'cofins', n.cofins,
+                'ipi', n.ipi
+            )
+        )) AS products,
+        jsonb_agg(DISTINCT jsonb_build_object(
+            'id', de.id,
+            'name', de.name,
+            'useICMSBase', de."useICMSBase",
+            'useCustomsBase', de."useCustomsBase",
+            'allocationMethod', de."allocationMethod",
+            'currency', de.currency,
+            'amount', de.amount
+        )) AS expenses
+    FROM perfuratriz.declarations d
+    LEFT JOIN perfuratriz.declaration_invoices di
+        ON di."declarationId" = d.id
+    LEFT JOIN perfuratriz.declaration_invoice_products dip
+        ON dip."invoiceId" = di.id
+    LEFT JOIN perfuratriz.products p
+        ON p.id = dip."productId"
+    LEFT JOIN perfuratriz.ncms n
+        ON n.id = p."ncmId"
+    LEFT JOIN perfuratriz.declaration_expenses de
+        ON de."declarationId" = d.id
+    GROUP BY d.id, d.registration, d."createdAt", d.quote, 
+            di.id, di.registration, di."createdAt", di.quote;
 		`;
-    await db.$client.end();
 
     return declarationsRaw.map((declarationRaw) => {
       const invoice = Invoice.instance({
@@ -565,7 +565,6 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         type: "DELETED",
       });
     });
-    await db.$client.end();
   }
 
   static instance(): DeclarationDatabaseRepository {

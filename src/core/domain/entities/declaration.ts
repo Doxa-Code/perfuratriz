@@ -40,7 +40,14 @@ export class Declaration {
   }
 
   static instance(props: Declaration.Props) {
-    return new Declaration(props);
+    return new Declaration({
+      createdAt: props.createdAt,
+      expenses: props.expenses,
+      id: props.id ?? "",
+      invoice: props.invoice,
+      quote: props.quote ?? 0,
+      registration: props.registration ?? "",
+    });
   }
 
   static create(props: Declaration.CreateProps) {

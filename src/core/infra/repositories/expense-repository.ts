@@ -18,8 +18,6 @@ export class ExpenseDatabaseRepository implements ExpenseRepository {
 
     const [row] = await db.select().from(expenses).where(eq(expenses.id, id));
 
-    await db.$client.end();
-
     if (!row) return null;
 
     return Expense.instance({
@@ -36,8 +34,6 @@ export class ExpenseDatabaseRepository implements ExpenseRepository {
     const db = createDatabaseConnection();
 
     const rows = await db.select().from(expenses);
-
-    await db.$client.end();
 
     return rows.map(Expense.instance);
   }
@@ -59,8 +55,6 @@ export class ExpenseDatabaseRepository implements ExpenseRepository {
       type: "CREATED",
       payload: expense,
     });
-
-    await db.$client.end();
   }
 
   async update(expense: Expense): Promise<void> {
@@ -82,8 +76,6 @@ export class ExpenseDatabaseRepository implements ExpenseRepository {
       type: "UPDATED",
       payload: expense,
     });
-
-    await db.$client.end();
   }
 
   async remove(id: string): Promise<void> {
@@ -96,8 +88,6 @@ export class ExpenseDatabaseRepository implements ExpenseRepository {
       type: "DELETED",
       payload: { id },
     });
-
-    await db.$client.end();
   }
 
   static instance() {
