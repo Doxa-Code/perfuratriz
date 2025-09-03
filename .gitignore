@@ -20,6 +20,8 @@
 # production
 /build
 
+./update.ts
+
 # misc
 .DS_Store
 *.pem
