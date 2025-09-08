@@ -163,6 +163,7 @@ export function ModalCreateDeclaration(props: Props) {
               });
             }) ?? [],
           id: "1",
+          status: "open",
         })
       );
     });
