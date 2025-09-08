@@ -6,9 +6,14 @@ import { Label } from "@/components/ui/label";
 import { useServerActionMutation } from "@/lib/hooks";
 import { FormEvent } from "react";
 import { ImSpinner8 } from "react-icons/im";
+import { toast } from "sonner";
 
 export function LoginForm() {
-  const mutate = useServerActionMutation(authenticate);
+  const mutate = useServerActionMutation(authenticate, {
+    onError(error) {
+      toast.error(error.message);
+    },
+  });
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

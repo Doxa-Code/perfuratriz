@@ -18,15 +18,15 @@ export const authenticate = createServerAction()
   .handler(async ({ input }) => {
     const user = await usersRepository.retrieveUserByEmail(input.email);
 
-    if (!user) throw NotAuthorized.throw();
+    if (!user) throw new Error("Usuário ou senha incorreta!");
 
     const password = await usersRepository.retrievePassword(user.id);
 
-    if (!password) throw NotAuthorized.throw();
+    if (!password) throw new Error("Usuário ou senha incorreta!");
 
     const passIsCorrect = passwordDriver.compare(input.password, password);
 
-    if (!passIsCorrect) throw NotAuthorized.throw();
+    if (!passIsCorrect) throw new Error("Usuário ou senha incorreta!");
 
     const token = tokenDriver.create(user.id);
 
