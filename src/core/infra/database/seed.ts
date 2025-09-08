@@ -3,8 +3,8 @@ import { UsersDatabaseRepository } from "../repositories/users-repository";
 import { BcryptPasswordDriver } from "../drivers/password-driver";
 
 const user = User.create({
-  name: "Admin",
-  email: "admin@perfuratriz.com.br",
+  name: "Fausto",
+  email: "fausto@aptoconsultoria.com.br",
 });
 
 if (!process.env.INITIAL_USER_PASS) {
