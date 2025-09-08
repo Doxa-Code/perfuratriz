@@ -14,8 +14,6 @@ export default async function Invoices() {
   const [invoices, err1] = await listInvoiceAction();
   const [products, err2] = await listProductAction();
 
-  console.log(err1);
-
   return (
     <main className="container mx-auto">
       <header className="flex w-full py-10 items-center justify-between">
