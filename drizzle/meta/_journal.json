@@ -22,6 +22,20 @@
       "when": 1757333597499,
       "tag": "0002_fine_blackheart",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757337848546,
+      "tag": "0003_bored_silvermane",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1757337967496,
+      "tag": "0004_luxuriant_phalanx",
+      "breakpoints": true
     }
   ]
 }

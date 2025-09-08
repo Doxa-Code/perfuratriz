@@ -1,0 +1,1 @@
+ALTER TABLE "perfuratriz"."declarations" ADD COLUMN "status" text DEFAULT 'open';

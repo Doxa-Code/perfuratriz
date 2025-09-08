@@ -1,12 +1,15 @@
 import type { InvoiceProduct } from "./invoice-product";
 
 export namespace Invoice {
+  export type Status = "open" | "closed";
+
   export interface Props {
     id: string;
     registration: string;
     createdAt: Date;
     quote: number;
     products: InvoiceProduct[];
+    status: Status;
   }
   export interface CreateProps {
     registration: string;
@@ -21,6 +24,7 @@ export class Invoice {
   public createdAt: Date;
   public quote: number;
   private _products: Map<string, InvoiceProduct>;
+  public status: Invoice.Status;
 
   constructor(props: Invoice.Props) {
     this.id = props.id;
@@ -28,6 +32,11 @@ export class Invoice {
     this.createdAt = props.createdAt;
     this.quote = props.quote;
     this.products = props.products;
+    this.status = props.status;
+  }
+
+  close() {
+    this.status = "closed";
   }
 
   static instance(props: Invoice.Props) {
@@ -37,6 +46,7 @@ export class Invoice {
       products: props.products,
       quote: props.quote ?? 0,
       registration: props.registration ?? "",
+      status: props.status,
     });
   }
 
@@ -97,6 +107,7 @@ export class Invoice {
       quote: props.quote,
       registration: props.registration,
       products: [],
+      status: "open",
     });
   }
 }

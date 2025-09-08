@@ -59,8 +59,9 @@ type Props<T> = {
   registers: T[];
   keyToSearch: keyof T;
   modalName: string;
+  editDisabled?: boolean;
   onError?: (error: string) => void;
-  customButtons?: (rowsSelected?: T[]) => ReactNode;
+  customButtons?: (rowsSelected: T[], clearSelection: () => void) => ReactNode;
 };
 
 export function TableComponent<T extends { id: string }>(props: Props<T>) {
@@ -132,9 +133,11 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
           className="md:w-96"
         />
         {props.customButtons?.(
-          table.getSelectedRowModel()?.rows?.map((r) => r.original) ?? []
+          table.getSelectedRowModel()?.rows?.map((r) => r.original) ?? [],
+          () => setRowSelection({})
         )}
         <Button
+          disabled={props.editDisabled}
           data-hidden={
             !table.getSelectedRowModel().rows.length ||
             table.getSelectedRowModel().rows.length > 1

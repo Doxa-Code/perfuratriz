@@ -40,6 +40,7 @@ export const invoices = schemas.table("invoices", {
   registration: text("registration").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   quote: integer("quote").notNull(),
+  status: text("status", { enum: ["open", "closed"] }).default("open"),
 });
 
 export const invoiceProducts = schemas.table("invoice_products", {
@@ -71,6 +72,7 @@ export const declarations = schemas.table("declarations", {
   registration: text("registration").notNull(),
   quote: integer("quote").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+  status: text("status", { enum: ["open", "closed"] }).default("open"),
 });
 
 export const declarationExpenses = schemas.table("declaration_expenses", {

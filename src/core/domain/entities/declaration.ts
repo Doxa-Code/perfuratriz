@@ -2,6 +2,7 @@ import type { ExpenseDeclaration } from "./expense-declaration";
 import type { Invoice } from "./invoice";
 
 export namespace Declaration {
+  export type Status = "open" | "closed";
   export interface Props {
     id: string;
     registration: string;
@@ -9,6 +10,7 @@ export namespace Declaration {
     createdAt: Date;
     invoice: Invoice;
     expenses: ExpenseDeclaration[];
+    status: Status;
   }
   export interface CreateProps {
     registration: string;
@@ -25,6 +27,7 @@ export class Declaration {
   public quote: number;
   public invoice: Invoice;
   public expenses: ExpenseDeclaration[];
+  public status: Declaration.Status;
 
   constructor(props: Declaration.Props) {
     this.id = props.id;
@@ -33,10 +36,17 @@ export class Declaration {
     this.createdAt = props.createdAt;
     this.invoice = props.invoice;
     this.expenses = props.expenses;
+    this.status = props.status;
   }
 
   addExpense(expense: ExpenseDeclaration) {
     this.expenses.push(expense);
+  }
+
+  close() {
+    if (!this.invoice.id) throw new Error("Nenhum invoice registrada na DI!");
+    this.invoice.close();
+    this.status = "closed";
   }
 
   static instance(props: Declaration.Props) {
@@ -47,6 +57,7 @@ export class Declaration {
       invoice: props.invoice,
       quote: props.quote ?? 0,
       registration: props.registration ?? "",
+      status: props.status ?? "open",
     });
   }
 
@@ -58,6 +69,7 @@ export class Declaration {
       quote: props.quote,
       registration: props.registration,
       createdAt: props.createdAt ?? new Date(),
+      status: "open",
     });
   }
 }

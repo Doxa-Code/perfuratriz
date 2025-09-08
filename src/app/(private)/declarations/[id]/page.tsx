@@ -1,4 +1,5 @@
 import { retrieveDeclarationAction } from "@/actions/declaration-action";
+import { CloseDeclarationButton } from "@/components/close-declaration-button";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -42,6 +43,7 @@ export default async function DeclarationSummary({
         ),
         quote: declaration.invoice.quote,
         registration: declaration.invoice.registration,
+        status: declaration.status,
       }),
     })
   );
@@ -50,12 +52,16 @@ export default async function DeclarationSummary({
 
   return (
     <main className="w-full container mx-auto overflow-y-auto max-h-screen pt-20 pb-96">
-      <header>
+      <header className="flex justify-between w-full items-center">
         <Link href="/declarations">
           <Button variant="link">
             <ArrowLeftIcon /> Voltar
           </Button>
         </Link>
+        <CloseDeclarationButton
+          id={id}
+          hidden={declaration.status === "closed"}
+        />
       </header>
       <div className="space-y-6 text-sm mx-auto">
         <h1 className="text-2xl font-semibold">Resumo da DI</h1>

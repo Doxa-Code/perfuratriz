@@ -21,6 +21,7 @@ type InvoiceRaw = {
   createdAt: Date;
   quote: number;
   enable: boolean;
+  status: "open" | "closed";
   products: {
     amount: number;
     quantity: number;
@@ -56,6 +57,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         i.registration,
         i."createdAt",
         i.quote,
+        i.status,
         COALESCE(jsonb_agg(
             jsonb_build_object(
                 'id', ip.id,
@@ -94,6 +96,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 
     return Invoice.instance({
       id: invoice.id,
+      status: invoice.status,
       registration: invoice.registration,
       createdAt: new Date(invoice.createdAt),
       quote: FormatFloatNumberHelper.format(invoice.quote, 10000),
@@ -199,6 +202,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         i.registration,
         i."createdAt",
         i.quote,
+        i.status,
         jsonb_agg(
           jsonb_build_object(
             'id', ip.id,
@@ -241,6 +245,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         registration: invoice.registration,
         createdAt: new Date(invoice.createdAt),
         quote: FormatFloatNumberHelper.format(invoice.quote, 10000),
+        status: invoice.status,
         products: invoice.products.map((p) =>
           InvoiceProduct.create({
             ...p,

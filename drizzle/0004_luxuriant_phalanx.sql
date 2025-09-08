@@ -1,0 +1,1 @@
+ALTER TABLE "perfuratriz"."invoices" ADD COLUMN "status" text DEFAULT 'open';

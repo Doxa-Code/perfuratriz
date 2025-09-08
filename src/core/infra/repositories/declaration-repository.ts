@@ -14,6 +14,7 @@ import {
   declarationInvoiceProducts,
   declarationInvoices,
   declarations,
+  invoices,
 } from "../database/schemas";
 import { Expense } from "@/core/domain/entities/expense";
 
@@ -36,6 +37,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
           registration: declaration.registration,
           quote: FormatFloatNumberHelper.toPersist(declaration.quote, 10000),
           createdAt: declaration.createdAt,
+          status: declaration.status,
         })
         .onConflictDoUpdate({
           target: declarations.id,
@@ -43,6 +45,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
             registration: declaration.registration,
             quote: FormatFloatNumberHelper.toPersist(declaration.quote, 10000),
             createdAt: declaration.createdAt,
+            status: declaration.status,
           },
         });
 
@@ -158,6 +161,12 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
     const db = createDatabaseConnection();
 
     await db.transaction(async (tx) => {
+      if (declaration.status === "closed" && declaration.invoice.id) {
+        await tx
+          .update(invoices)
+          .set({ status: "closed" })
+          .where(eq(invoices.id, declaration.invoice.id));
+      }
       await tx
         .insert(declarations)
         .values({
@@ -165,6 +174,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
           registration: declaration.registration,
           quote: FormatFloatNumberHelper.toPersist(declaration.quote, 10000),
           createdAt: declaration.createdAt,
+          status: declaration.status,
         })
         .onConflictDoUpdate({
           target: declarations.id,
@@ -172,6 +182,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
             registration: declaration.registration,
             quote: FormatFloatNumberHelper.toPersist(declaration.quote, 10000),
             createdAt: declaration.createdAt,
+            status: declaration.status,
           },
         });
 
@@ -307,6 +318,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 			SELECT 
         d.id,
         d.registration,
+        d.status,
         d."createdAt",
         d.quote,
         di.id AS invoice_id,
@@ -371,6 +383,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         declarationRaw.invoice_quote ?? 0,
         10000
       ),
+      status: declarationRaw.status,
       products: (declarationRaw.products ?? []).map((p: any) =>
         InvoiceProduct.create({
           id: p.id ?? "",
@@ -424,6 +437,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
       quote: FormatFloatNumberHelper.format(declarationRaw.quote ?? 0, 10000),
       invoice,
       expenses,
+      status: declarationRaw.status,
     });
   }
 
@@ -433,6 +447,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
 			SELECT 
         d.id,
         d.registration,
+        d.status,
         d."createdAt",
         d.quote,
         di.id AS invoice_id,
@@ -489,6 +504,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
       const invoice = Invoice.instance({
         id: declarationRaw.invoice_id ?? "", // default string
         registration: declarationRaw.invoice_registration ?? "",
+        status: declarationRaw.status,
         createdAt: declarationRaw.invoice_createdAt
           ? new Date(declarationRaw.invoice_createdAt)
           : new Date(),
@@ -549,6 +565,7 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         quote: FormatFloatNumberHelper.format(declarationRaw.quote ?? 0, 10000),
         invoice,
         expenses,
+        status: declarationRaw.status,
       });
     });
   }

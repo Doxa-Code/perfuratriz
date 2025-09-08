@@ -10,12 +10,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { TableComponent } from "./table";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { cn } from "@/lib/utils";
 
 type InvoiceRaw = {
   id: string;
   registration: string;
   createdAt: Date;
   quote: number;
+  status: "open" | "closed";
   products: {
     product: Product.Props;
     quantity: number;
@@ -78,6 +81,20 @@ const columns: ColumnDef<InvoiceRaw>[] = [
           minimumFractionDigits: 4,
         })}
       </div>
+    ),
+  },
+  {
+    header: "Status",
+    accessorKey: "status",
+    cell: ({ row }) => (
+      <Badge
+        className={cn(
+          "font-medium",
+          row.getValue("status") === "closed" ? "bg-purple-500" : "bg-teal-500"
+        )}
+      >
+        {row.getValue("status") === "closed" ? "Encerrado" : "Aberto"}
+      </Badge>
     ),
   },
 ];

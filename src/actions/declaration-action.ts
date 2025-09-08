@@ -8,6 +8,7 @@ import { InvoiceDatabaseRepository } from "@/core/infra/repositories/invoice-rep
 import { revalidatePath } from "next/cache";
 import { createServerAction } from "zsa";
 import {
+  closeDeclarationInputSchema,
   createDeclarationInputSchema,
   listDeclarationOutputSchema,
   removeDeclarationInputSchema,
@@ -17,6 +18,16 @@ import {
 
 const declarationRepository = DeclarationDatabaseRepository.instance();
 const invoicesRepository = InvoiceDatabaseRepository.instance();
+
+export const closedDeclarationAction = createServerAction()
+  .input(closeDeclarationInputSchema)
+  .handler(async ({ input }) => {
+    const declaration = await declarationRepository.retrieve(input.id);
+    if (!declaration) return;
+    declaration.close();
+    await declarationRepository.update(declaration);
+    revalidatePath("/declarations", "page");
+  });
 
 export const createDeclarationAction = createServerAction()
   .input(createDeclarationInputSchema)
@@ -47,6 +58,7 @@ export const createDeclarationAction = createServerAction()
       invoice,
       quote: input.quote,
       registration: input.registration,
+      status: "open",
     });
     await declarationRepository.update(declaration).catch(console.log);
     revalidatePath("/declarations", "page");
