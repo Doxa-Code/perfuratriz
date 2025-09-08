@@ -189,3 +189,11 @@ export const declarationEvents = schemas.table("declaration_events", {
   payload: jsonb("payload").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+export const users = schemas.table("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  password: text("password"),
+  role: text("role", { enum: ["admin"] }).notNull(),
+});

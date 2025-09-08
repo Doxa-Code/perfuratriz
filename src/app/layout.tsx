@@ -1,4 +1,3 @@
-import { Menu } from "@/components/menu";
 import ReactQueryProvider from "@/components/react-query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
@@ -31,7 +30,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <Menu>{children}</Menu>
+          {children}
           <Toaster />
         </ReactQueryProvider>
       </body>

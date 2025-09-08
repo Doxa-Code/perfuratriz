@@ -8,17 +8,16 @@ import {
   Box,
   FileAxis3dIcon,
   Files,
-  LayoutDashboard,
-  LogOut,
-  Settings,
-  UserCog,
 } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 import { type ReactNode, useState } from "react";
+import { NavUser } from "./nav-user";
+import { User } from "@/core/domain/entities/user";
 
 type Props = {
   children: ReactNode;
+  userAuthenticate: User.Raw;
 };
 
 export const Menu: React.FC<Props> = (props) => {
@@ -59,7 +58,6 @@ export const Menu: React.FC<Props> = (props) => {
       ),
     },
   ];
-  const [open, setOpen] = useState(false);
   return (
     <div
       className={cn(
@@ -67,19 +65,20 @@ export const Menu: React.FC<Props> = (props) => {
         "h-screen w-full"
       )}
     >
-      <Sidebar animate open={open} setOpen={setOpen}>
+      <Sidebar open={true}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            {open ? <Logo /> : <LogoIcon />}
+            <Logo />
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
             </div>
           </div>
+          <NavUser user={props.userAuthenticate} />
         </SidebarBody>
       </Sidebar>
-      <div className="w-full h-screen p-10 flex-1 overflow-auto">
+      <div className="w-full shadow h-screen p-10 flex-1 overflow-auto">
         {props.children}
       </div>
     </div>
@@ -88,19 +87,10 @@ export const Menu: React.FC<Props> = (props) => {
 
 export const Logo = () => {
   return (
-    <Link
-      href="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
-    >
+    <div className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20">
       <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-medium text-black dark:text-white whitespace-pre"
-      >
-        Perfuratriz
-      </motion.span>
-    </Link>
+      <span className="font-medium text-black whitespace-pre">Perfuratriz</span>
+    </div>
   );
 };
 

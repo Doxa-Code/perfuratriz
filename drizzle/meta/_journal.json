@@ -8,6 +8,20 @@
       "when": 1755101534980,
       "tag": "0000_famous_the_phantom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757333523204,
+      "tag": "0001_narrow_kingpin",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757333597499,
+      "tag": "0002_fine_blackheart",
+      "breakpoints": true
     }
   ]
 }

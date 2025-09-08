@@ -1,0 +1,1 @@
+ALTER TABLE "perfuratriz"."users" ALTER COLUMN "role" SET NOT NULL;
