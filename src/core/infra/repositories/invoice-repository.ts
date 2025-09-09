@@ -5,7 +5,7 @@ import { NCM } from "@/core/domain/entities/ncm";
 import { Product } from "@/core/domain/entities/product";
 import { createDatabaseConnection } from "../database";
 import { invoiceEvents, invoiceProducts, invoices } from "../database/schemas";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 interface InvoiceRepository {
   save(invoice: Invoice): Promise<void>;
@@ -115,43 +115,55 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
 
   async update(invoice: Invoice): Promise<void> {
     const db = createDatabaseConnection();
-    await db.transaction(async (tx) => {
-      await tx
-        .update(invoices)
-        .set({
-          createdAt: invoice.createdAt,
-          quote: FormatFloatNumberHelper.toPersist(invoice.quote, 10000),
-          registration: invoice.registration,
-        })
-        .where(eq(invoices.id, invoice.id));
-      await Promise.all(
-        invoice.products.map(async (p) => {
-          await tx
-            .insert(invoiceProducts)
-            .values({
-              amount: FormatFloatNumberHelper.toPersist(p.amount, 10000),
-              invoiceId: invoice.id,
-              productId: p.product.id,
-              quantity: p.quantity,
-              id: p.id,
-            })
-            .onConflictDoUpdate({
-              set: {
-                amount: FormatFloatNumberHelper.toPersist(p.amount, 10000),
+    try {
+
+      await db.transaction(async (tx) => {
+        await tx
+          .update(invoices)
+          .set({
+            createdAt: invoice.createdAt,
+            quote: FormatFloatNumberHelper.toPersist(invoice.quote, 10000),
+            registration: invoice.registration,
+          })
+          .where(eq(invoices.id, invoice.id));
+        await Promise.all(
+          invoice.products.map(async (p) => {
+            await tx
+              .insert(invoiceProducts)
+              .values({
+                amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
                 invoiceId: invoice.id,
                 productId: p.product.id,
                 quantity: p.quantity,
-              },
-              target: invoices.id,
-            });
-        })
-      );
-      await tx.insert(invoiceEvents).values({
-        invoiceId: invoice.id,
-        payload: invoice,
-        type: "UPDATED",
+                id: p.id,
+              })
+              .onConflictDoUpdate({
+                set: {
+                  amount: sql`excluded.amount`,
+                  invoiceId: sql`excluded."invoiceId"`,
+                  productId: sql`excluded."productId"`,
+                  quantity: sql`excluded.quantity`,
+                },
+                target: invoiceProducts.id,
+              });
+          })
+        );
+        await tx.insert(invoiceEvents).values({
+          invoiceId: invoice.id,
+          payload: invoice,
+          type: "UPDATED",
+        });
       });
-    });
+
+    } catch (err) {
+      console.error("Erro na atualização da invoice:");
+      if (err instanceof Error) {
+        console.error("Mensagem:", err);
+      }
+      // Se estiver usando pg diretamente via drizzle-pg:
+      // console.error("Detalhes Postgres:", (err as any).cause);
+      throw err; // se quiser propagar
+    }
   }
 
   async save(invoice: Invoice): Promise<void> {
@@ -168,7 +180,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
           await tx
             .insert(invoiceProducts)
             .values({
-              amount: FormatFloatNumberHelper.toPersist(p.amount, 10000),
+              amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
               invoiceId: invoice.id,
               productId: p.product.id,
               quantity: p.quantity,
@@ -176,7 +188,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
             })
             .onConflictDoUpdate({
               set: {
-                amount: FormatFloatNumberHelper.toPersist(p.amount, 10000),
+                amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
                 invoiceId: invoice.id,
                 productId: p.product.id,
                 quantity: p.quantity,

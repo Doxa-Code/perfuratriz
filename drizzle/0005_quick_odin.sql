@@ -1,0 +1,1 @@
+ALTER TABLE "perfuratriz"."invoice_products" ALTER COLUMN "amount" SET DATA TYPE bigint;

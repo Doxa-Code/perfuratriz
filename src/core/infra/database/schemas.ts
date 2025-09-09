@@ -7,6 +7,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  bigint
 } from "drizzle-orm/pg-core";
 
 const schemas = pgSchema("perfuratriz");
@@ -51,7 +52,7 @@ export const invoiceProducts = schemas.table("invoice_products", {
   invoiceId: uuid("invoiceId")
     .references(() => invoices.id, { onDelete: "cascade" })
     .notNull(),
-  amount: integer("amount").notNull(),
+  amount: bigint("amount", { mode: "bigint" }).notNull(),
   quantity: integer("quantity").notNull(),
 });
 
