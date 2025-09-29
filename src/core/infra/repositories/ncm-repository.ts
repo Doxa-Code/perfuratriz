@@ -32,7 +32,7 @@ export class NCMDatabaseRepository implements NCMRepository {
       tax: FormatFloatNumberHelper.format(ncm.tax),
       difal: ncm.difal,
       reductionCalculationBase: FormatFloatNumberHelper.format(
-        ncm.reductionCalculationBaseValue
+        ncm.reductionCalculationBase
       ),
     });
   }
@@ -54,7 +54,7 @@ export class NCMDatabaseRepository implements NCMRepository {
         tax: FormatFloatNumberHelper.format(ncm.tax),
         difal: ncm.difal,
         reductionCalculationBase: FormatFloatNumberHelper.format(
-          ncm.reductionCalculationBaseValue
+          ncm.reductionCalculationBase
         ),
       })
     );
@@ -75,10 +75,7 @@ export class NCMDatabaseRepository implements NCMRepository {
         cofinsSales: FormatFloatNumberHelper.toPersist(ncm.cofinsSales),
         tax: FormatFloatNumberHelper.toPersist(ncm.tax),
         difal: ncm.difal,
-        reductionCalculationBaseValue: FormatFloatNumberHelper.toPersist(
-          ncm.reductionCalculationBase
-        ),
-        reductionCalculationBase: ncm.reductionCalculationBase > 0,
+        reductionCalculationBase: ncm.reductionCalculationBase,
       });
 
       await tx.insert(ncmEvents).values({
@@ -118,10 +115,7 @@ export class NCMDatabaseRepository implements NCMRepository {
           cofinsSales: FormatFloatNumberHelper.toPersist(ncm.cofinsSales),
           tax: FormatFloatNumberHelper.toPersist(ncm.tax),
           difal: ncm.difal,
-          reductionCalculationBaseValue: FormatFloatNumberHelper.toPersist(
-            ncm.reductionCalculationBase
-          ),
-          reductionCalculationBase: ncm.reductionCalculationBase > 0,
+          reductionCalculationBase: ncm.reductionCalculationBase,
         })
         .where(eq(ncms.id, ncm.id));
 

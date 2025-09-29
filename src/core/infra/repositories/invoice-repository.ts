@@ -30,11 +30,15 @@ type InvoiceRaw = {
       ncm: {
         id: string;
         ipi: number;
-        pis: number;
         tax: number;
         code: number;
         icms: number;
+        pis: number;
         cofins: number;
+        pisSales: number;
+        cofinsSales: number;
+        difal: boolean;
+        reductionCalculationBase: number;
       };
       tid: string;
       name: string;
@@ -79,7 +83,11 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
                         'icms', n.icms,
                         'pis', n.pis,
                         'cofins', n.cofins,
-                        'ipi', n.ipi
+                        'ipi', n.ipi,
+                        'pisSales', n.pis_sales,
+                        'cofinsSales', n.cofins_sales,
+                        'difal', n.difal,
+                        'reductionCalculationBase', n.reduction_calculation_base_value
                     )
                 )
             )
@@ -240,7 +248,11 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
                 'icms', n.icms,
                 'pis', n.pis,
                 'cofins', n.cofins,
-                'ipi', n.ipi
+                'ipi', n.ipi,
+                'pisSales', n.pis_sales,
+                'cofinsSales', n.cofins_sales,
+                'difal', n.difal,
+                'reductionCalculationBase', n.reduction_calculation_base_value
               )
             )
           )

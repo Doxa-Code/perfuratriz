@@ -1,0 +1,1 @@
+ALTER TABLE "perfuratriz"."ncms" DROP COLUMN "reduction_calculation_base";
