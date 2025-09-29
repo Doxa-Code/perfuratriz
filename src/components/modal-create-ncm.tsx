@@ -253,7 +253,7 @@ export function ModalCreateNCM() {
               </div>
               <div
                 data-hidden={!taxSales}
-                className="flex flex-col gap-4 data-[hidden=true]:hidden"
+                className="flex flex-col gap-8 data-[hidden=true]:hidden"
               >
                 <FormField
                   control={form.control}

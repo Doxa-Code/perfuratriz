@@ -56,8 +56,8 @@ export class NCM {
       ipi: props.ipi,
       pis: props.pis,
       cofins: props.cofins,
-      pisSales: props.pisSales,
-      cofinsSales: props.cofinsSales,
+      pisSales: props.pisSales || props.pis,
+      cofinsSales: props.cofinsSales || props.cofins,
       tax: props.tax,
     });
   }
