@@ -33,7 +33,7 @@ export class UpdateInvoice {
     const invoice = Invoice.instance({
       quote: input.quote ?? invoiceOld.quote,
       registration: input.registration ?? invoiceOld.registration,
-      createdAt: invoiceOld.createdAt,
+      createdAt: input.createdAt ?? invoiceOld.createdAt,
       id: invoiceOld.id,
       products: [],
       status: invoiceOld.status,

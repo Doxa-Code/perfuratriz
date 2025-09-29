@@ -95,7 +95,6 @@ export function ModalCreateInvoice(props: Props) {
     resolver: zodResolver(formSchema),
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   React.useEffect(() => {
     form.watch((values) => {
       const invoiceCreated = Invoice.create({
@@ -231,7 +230,9 @@ export function ModalCreateInvoice(props: Props) {
                             <Calendar
                               mode="single"
                               selected={field.value}
-                              onSelect={field.onChange}
+                              onSelect={(date) => {
+                                field.onChange(date);
+                              }}
                               initialFocus
                             />
                           </PopoverContent>

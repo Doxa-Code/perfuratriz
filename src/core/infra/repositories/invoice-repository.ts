@@ -103,7 +103,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
       products: invoice.products.map((p) =>
         InvoiceProduct.create({
           ...p,
-          amount: FormatFloatNumberHelper.format(p.amount, 100),
+          amount: FormatFloatNumberHelper.format(p.amount, 10000),
           product: Product.instance({
             ...p.product,
             ncm: NCM.instance(p.product.ncm),
@@ -116,7 +116,6 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
   async update(invoice: Invoice): Promise<void> {
     const db = createDatabaseConnection();
     try {
-
       await db.transaction(async (tx) => {
         await tx
           .update(invoices)
@@ -131,7 +130,9 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
             await tx
               .insert(invoiceProducts)
               .values({
-                amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
+                amount: BigInt(
+                  FormatFloatNumberHelper.toPersist(p.amount, 10000)
+                ),
                 invoiceId: invoice.id,
                 productId: p.product.id,
                 quantity: p.quantity,
@@ -154,7 +155,6 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
           type: "UPDATED",
         });
       });
-
     } catch (err) {
       console.error("Erro na atualização da invoice:");
       if (err instanceof Error) {
@@ -180,7 +180,9 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
           await tx
             .insert(invoiceProducts)
             .values({
-              amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
+              amount: BigInt(
+                FormatFloatNumberHelper.toPersist(p.amount, 10000)
+              ),
               invoiceId: invoice.id,
               productId: p.product.id,
               quantity: p.quantity,
@@ -188,7 +190,9 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
             })
             .onConflictDoUpdate({
               set: {
-                amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
+                amount: BigInt(
+                  FormatFloatNumberHelper.toPersist(p.amount, 10000)
+                ),
                 invoiceId: invoice.id,
                 productId: p.product.id,
                 quantity: p.quantity,
@@ -261,7 +265,7 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
         products: invoice.products.map((p) =>
           InvoiceProduct.create({
             ...p,
-            amount: FormatFloatNumberHelper.format(p.amount, 100),
+            amount: FormatFloatNumberHelper.format(p.amount, 10000),
             product: Product.instance({
               ...p.product,
               ncm: NCM.instance(p.product.ncm),
