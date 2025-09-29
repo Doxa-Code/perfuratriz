@@ -112,6 +112,27 @@ const columns: ColumnDef<NCM.Props>[] = [
     ),
     size: 180,
   },
+  {
+    header: "Difal",
+    accessorKey: "difal",
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("difal") ? "Sim" : "Não"}</div>
+    ),
+    size: 180,
+  },
+  {
+    header: "Redução de base de calculo",
+    accessorKey: "reductionCalculationBase",
+    cell: ({ row }) => (
+      <div className="font-medium">
+        {Number(row.getValue("reductionCalculationBase"))
+          .toFixed(2)
+          .replace(".", ",")}
+        %
+      </div>
+    ),
+    size: 280,
+  },
 ];
 
 export const TableNCM: React.FC<Props> = (props) => {

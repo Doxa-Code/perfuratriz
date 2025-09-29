@@ -9,6 +9,8 @@ export namespace NCM {
     pisSales: number;
     cofinsSales: number;
     ipi: number;
+    difal: boolean;
+    reductionCalculationBase: number;
   }
 }
 
@@ -22,6 +24,9 @@ export class NCM {
   public pisSales: number;
   public cofinsSales: number;
   public ipi: number;
+  public difal: boolean;
+  public reductionCalculationBase: number;
+
   constructor(props: NCM.Props) {
     this.id = props.id;
     this.code = props.code;
@@ -32,6 +37,8 @@ export class NCM {
     this.pisSales = props.pisSales;
     this.cofinsSales = props.cofinsSales;
     this.ipi = props.ipi;
+    this.difal = props.difal;
+    this.reductionCalculationBase = props.reductionCalculationBase;
   }
 
   static instance(props: NCM.Props) {
@@ -45,6 +52,8 @@ export class NCM {
       pisSales: props.pisSales ?? 0,
       cofinsSales: props.cofinsSales ?? 0,
       tax: props.tax ?? 0,
+      difal: props.difal ?? false,
+      reductionCalculationBase: props.reductionCalculationBase ?? 0,
     });
   }
 
@@ -59,6 +68,8 @@ export class NCM {
       pisSales: props.pisSales || props.pis,
       cofinsSales: props.cofinsSales || props.cofins,
       tax: props.tax,
+      difal: props.difal ?? false,
+      reductionCalculationBase: props.reductionCalculationBase ?? false,
     });
   }
 }

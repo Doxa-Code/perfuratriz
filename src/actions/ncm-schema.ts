@@ -30,6 +30,12 @@ export const createNCMInputSchema = z.object({
   ipi: z
     .string()
     .transform((value) => Number.parseFloat(value.replace(",", "."))),
+  reductionCalculationBase: z
+    .string()
+    .transform((value) => Number.parseFloat(value.replace(",", ".") || "0"))
+    .optional()
+    .default("0"),
+  difal: z.boolean().optional().default(false),
 });
 
 export const NCMSchema = z.object({
@@ -42,6 +48,8 @@ export const NCMSchema = z.object({
   pisSales: z.number(),
   cofinsSales: z.number(),
   ipi: z.number(),
+  difal: z.boolean(),
+  reductionCalculationBase: z.number(),
 });
 
 export const listNCMOutputSchema = z.array(NCMSchema);

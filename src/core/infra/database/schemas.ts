@@ -22,6 +22,13 @@ export const ncms = schemas.table("ncms", {
   ipi: integer("ipi").notNull(),
   pisSales: integer("pis_sales").notNull().default(0),
   cofinsSales: integer("cofins_sales").notNull().default(0),
+  difal: boolean("difal").notNull().default(false),
+  reductionCalculationBase: boolean("reduction_calculation_base")
+    .notNull()
+    .default(false),
+  reductionCalculationBaseValue: integer("reduction_calculation_base_value")
+    .notNull()
+    .default(0),
 });
 
 export const products = schemas.table("products", {

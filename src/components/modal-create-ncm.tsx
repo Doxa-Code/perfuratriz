@@ -42,11 +42,14 @@ const formSchema = z.object({
   cofins: z.string({ message: "Campo obrigatório" }),
   pisSales: z.string({ message: "Campo obrigatório" }),
   cofinsSales: z.string({ message: "Campo obrigatório" }),
+  reductionCalculationBase: z.string({ message: "Campo obrigatório" }),
   ipi: z.string({ message: "Campo obrigatório" }),
 });
 
 export function ModalCreateNCM() {
   const [taxSales, setTaxSales] = React.useState(false);
+  const [difal, setDifal] = React.useState(false);
+  const [reductionCalculation, setReductionCalculation] = React.useState(false);
   const { isOpen, toggleModal } = useModais();
   const { register, setRegister } = useRegisterEdit();
   const { mutate, isPending } = useServerActionMutation(createNCMAction, {
@@ -61,6 +64,18 @@ export function ModalCreateNCM() {
   });
 
   React.useEffect(() => {
+    if (!difal) {
+      setReductionCalculation(false);
+    }
+  }, [difal]);
+
+  React.useEffect(() => {
+    if (!reductionCalculation) {
+      form.resetField("reductionCalculationBase", { defaultValue: "0,00" });
+    }
+  }, [reductionCalculation]);
+
+  React.useEffect(() => {
     if (register && isOpen(MODAL_CREATE_NCM)) {
       form.reset({
         code: register.code.toString(),
@@ -71,7 +86,16 @@ export function ModalCreateNCM() {
         pisSales: register.pisSales.toFixed(2).replace(".", ","),
         cofinsSales: register.cofinsSales.toFixed(2).replace(".", ","),
         tax: register.tax.toFixed(2).replace(".", ","),
+        reductionCalculationBase:
+          register.reductionCalculationBase?.toFixed(2).replace(".", ",") ??
+          "0,00",
       });
+      setTaxSales(
+        register.pis !== register.pisSales ||
+          register.cofins !== register.cofinsSales
+      );
+      setDifal(register.difal);
+      setReductionCalculation(register.reductionCalculationBase > 0);
     } else {
       form.reset({
         code: "",
@@ -82,6 +106,7 @@ export function ModalCreateNCM() {
         pisSales: "",
         cofinsSales: "",
         tax: "",
+        reductionCalculationBase: "0,00",
       });
     }
   }, [isOpen, register, form.reset]);
@@ -90,6 +115,7 @@ export function ModalCreateNCM() {
     mutate({
       ...values,
       id: register?.id ?? null,
+      difal,
     });
   }
 
@@ -249,7 +275,10 @@ export function ModalCreateNCM() {
               />
               <div className="flex flex-col gap-2">
                 <Label>PIS/COFINS de venda diferente?</Label>
-                <Switch onCheckedChange={(value) => setTaxSales(value)} />
+                <Switch
+                  checked={taxSales}
+                  onCheckedChange={(value) => setTaxSales(value)}
+                />
               </div>
               <div
                 data-hidden={!taxSales}
@@ -300,6 +329,51 @@ export function ModalCreateNCM() {
                   )}
                 />
               </div>
+
+              <div className="flex flex-col gap-2">
+                <Label>Difal</Label>
+                <Switch
+                  checked={difal}
+                  onCheckedChange={(value) => setDifal(value)}
+                />
+              </div>
+
+              <div
+                data-hidden={!difal}
+                className="flex flex-col gap-2 data-[hidden=true]:hidden"
+              >
+                <Label>Redução de base de calculo</Label>
+                <Switch
+                  checked={reductionCalculation}
+                  onCheckedChange={(value) => setReductionCalculation(value)}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="reductionCalculationBase"
+                render={({ field }) => (
+                  <FormItem
+                    data-hidden={!reductionCalculation}
+                    className="data-[hidden=true]:hidden"
+                  >
+                    <FormLabel>Redução de base de cálculo</FormLabel>
+                    <FormControl>
+                      <div className="flex overflow-hidden items-center shadow border-1 rounded-md">
+                        <Input
+                          className="shadow-none border-0 rounded-none"
+                          {...field}
+                          onChange={formatDecimal(field)}
+                        />
+                        <div className="px-4 bg-zinc-200 h-full items-center justify-center flex">
+                          <Percent className="w-4 h-4 stroke-zinc-500" />
+                        </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <DrawerFooter className="w-full px-0">
                 <Button

@@ -211,7 +211,7 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
                           <div
                             className={cn(
                               header.column.getCanSort() &&
-                                "flex h-full cursor-pointer select-none items-center justify-between gap-2"
+                                "flex h-full cursor-pointer select-none items-center !text-nowrap justify-between gap-2"
                             )}
                             onClick={header.column.getToggleSortingHandler()}
                             onKeyDown={(e) => {
