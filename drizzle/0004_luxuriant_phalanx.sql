@@ -1,1 +1,1 @@
-ALTER TABLE "perfuratriz"."invoices" ADD COLUMN "status" text DEFAULT 'open';
+ALTER TABLE "perfuratriz"."invoices" ADD COLUMN IF NOT EXISTS "status" text DEFAULT 'open';

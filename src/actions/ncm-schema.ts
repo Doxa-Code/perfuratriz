@@ -29,6 +29,8 @@ export const NCMSchema = z.object({
   icms: z.number(),
   pis: z.number(),
   cofins: z.number(),
+  pisSales: z.number(),
+  cofinsSales: z.number(),
   ipi: z.number(),
 });
 

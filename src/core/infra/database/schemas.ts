@@ -7,7 +7,7 @@ import {
   timestamp,
   uuid,
   varchar,
-  bigint
+  bigint,
 } from "drizzle-orm/pg-core";
 
 const schemas = pgSchema("perfuratriz");
@@ -20,6 +20,8 @@ export const ncms = schemas.table("ncms", {
   pis: integer("pis").notNull(),
   cofins: integer("cofins").notNull(),
   ipi: integer("ipi").notNull(),
+  pisSales: integer("pis_sales").notNull().default(0),
+  cofinsSales: integer("cofins_sales").notNull().default(0),
 });
 
 export const products = schemas.table("products", {

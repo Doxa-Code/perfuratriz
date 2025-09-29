@@ -43,6 +43,20 @@
       "when": 1757446070120,
       "tag": "0005_quick_odin",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1759149791198,
+      "tag": "0006_tranquil_wither",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1759151049087,
+      "tag": "0007_colossal_nextwave",
+      "breakpoints": true
     }
   ]
 }

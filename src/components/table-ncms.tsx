@@ -63,7 +63,7 @@ const columns: ColumnDef<NCM.Props>[] = [
     size: 180,
   },
   {
-    header: "PIS",
+    header: "PIS (Compra)",
     accessorKey: "pis",
     cell: ({ row }) => (
       <div className="font-medium">
@@ -73,11 +73,31 @@ const columns: ColumnDef<NCM.Props>[] = [
     size: 180,
   },
   {
-    header: "COFINS",
+    header: "COFINS (Compra)",
     accessorKey: "cofins",
     cell: ({ row }) => (
       <div className="font-medium">
         {Number(row.getValue("cofins")).toFixed(2).replace(".", ",")}%
+      </div>
+    ),
+    size: 180,
+  },
+  {
+    header: "PIS (Venda)",
+    accessorKey: "pisSales",
+    cell: ({ row }) => (
+      <div className="font-medium">
+        {Number(row.getValue("pisSales")).toFixed(2).replace(".", ",")}%
+      </div>
+    ),
+    size: 180,
+  },
+  {
+    header: "COFINS (Venda)",
+    accessorKey: "cofinsSales",
+    cell: ({ row }) => (
+      <div className="font-medium">
+        {Number(row.getValue("cofinsSales")).toFixed(2).replace(".", ",")}%
       </div>
     ),
     size: 180,

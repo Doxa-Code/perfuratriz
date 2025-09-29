@@ -1,0 +1,2 @@
+-- ALTER TABLE "perfuratriz"."ncms" ALTER COLUMN "pis_sales" SET DEFAULT 0;--> statement-breakpoint
+-- ALTER TABLE "perfuratriz"."ncms" ALTER COLUMN "cofins_sales" SET DEFAULT 0;

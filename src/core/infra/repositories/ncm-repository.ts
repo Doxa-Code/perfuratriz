@@ -23,10 +23,12 @@ export class NCMDatabaseRepository implements NCMRepository {
     return NCM.instance({
       id: ncm.id,
       code: ncm.code,
-      cofins: FormatFloatNumberHelper.format(ncm.cofins),
       icms: FormatFloatNumberHelper.format(ncm.icms),
       ipi: FormatFloatNumberHelper.format(ncm.ipi),
       pis: FormatFloatNumberHelper.format(ncm.pis),
+      cofins: FormatFloatNumberHelper.format(ncm.cofins),
+      pisSales: FormatFloatNumberHelper.format(ncm.pisSales),
+      cofinsSales: FormatFloatNumberHelper.format(ncm.cofinsSales),
       tax: FormatFloatNumberHelper.format(ncm.tax),
     });
   }
@@ -43,6 +45,8 @@ export class NCMDatabaseRepository implements NCMRepository {
         icms: FormatFloatNumberHelper.format(ncm.icms),
         ipi: FormatFloatNumberHelper.format(ncm.ipi),
         pis: FormatFloatNumberHelper.format(ncm.pis),
+        pisSales: FormatFloatNumberHelper.format(ncm.pisSales),
+        cofinsSales: FormatFloatNumberHelper.format(ncm.cofinsSales),
         tax: FormatFloatNumberHelper.format(ncm.tax),
       })
     );
@@ -55,10 +59,12 @@ export class NCMDatabaseRepository implements NCMRepository {
       await tx.insert(ncms).values({
         id: ncm.id,
         code: ncm.code,
-        cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
         icms: FormatFloatNumberHelper.toPersist(ncm.icms),
         ipi: FormatFloatNumberHelper.toPersist(ncm.ipi),
         pis: FormatFloatNumberHelper.toPersist(ncm.pis),
+        cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
+        pisSales: FormatFloatNumberHelper.toPersist(ncm.pisSales),
+        cofinsSales: FormatFloatNumberHelper.toPersist(ncm.cofinsSales),
         tax: FormatFloatNumberHelper.toPersist(ncm.tax),
       });
 
@@ -68,10 +74,12 @@ export class NCMDatabaseRepository implements NCMRepository {
         type: "CREATED",
         payload: {
           code: ncm.code,
-          cofins: ncm.cofins,
           icms: ncm.icms,
           ipi: ncm.ipi,
           pis: ncm.pis,
+          cofins: ncm.cofins,
+          pisSales: ncm.pisSales,
+          cofinsSales: ncm.cofinsSales,
           tax: ncm.tax,
         },
       });
@@ -86,10 +94,12 @@ export class NCMDatabaseRepository implements NCMRepository {
         .update(ncms)
         .set({
           code: ncm.code,
-          cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
           icms: FormatFloatNumberHelper.toPersist(ncm.icms),
           ipi: FormatFloatNumberHelper.toPersist(ncm.ipi),
           pis: FormatFloatNumberHelper.toPersist(ncm.pis),
+          cofins: FormatFloatNumberHelper.toPersist(ncm.cofins),
+          pisSales: FormatFloatNumberHelper.toPersist(ncm.pisSales),
+          cofinsSales: FormatFloatNumberHelper.toPersist(ncm.cofinsSales),
           tax: FormatFloatNumberHelper.toPersist(ncm.tax),
         })
         .where(eq(ncms.id, ncm.id));
@@ -100,10 +110,12 @@ export class NCMDatabaseRepository implements NCMRepository {
         type: "UPDATED",
         payload: {
           code: ncm.code,
-          cofins: ncm.cofins,
           icms: ncm.icms,
           ipi: ncm.ipi,
           pis: ncm.pis,
+          cofins: ncm.cofins,
+          pisSales: ncm.pisSales,
+          cofinsSales: ncm.cofinsSales,
           tax: ncm.tax,
         },
       });
@@ -126,10 +138,12 @@ export class NCMDatabaseRepository implements NCMRepository {
         type: "DELETED",
         payload: {
           code: existing.code,
-          cofins: existing.cofins,
           icms: existing.icms,
           ipi: existing.ipi,
           pis: existing.pis,
+          cofins: existing.cofins,
+          pisSales: existing.pisSales,
+          cofinsSales: existing.cofinsSales,
           tax: existing.tax,
         },
       });

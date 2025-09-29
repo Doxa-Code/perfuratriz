@@ -1,0 +1,2 @@
+ALTER TABLE "perfuratriz"."ncms" ADD COLUMN IF NOT EXISTS "pis_sales" integer NOT NULL DEFAULT 0;--> statement-breakpoint
+ALTER TABLE "perfuratriz"."ncms" ADD COLUMN IF NOT EXISTS "cofins_sales" integer NOT NULL DEFAULT 0;
