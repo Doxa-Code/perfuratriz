@@ -12,6 +12,19 @@ import {
 
 const schemas = pgSchema("perfuratriz");
 
+export const icmsState = schemas.table("icms_states", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  state: varchar("state", { length: 3 }).notNull().default(""),
+  stateLabel: text("state_label").notNull().default(""),
+  icms: integer("icms").notNull().default(0),
+});
+
+export const administrativeCosts = schemas.table("administrative_costs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  description: text("description").notNull().default(""),
+  value: integer("value").notNull().default(0),
+});
+
 export const ncms = schemas.table("ncms", {
   id: uuid("id").defaultRandom().primaryKey(),
   code: integer("code").notNull(),
