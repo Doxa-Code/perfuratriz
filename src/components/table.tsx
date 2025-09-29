@@ -148,6 +148,7 @@ export function TableComponent<T extends { id: string }>(props: Props<T>) {
               table.getSelectedRowModel().rows.at(0)?.original ?? null
             );
             toggleModal(props.modalName);
+            setRowSelection({});
           }}
         >
           <Edit />

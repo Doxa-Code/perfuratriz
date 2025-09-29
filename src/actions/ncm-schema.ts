@@ -17,6 +17,12 @@ export const createNCMInputSchema = z.object({
   cofins: z
     .string()
     .transform((value) => Number.parseFloat(value.replace(",", "."))),
+  pisSales: z
+    .string()
+    .transform((value) => Number.parseFloat(value.replace(",", "."))),
+  cofinsSales: z
+    .string()
+    .transform((value) => Number.parseFloat(value.replace(",", "."))),
   ipi: z
     .string()
     .transform((value) => Number.parseFloat(value.replace(",", "."))),

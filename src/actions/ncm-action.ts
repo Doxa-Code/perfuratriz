@@ -1,5 +1,4 @@
 "use server";
-import { CreateNCM } from "@/core/application/usecases/create-ncm";
 import { NCM } from "@/core/domain/entities/ncm";
 import { NCMDatabaseRepository } from "@/core/infra/repositories/ncm-repository";
 import { revalidatePath } from "next/cache";
@@ -16,8 +15,8 @@ export const createNCMAction = createServerAction()
   .input(createNCMInputSchema)
   .handler(async ({ input }) => {
     if (!input.id) {
-      const createNCM = CreateNCM.instance();
-      await createNCM.execute(input);
+      const ncm = NCM.create(input);
+      await ncmRepository.save(ncm);
       revalidatePath("/ncms", "page");
       revalidatePath("/products", "page");
       return;
