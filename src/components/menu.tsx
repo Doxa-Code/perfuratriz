@@ -1,19 +1,19 @@
 "use client";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import { User } from "@/core/domain/entities/user";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import {
   BanknoteArrowDown,
   BookText,
   Box,
+  DollarSign,
   FileAxis3dIcon,
   Files,
 } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode } from "react";
 import { NavUser } from "./nav-user";
-import { User } from "@/core/domain/entities/user";
 
 type Props = {
   children: ReactNode;
@@ -27,6 +27,13 @@ export const Menu: React.FC<Props> = (props) => {
       href: "/ncms",
       icon: (
         <BookText className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "ICMS",
+      href: "/icms",
+      icon: (
+        <DollarSign className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
