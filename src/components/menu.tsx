@@ -6,6 +6,7 @@ import {
   BanknoteArrowDown,
   BookText,
   Box,
+  CircleDollarSignIcon,
   DollarSign,
   FileAxis3dIcon,
   Files,
@@ -34,6 +35,13 @@ export const Menu: React.FC<Props> = (props) => {
       href: "/icms",
       icon: (
         <DollarSign className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Custos Administrativo",
+      href: "/costs",
+      icon: (
+        <CircleDollarSignIcon className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {

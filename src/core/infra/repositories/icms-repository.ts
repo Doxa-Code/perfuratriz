@@ -7,7 +7,7 @@ import { icmsState } from "../database/schemas";
 interface ICMSRepository {
   list(): Promise<ICMS[]>;
   retrieve(id: string): Promise<ICMS | null>;
-  upsert(ncm: ICMS): Promise<void>;
+  upsert(input: ICMS): Promise<void>;
   remove(id: string): Promise<void>;
 }
 

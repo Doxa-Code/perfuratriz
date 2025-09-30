@@ -19,7 +19,7 @@ export const icmsState = schemas.table("icms_states", {
   icms: integer("icms").notNull().default(0),
 });
 
-export const administrativeCosts = schemas.table("administrative_costs", {
+export const costs = schemas.table("costs", {
   id: uuid("id").defaultRandom().primaryKey(),
   description: text("description").notNull().default(""),
   value: integer("value").notNull().default(0),

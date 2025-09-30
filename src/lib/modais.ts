@@ -1,4 +1,5 @@
 export const MODAL_CREATE_ICMS = "modal-create-icms";
+export const MODAL_CREATE_COST = "modal-create-cost";
 export const MODAL_CREATE_NCM = "modal-create-ncm";
 export const MODAL_CREATE_PRODUCT = "modal-create-product";
 export const MODAL_CREATE_DECLARATION = "modal-create-di";
