@@ -44,13 +44,14 @@ const columns: ColumnDef<NCM.Props>[] = [
     size: 180,
   },
   {
-    header: "Valor R$",
+    header: "Valor (%)",
     accessorKey: "value",
     cell: ({ row }) => (
       <div className="font-medium">
-        {Number(row.getValue("value")).toLocaleString("pt-BR", {
-          currency: "BRL",
-          style: "currency",
+        {(Number(row.getValue("value")) / 100).toLocaleString("pt-BR", {
+          style: "percent",
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 2,
         })}
       </div>
     ),
