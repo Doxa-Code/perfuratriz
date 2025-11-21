@@ -4,6 +4,7 @@ import { User } from "@/core/domain/entities/user";
 import { cn } from "@/lib/utils";
 import {
   BanknoteArrowDown,
+  BarChart3,
   BookText,
   Box,
   CircleDollarSignIcon,
@@ -49,6 +50,13 @@ export const Menu: React.FC<Props> = (props) => {
       href: "/products",
       icon: (
         <Box className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Tabela de Venda",
+      href: "/sale-tables",
+      icon: (
+        <BarChart3 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
