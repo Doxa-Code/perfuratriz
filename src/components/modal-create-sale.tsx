@@ -97,7 +97,7 @@ async function fetchDollarQuoteForDate(date: Date) {
 
 export function ModalCreateSale({ products }: Props) {
   const { isOpen, toggleModal } = useModais();
-  const { register, setRegister } = useRegisterEdit<SaleTableRow>();
+  const { register, setRegister } = useRegisterEdit();
   const [importInfo, setImportInfo] = React.useState<ImportInfo | null>(null);
   const [isFetchingQuote, setIsFetchingQuote] = React.useState(false);
   const [productPopoverOpen, setProductPopoverOpen] = React.useState(false);
@@ -386,11 +386,12 @@ export function ModalCreateSale({ products }: Props) {
                     <FormItem>
                       <FormLabel>Última importação</FormLabel>
                       <FormControl>
-                        <>
-                          <input type="hidden" {...field} />
-                          <Input value={lastImportationDisplay} readOnly disabled />
-                        </>
                       </FormControl>
+                      <input
+                        type="hidden"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
                       {isLoadingImportInfo && (
                         <p className="text-xs text-muted-foreground">Consultando declarações...</p>
                       )}
@@ -474,4 +475,3 @@ export function ModalCreateSale({ products }: Props) {
     </Drawer>
   );
 }
-
