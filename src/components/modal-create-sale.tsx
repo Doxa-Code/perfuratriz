@@ -165,10 +165,17 @@ export function ModalCreateSale({ products }: Props) {
       return;
     }
 
-    form.reset(defaultValues);
-    setImportInfo(null);
-    void handleRefreshDollarQuote();
+    if (form.formState.isDirty || form.formState.isSubmitted) {
+      form.reset(defaultValues);
+      setImportInfo(null);
+    }
   }, [register, isOpen, form]);
+
+  React.useEffect(() => {
+    if (isOpen(MODAL_CREATE_SALE_TABLE) && !register) {
+      void handleRefreshDollarQuote();
+    }
+  }, [isOpen(MODAL_CREATE_SALE_TABLE), register]);
 
   React.useEffect(() => {
     if (!tidValue || !tidValue.trim()) return;
