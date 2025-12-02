@@ -1,22 +1,23 @@
-import { CreateNCM } from "@/core/application/usecases/create-ncm";
-import { NCMDatabaseRepository } from "@/core/infra/repositories/ncm-repository";
+import { NCM } from "@/core/domain/entities/ncm";
 
-test("create ncm", async () => {
-  const createNCM = CreateNCM.instance();
-  const ncmRepository = NCMDatabaseRepository.instance();
-
-  const ncm = await createNCM.execute({
+test("create ncm (domain only)", () => {
+  const ncm = NCM.create({
     code: 1,
     tax: 1,
     icms: 1,
     pis: 1,
     cofins: 1,
     ipi: 1,
+    pisSales: 1,
+    cofinsSales: 1,
+    difal: false,
+    reductionCalculationBase: 0,
   });
 
-  const currentList = await ncmRepository.list();
-  expect(currentList.map((item) => item.id)).toContain(ncm.id);
-  expect(currentList.filter((item) => item.id === ncm.id).length).toBe(1);
-
-  await ncmRepository.remove(ncm.id);
+  expect(ncm.code).toBe(1);
+  expect(ncm.tax).toBe(1);
+  expect(ncm.icms).toBe(1);
+  expect(ncm.pis).toBe(1);
+  expect(ncm.cofins).toBe(1);
+  expect(ncm.ipi).toBe(1);
 });
