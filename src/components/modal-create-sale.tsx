@@ -98,6 +98,7 @@ async function fetchDollarQuoteForDate(date: Date) {
 export function ModalCreateSale({ products }: Props) {
   const { isOpen, toggleModal } = useModais();
   const { register, setRegister } = useRegisterEdit();
+  const isSaleModalOpen = isOpen(MODAL_CREATE_SALE_TABLE);
   const [importInfo, setImportInfo] = React.useState<ImportInfo | null>(null);
   const [isFetchingQuote, setIsFetchingQuote] = React.useState(false);
   const [productPopoverOpen, setProductPopoverOpen] = React.useState(false);
@@ -128,10 +129,14 @@ export function ModalCreateSale({ products }: Props) {
   const productId = form.watch("productId");
   const tidValue = form.watch("tid");
 
-  const selectedProduct = productId ? productMapById.get(productId) : undefined;
+  // Em modo de edição, se por algum motivo o productId ainda não estiver
+  // sincronizado, usamos o produto vindo do próprio registro como fallback.
+  const selectedProduct =
+    (productId ? productMapById.get(productId) : undefined) ?? register?.product;
 
   React.useEffect(() => {
-    if (register && isOpen(MODAL_CREATE_SALE_TABLE)) {
+    if (register && isSaleModalOpen) {
+      setProductPopoverOpen(false);
       form.reset({
         id: register.id,
         productId: register.productId,
@@ -161,7 +166,8 @@ export function ModalCreateSale({ products }: Props) {
       return;
     }
 
-    if (!isOpen(MODAL_CREATE_SALE_TABLE)) {
+    if (!isSaleModalOpen) {
+      setProductPopoverOpen(false);
       return;
     }
 
@@ -169,22 +175,24 @@ export function ModalCreateSale({ products }: Props) {
       form.reset(defaultValues);
       setImportInfo(null);
     }
-  }, [register, isOpen, form]);
+  }, [register, isSaleModalOpen, form]);
 
   React.useEffect(() => {
-    if (isOpen(MODAL_CREATE_SALE_TABLE) && !register) {
+    if (isSaleModalOpen && !register) {
       void handleRefreshDollarQuote();
     }
-  }, [isOpen(MODAL_CREATE_SALE_TABLE), register]);
+  }, [isSaleModalOpen, register]);
 
   React.useEffect(() => {
+    if (register) return;
+
     if (!tidValue || !tidValue.trim()) return;
     const normalized = tidValue.trim().toLowerCase();
     const product = productMapByTid.get(normalized);
     if (product && product.id !== productId) {
       form.setValue("productId", product.id, { shouldValidate: true, shouldDirty: true });
     }
-  }, [tidValue, productMapByTid, productId, form]);
+  }, [tidValue, productMapByTid, productId, form, register]);
 
   React.useEffect(() => {
     if (!productId) {
@@ -270,7 +278,7 @@ export function ModalCreateSale({ products }: Props) {
 
   return (
     <Drawer
-      open={isOpen(MODAL_CREATE_SALE_TABLE)}
+      open={isSaleModalOpen}
       onOpenChange={(open) => toggleModal(MODAL_CREATE_SALE_TABLE, open)}
     >
       <DrawerContent>
