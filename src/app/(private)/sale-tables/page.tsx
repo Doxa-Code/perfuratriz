@@ -26,7 +26,11 @@ export default async function SaleTablesPage() {
         <ButtonCreate modalName={MODAL_CREATE_SALE_TABLE} title="Nova tabela" />
       </header>
       <TableSales sales={sales ?? []} />
-      <ModalCreateSale products={products ?? []} />
+      <ModalCreateSale products={(products ?? []).map((p) => ({
+          ...p,
+          description: p.description ?? "",
+          volume: Math.trunc(p.length * p.height * p.width * 100) / 100,
+        }))} />
     </main>
   );
 }
