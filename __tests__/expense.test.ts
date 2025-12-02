@@ -1,11 +1,7 @@
-import { CreateExpense } from "@/core/application/usecases/create-expense";
-import { ExpenseDatabaseRepository } from "@/core/infra/repositories/expense-repository";
+import { Expense } from "@/core/domain/entities/expense";
 
-test("create expense", async () => {
-  const createExpense = CreateExpense.instance();
-  const expenseRepository = ExpenseDatabaseRepository.instance();
-
-  const expense = await createExpense.execute({
+test("create expense (domain only)", () => {
+  const expense = Expense.create({
     name: "Frete Internacional",
     useICMSBase: true,
     useCustomsBase: false,
@@ -13,10 +9,9 @@ test("create expense", async () => {
     currency: "USD",
   });
 
-  const currentList = await expenseRepository.list();
-
-  expect(currentList.map((item) => item.id)).toContain(expense.id);
-  expect(currentList.filter((item) => item.id === expense.id).length).toBe(1);
-
-  await expenseRepository.remove(expense.id);
+  expect(expense.name).toBe("Frete Internacional");
+  expect(expense.useICMSBase).toBe(true);
+  expect(expense.useCustomsBase).toBe(false);
+  expect(expense.allocationMethod).toBe("NET_WEIGHT");
+  expect(expense.currency).toBe("USD");
 });

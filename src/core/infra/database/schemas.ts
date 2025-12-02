@@ -55,6 +55,21 @@ export const products = schemas.table("products", {
     .notNull(),
 });
 
+export const saleTables = schemas.table("sale_tables", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  productId: uuid("product_id")
+    .references(() => products.id, { onDelete: "restrict" })
+    .notNull(),
+  lastImportationAt: timestamp("last_importation_at"),
+  lastImportationQuote: integer("last_importation_quote"),
+  dollarQuote: integer("dollar_quote").notNull().default(0),
+  dollarQuoteDate: timestamp("dollar_quote_date"),
+  costPriceUsd: integer("cost_price_usd").notNull().default(0),
+  costPriceBrl: integer("cost_price_brl").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 export const invoices = schemas.table("invoices", {
   id: uuid("id").defaultRandom().primaryKey(),
   registration: text("registration").notNull(),
