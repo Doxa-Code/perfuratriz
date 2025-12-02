@@ -400,13 +400,11 @@ export function ModalCreateSale({ products }: Props) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Última importação</FormLabel>
+                      {/* Campo hidden para manter o valor bruto na submissão */}
+                      <input type="hidden" {...field} value={field.value ?? ""} />
                       <FormControl>
+                        <Input value={lastImportationDisplay} disabled readOnly />
                       </FormControl>
-                      <input
-                        type="hidden"
-                        {...field}
-                        value={field.value ?? ""}
-                      />
                       {isLoadingImportInfo && (
                         <p className="text-xs text-muted-foreground">Consultando declarações...</p>
                       )}

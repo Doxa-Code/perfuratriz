@@ -18,9 +18,6 @@ export default async function SaleTablesPage() {
     <main className="container mx-auto">
       <header className="flex w-full items-center justify-between py-10">
         <div>
-          <p className="text-sm text-muted-foreground uppercase tracking-wide">
-            Comercial
-          </p>
           <h1 className="font-bold text-2xl">Tabela de Venda</h1>
         </div>
         <ButtonCreate modalName={MODAL_CREATE_SALE_TABLE} title="Nova tabela" />
