@@ -125,7 +125,7 @@ type Props = {
 };
 
 export function TableSales({ sales }: Props) {
-  const { setRegister } = useRegisterEdit<SaleTableRow>();
+  const { setRegister } = useRegisterEdit();
   const data: SaleTableTableRow[] = sales.map((sale) => ({
     ...sale,
     productName: sale.product.name,
