@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
-import { type ReactNode } from "react";
+import { type ReactNode, useState, useEffect } from "react";
 import { NavUser } from "./nav-user";
 
 type Props = {
@@ -23,6 +23,24 @@ type Props = {
 };
 
 export const Menu: React.FC<Props> = (props) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      if (typeof window !== "undefined") {
+        const mobile = window.innerWidth < 768;
+        setIsMobile(mobile);
+        // No desktop, sempre mantém aberto. No mobile, controla pelo estado.
+        if (!mobile) {
+          setSidebarOpen(true);
+        }
+      }
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
   const links = [
     {
       label: "NCMs",
@@ -88,7 +106,7 @@ export const Menu: React.FC<Props> = (props) => {
         "h-screen w-full"
       )}
     >
-      <Sidebar open={true}>
+      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             <Logo />

@@ -138,7 +138,11 @@ export const MobileSidebar = ({
             >
               <div
                 className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
-                onClick={() => setOpen(!open)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setOpen(false);
+                }}
               >
                 <X />
               </div>
@@ -160,7 +164,15 @@ export const SidebarLink = ({
   className?: string;
   props?: LinkProps;
 }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate, setOpen } = useSidebar();
+
+  const handleClick = () => {
+    // Sempre fecha no mobile, verifica se está em mobile no momento do clique
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setOpen(false);
+    }
+  };
+
   return (
     <Link
       href={link.href}
@@ -168,6 +180,7 @@ export const SidebarLink = ({
         "flex items-center justify-start gap-2 group/sidebar py-2",
         className
       )}
+      onClick={handleClick}
       {...props}
     >
       {link.icon}
