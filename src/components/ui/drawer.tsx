@@ -2,12 +2,23 @@
 
 import type * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
+import { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
 function Drawer({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
 }
 
@@ -50,6 +61,16 @@ function DrawerContent({
   children,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <DrawerPrimitive.Content
       data-slot="drawer-content"
