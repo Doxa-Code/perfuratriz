@@ -11,13 +11,8 @@ function Drawer({
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
+  useEffect(() => setIsMounted(true), []);
+  if (!isMounted) return null;
 
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
 }
@@ -56,21 +51,7 @@ function DrawerOverlay({
   );
 }
 
-function DrawerContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Content>) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
+function DrawerContent({ className, children, ...props }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
   return (
     <DrawerPrimitive.Content
       data-slot="drawer-content"

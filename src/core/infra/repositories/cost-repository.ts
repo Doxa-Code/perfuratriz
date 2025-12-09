@@ -1,71 +1,87 @@
-import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper";
-import { Cost } from "@/core/domain/entities/cost";
-import { eq } from "drizzle-orm";
-import { createDatabaseConnection } from "../database";
-import { costs } from "../database/schemas";
+import { eq } from "drizzle-orm"
+import { db } from "../database"
+import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper"
+import { Cost } from "@/core/domain/entities/cost"
+import { costs } from "../database/schemas"
 
-interface CostRepository {
-  list(): Promise<Cost[]>;
-  retrieve(id: string): Promise<Cost | null>;
-  upsert(input: Cost): Promise<void>;
-  remove(id: string): Promise<void>;
-}
-
-export class CostDatabaseRepository implements CostRepository {
-  async retrieve(id: string) {
-    const db = createDatabaseConnection();
-    const [cost] = await db.select().from(costs).where(eq(costs.id, id));
-
-    if (!cost) return null;
-
-    return Cost.instance(cost);
+export class CostDatabaseRepository {
+  private format(v: number | null) {
+    // @ts-ignore
+    return FormatFloatNumberHelper.format(v, 100)
   }
 
-  async list() {
-    const db = createDatabaseConnection();
-    const rows = await db.select().from(costs);
+  async retrieve(id: string): Promise<Cost | null> {
+    try {
+      const [row] = await db.select().from(costs).where(eq(costs.id, id))
 
-    return rows.map((cost) =>
-      Cost.instance({
-        id: cost.id,
-        value: FormatFloatNumberHelper.format(cost.value, 100),
-        description: cost.description,
+      if (!row) return null
+
+      return Cost.instance({
+        id: row.id,
+        value: this.format(row.value),
+        description: row.description,
       })
-    );
+    } catch (err) {
+      console.error("❌ Error retrieving Cost:", err)
+      throw new Error("Failed to retrieve Cost")
+    }
+  }
+
+  async list(): Promise<Cost[]> {
+    try {
+      const rows = await db.select().from(costs)
+
+      return rows.map((row) =>
+        Cost.instance({
+          id: row.id,
+          value: this.format(row.value),
+          description: row.description,
+        })
+      )
+    } catch (err) {
+      console.error("❌ Error listing Costs:", err)
+      throw new Error("Failed to list Costs")
+    }
   }
 
   async upsert(cost: Cost): Promise<void> {
-    const db = createDatabaseConnection();
-
-    await db
-      .insert(costs)
-      .values({
-        id: cost.id,
-        value: FormatFloatNumberHelper.toPersist(cost.value, 100),
-        description: cost.description,
+    try {
+      await db.transaction(async (tx) => {
+        await tx
+          .insert(costs)
+          .values({
+            id: cost.id,
+            value: FormatFloatNumberHelper.toPersist(cost.value, 100),
+            description: cost.description,
+          })
+          .onConflictDoUpdate({
+            target: costs.id,
+            set: {
+              value: FormatFloatNumberHelper.toPersist(cost.value, 100),
+              description: cost.description,
+            },
+          })
       })
-      .onConflictDoUpdate({
-        set: {
-          value: FormatFloatNumberHelper.toPersist(cost.value, 100),
-          description: cost.description,
-        },
-        target: costs.id,
-      });
+    } catch (err) {
+      console.error("❌ Error upserting Cost:", err)
+      throw new Error("Failed to upsert Cost")
+    }
   }
 
   async remove(id: string): Promise<void> {
-    const db = createDatabaseConnection();
-    const existing = await this.retrieve(id);
-    if (!existing) {
-      return;
+    try {
+      await db.transaction(async (tx) => {
+        await tx.delete(costs).where(eq(costs.id, id))
+      })
+    } catch (err) {
+      console.error("❌ Error deleting Cost:", err)
+      throw new Error("Failed to delete Cost")
     }
-
-    await db.transaction(async (tx) => {
-      await tx.delete(costs).where(eq(costs.id, id));
-    });
   }
 
   static instance() {
-    return new CostDatabaseRepository();
+    return new CostDatabaseRepository()
   }
 }
+
+export const costRepository = new CostDatabaseRepository()

@@ -1,79 +1,91 @@
-import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper";
-import { ICMS } from "@/core/domain/entities/icms";
-import { eq } from "drizzle-orm";
-import { createDatabaseConnection } from "../database";
-import { icmsState } from "../database/schemas";
+import { eq } from "drizzle-orm"
+import { db } from "../database"
+import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper"
+import { ICMS } from "@/core/domain/entities/icms"
+import { icmsState } from "../database/schemas"
 
-interface ICMSRepository {
-  list(): Promise<ICMS[]>;
-  retrieve(id: string): Promise<ICMS | null>;
-  upsert(input: ICMS): Promise<void>;
-  remove(id: string): Promise<void>;
-}
-
-export class ICMSDatabaseRepository implements ICMSRepository {
-  async retrieve(id: string) {
-    const db = createDatabaseConnection();
-    const [icms] = await db
-      .select()
-      .from(icmsState)
-      .where(eq(icmsState.id, id));
-
-    if (!icms) return null;
-
-    return ICMS.instance(icms);
+export class ICMSDatabaseRepository {
+  private format(v: number | null) {
+    // @ts-ignore
+    return FormatFloatNumberHelper.format(v, 100)
   }
 
-  async list() {
-    const db = createDatabaseConnection();
-    const rows = await db.select().from(icmsState);
+  async retrieve(id: string): Promise<ICMS | null> {
+    try {
+      const [row] = await db.select().from(icmsState).where(eq(icmsState.id, id))
 
-    return rows.map((icms) =>
-      ICMS.instance({
-        id: icms.id,
-        icms: FormatFloatNumberHelper.format(icms.icms, 100),
-        state: icms.state,
-        stateLabel: icms.stateLabel,
+      if (!row) return null
+
+      return ICMS.instance({
+        id: row.id,
+        icms: this.format(row.icms),
+        state: row.state,
+        stateLabel: row.stateLabel,
       })
-    );
+    } catch (err) {
+      console.error("❌ Error retrieving ICMS:", err)
+      throw new Error("Failed to retrieve ICMS")
+    }
+  }
+
+  async list(): Promise<ICMS[]> {
+    try {
+      const rows = await db.select().from(icmsState)
+
+      return rows.map((row) =>
+        ICMS.instance({
+          id: row.id,
+          icms: this.format(row.icms),
+          state: row.state,
+          stateLabel: row.stateLabel,
+        })
+      )
+    } catch (err) {
+      console.error("❌ Error listing ICMS entries:", err)
+      throw new Error("Failed to list ICMS entries")
+    }
   }
 
   async upsert(icms: ICMS): Promise<void> {
-    const db = createDatabaseConnection();
-
-    await db.transaction(async (tx) => {
-      await tx
-        .insert(icmsState)
-        .values({
-          id: icms.id,
-          icms: FormatFloatNumberHelper.toPersist(icms.icms, 100),
-          state: icms.state,
-          stateLabel: icms.stateLabel,
-        })
-        .onConflictDoUpdate({
-          set: {
+    try {
+      await db.transaction(async (tx) => {
+        await tx
+          .insert(icmsState)
+          .values({
+            id: icms.id,
             icms: FormatFloatNumberHelper.toPersist(icms.icms, 100),
             state: icms.state,
             stateLabel: icms.stateLabel,
-          },
-          target: icmsState.id,
-        });
-    });
+          })
+          .onConflictDoUpdate({
+            target: icmsState.id,
+            set: {
+              icms: FormatFloatNumberHelper.toPersist(icms.icms, 100),
+              state: icms.state,
+              stateLabel: icms.stateLabel,
+            },
+          })
+      })
+    } catch (err) {
+      console.error("❌ Error upserting ICMS:", err)
+      throw new Error("Failed to upsert ICMS")
+    }
   }
 
   async remove(id: string): Promise<void> {
-    const db = createDatabaseConnection();
-    const existing = await this.retrieve(id);
-    if (!existing) {
-      return;
+    try {
+      await db.transaction(async (tx) => {
+        await tx.delete(icmsState).where(eq(icmsState.id, id))
+      })
+    } catch (err) {
+      console.error("❌ Error deleting ICMS:", err)
+      throw new Error("Failed to delete ICMS")
     }
-
-    await db.transaction(async (tx) => {
-      await tx.delete(icmsState).where(eq(icmsState.id, id));
-    });
   }
 
   static instance() {
-    return new ICMSDatabaseRepository();
+    return new ICMSDatabaseRepository()
   }
 }
+
+export const icmsRepository = new ICMSDatabaseRepository()
