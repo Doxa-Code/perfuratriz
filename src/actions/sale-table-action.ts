@@ -49,11 +49,13 @@ export const getSaleTableImportInfoAction = createServerAction()
   .input(saleTableImportInfoInputSchema)
   .output(saleTableImportInfoOutputSchema)
   .handler(async ({ input }) => {
-    const info = await saleTableRepository.findLastImportation(input.productId);
+    const info = await saleTableRepository.findLastImportation(
+      input.productId,
+      "encerrada"
+    );
     if (!info) return null;
     return {
       createdAt: info.createdAt.toISOString(),
       quote: info.quote,
     };
   });
-

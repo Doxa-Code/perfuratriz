@@ -80,26 +80,46 @@ export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
   );
 };
 
+import { useEffect, useRef } from "react";
+
 export const DesktopSidebar = ({
   className,
   children,
-  ...props
 }: React.ComponentProps<typeof motion.div>) => {
-  const { open, setOpen, animate } = useSidebar();
+  const { open, setOpen } = useSidebar();
+  const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+    // pequeno atraso evita fechar ao mover entre ícones e texto
+    hoverTimeout.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+    };
+  }, []);
+
   return (
     <motion.div
       className={cn(
-        "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[250px] flex-shrink-0",
+        "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[250px] flex-shrink-0 transition-colors duration-200 ease-out",
         className
       )}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      {...props}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {children}
     </motion.div>
   );
 };
+
 
 export const MobileSidebar = ({
   className,
@@ -124,7 +144,7 @@ export const MobileSidebar = ({
         <AnimatePresence>
           {open && (
             <motion.div
-              initial={{ x: "-100%", opacity: 0 }}
+              initial={{ x: "-100%", opacity: 1 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: "-100%", opacity: 0 }}
               transition={{
@@ -165,34 +185,61 @@ export const SidebarLink = ({
   props?: LinkProps;
 }) => {
   const { open, animate, setOpen } = useSidebar();
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  // Detecta viewport atual (desktop vs mobile)
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const handleClick = () => {
-    // Sempre fecha no mobile, verifica se está em mobile no momento do clique
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setOpen(false);
-    }
+    if (isMobile) setOpen(false);
   };
+
+  const alwaysVisible = !isMobile; // Desktop = sempre visível
 
   return (
     <Link
       href={link.href}
       className={cn(
-        "flex items-center justify-start gap-2 group/sidebar py-2",
+        "flex items-center justify-start gap-2 py-2 group/sidebar transition-all duration-200 ease-in-out",
         className
       )}
       onClick={handleClick}
       {...props}
     >
       {link.icon}
-      <motion.span
-        animate={{
-          display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1,
-        }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
-      >
-        {link.label}
-      </motion.span>
+
+      {animate ? (
+        <motion.span
+          initial={false}
+          animate={{
+            opacity: alwaysVisible ? 1 : open ? 1 : 0,
+            x: alwaysVisible ? 0 : open ? 0 : -8,
+          }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className={cn(
+            "text-neutral-700 dark:text-neutral-200 text-sm whitespace-pre !p-0 !m-0 transition-opacity duration-150",
+            "group-hover/sidebar:opacity-100"
+          )}
+          style={{
+            pointerEvents: alwaysVisible || open ? "auto" : "none",
+            willChange: "opacity, transform",
+          }}
+        >
+          {link.label}
+        </motion.span>
+      ) : (
+        <span className="text-neutral-700 dark:text-neutral-200 text-sm whitespace-pre inline-block !p-0 !m-0 transition duration-150">
+          {link.label}
+        </span>
+      )}
     </Link>
   );
 };
+
+
+

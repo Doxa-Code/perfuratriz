@@ -23,7 +23,14 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -39,7 +46,6 @@ import * as React from "react";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { saleTableSchema } from "@/actions/sale-table-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
@@ -56,7 +62,6 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
-type SaleTableRow = z.infer<typeof saleTableSchema>;
 
 type Props = {
   products: Product[];
@@ -129,10 +134,9 @@ export function ModalCreateSale({ products }: Props) {
   const productId = form.watch("productId");
   const tidValue = form.watch("tid");
 
-  // Em modo de edição, se por algum motivo o productId ainda não estiver
-  // sincronizado, usamos o produto vindo do próprio registro como fallback.
   const selectedProduct =
     (productId ? productMapById.get(productId) : undefined) ?? register?.product;
+
 
   React.useEffect(() => {
     if (register && isSaleModalOpen) {
@@ -185,7 +189,6 @@ export function ModalCreateSale({ products }: Props) {
 
   React.useEffect(() => {
     if (register) return;
-
     if (!tidValue || !tidValue.trim()) return;
     const normalized = tidValue.trim().toLowerCase();
     const product = productMapByTid.get(normalized);
@@ -238,8 +241,21 @@ export function ModalCreateSale({ products }: Props) {
         try {
           const quote = await fetchDollarQuoteForDate(currentDate);
           if (quote) {
-            form.setValue("dollarQuote", quote.toFixed(4).replace(".", ","));
+            form.setValue("dollarQuote", quote.toFixed(4).replace(".", ","), {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
             form.setValue("dollarQuoteDate", currentDate.toISOString());
+
+            const usd = parseFloat(form.getValues("costPriceUsd").replace(",", "."));
+            if (!isNaN(usd)) {
+              const brl = usd * quote;
+              form.setValue("costPriceBrl", brl.toFixed(2).replace(".", ","), {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+            }
+
             return;
           }
         } catch (error) {
@@ -256,6 +272,24 @@ export function ModalCreateSale({ products }: Props) {
       setIsFetchingQuote(false);
     }
   }
+
+  React.useEffect(() => {
+    const subscription = form.watch((values) => {
+      const usd = parseFloat(values.costPriceUsd?.replace(",", ".") ?? "0");
+      const dollarQuote = parseFloat(values.dollarQuote?.replace(",", ".") ?? "0");
+      if (isNaN(usd) || isNaN(dollarQuote)) return;
+  
+      const brl = usd * dollarQuote;
+      const newValue = brl.toFixed(2).replace(".", ",");
+  
+      // Evita loop: só atualiza se o valor realmente mudou
+      if (values.costPriceBrl !== newValue) {
+        form.setValue("costPriceBrl", newValue, { shouldValidate: true });
+      }
+    });
+  
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   function onSubmit(values: FormValues) {
     mutate({
@@ -289,16 +323,14 @@ export function ModalCreateSale({ products }: Props) {
           </DrawerHeader>
 
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 px-4 pb-6"
-              autoComplete="off"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 px-4 pb-6" autoComplete="off">
               <input type="hidden" {...form.register("id")} />
               <input type="hidden" {...form.register("lastImportationQuote")} />
               <input type="hidden" {...form.register("dollarQuoteDate")} />
 
+              {/* Campos do formulário */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                {/* Produto */}
                 <FormField
                   control={form.control}
                   name="productId"
@@ -350,7 +382,7 @@ export function ModalCreateSale({ products }: Props) {
                                     <div className="flex flex-col">
                                       <span>{product.name}</span>
                                       <span className="text-xs text-muted-foreground">
-                                        TID {product.tid}
+                                         {product.tid}
                                       </span>
                                     </div>
                                   </CommandItem>
@@ -364,22 +396,9 @@ export function ModalCreateSale({ products }: Props) {
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="tid"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>TID</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
+              {/* Descritivo */}
               <FormField
                 control={form.control}
                 name="description"
@@ -393,6 +412,7 @@ export function ModalCreateSale({ products }: Props) {
                 )}
               />
 
+              {/* Importação e Cotação */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
@@ -400,13 +420,14 @@ export function ModalCreateSale({ products }: Props) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Última importação</FormLabel>
-                      {/* Campo hidden para manter o valor bruto na submissão */}
                       <input type="hidden" {...field} value={field.value ?? ""} />
                       <FormControl>
                         <Input value={lastImportationDisplay} disabled readOnly />
                       </FormControl>
                       {isLoadingImportInfo && (
-                        <p className="text-xs text-muted-foreground">Consultando declarações...</p>
+                        <p className="text-xs text-muted-foreground">
+                          Consultando declarações...
+                        </p>
                       )}
                     </FormItem>
                   )}
@@ -442,6 +463,7 @@ export function ModalCreateSale({ products }: Props) {
                 />
               </div>
 
+              {/* Preço de custo */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
@@ -456,6 +478,7 @@ export function ModalCreateSale({ products }: Props) {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="costPriceBrl"
@@ -463,7 +486,7 @@ export function ModalCreateSale({ products }: Props) {
                     <FormItem>
                       <FormLabel>Preço custo (BRL)</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} readOnly disabled className="bg-muted/50" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

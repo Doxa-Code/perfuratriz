@@ -2,7 +2,7 @@ import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float
 import { Product } from "@/core/domain/entities/product";
 import { SaleTable } from "@/core/domain/entities/sale-table";
 import { ProductNCM } from "@/core/domain/value-objects/product-ncm";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, and } from "drizzle-orm";
 import { createDatabaseConnection } from "../database";
 import {
   declarationInvoiceProducts,
@@ -19,7 +19,10 @@ interface SaleTableRepository {
   list(): Promise<SaleTableWithProduct[]>;
   upsert(saleTable: SaleTable): Promise<void>;
   remove(id: string): Promise<void>;
-  findLastImportation(productId: string): Promise<
+  findLastImportation(
+    productId: string,
+    status?: "encerrada" | "em andamento"
+  ): Promise<
     | {
         createdAt: Date;
         quote: number;
@@ -125,8 +128,15 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
     await db.delete(saleTables).where(eq(saleTables.id, id));
   }
 
-  async findLastImportation(productId: string) {
+  async findLastImportation(
+    productId: string,
+    status?: "encerrada" | "em andamento"
+  ) {
     const db = createDatabaseConnection();
+    const statusMap: Record<"encerrada" | "em andamento", "closed" | "open"> = {
+      encerrada: "closed",
+      "em andamento": "open",
+    };
     const rows = await db
       .select({
         createdAt: declarations.createdAt,
@@ -141,7 +151,12 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
         declarationInvoiceProducts,
         eq(declarationInvoiceProducts.invoiceId, declarationInvoices.id)
       )
-      .where(eq(declarationInvoiceProducts.productId, productId))
+      .where(
+        and(
+          eq(declarationInvoiceProducts.productId, productId),
+          status ? eq(declarations.status, statusMap[status]) : undefined
+        )
+      )
       .orderBy(desc(declarations.createdAt))
       .limit(1);
 
@@ -160,4 +175,3 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
     return new SaleTableDatabaseRepository();
   }
 }
-
