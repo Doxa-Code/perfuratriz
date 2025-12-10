@@ -9,9 +9,9 @@ import { cookies } from "next/headers";
 import { COOKIE_TOKEN_NAME } from "@/constants";
 import { redirect, RedirectType } from "next/navigation";
 
-const usersRepository = UsersDatabaseRepository.instance();
-const passwordDriver = BcryptPasswordDriver.instance();
-const tokenDriver = JWTTokenDriver.instance();
+const usersRepository = new UsersDatabaseRepository();
+const passwordDriver = new BcryptPasswordDriver();
+const tokenDriver = new JWTTokenDriver();
 
 export const authenticate = createServerAction()
   .input(authenticateInputSchema)

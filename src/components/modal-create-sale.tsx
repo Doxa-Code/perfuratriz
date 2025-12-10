@@ -100,13 +100,46 @@ async function fetchDollarQuoteForDate(date: Date) {
   return Number(quote);
 }
 
+function SimpleDropdown({
+  trigger,
+  open,
+  onToggle,
+  children,
+}: {
+  trigger: React.ReactNode;
+  open: boolean;
+  onToggle: (v: boolean) => void;
+  children: React.ReactNode;
+}) {
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onToggle(false);
+    }
+    if (open) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [open, onToggle]);
+
+  return (
+    <div ref={ref} className="relative w-full">
+      <div onClick={() => onToggle(!open)}>{trigger}</div>
+      {open && (
+        <div className="absolute z-50 mt-2 w-full rounded-xl border bg-white shadow-lg">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ModalCreateSale({ products }: Props) {
   const { isOpen, toggleModal } = useModais();
   const { register, setRegister } = useRegisterEdit();
   const isSaleModalOpen = isOpen(MODAL_CREATE_SALE_TABLE);
   const [importInfo, setImportInfo] = React.useState<ImportInfo | null>(null);
   const [isFetchingQuote, setIsFetchingQuote] = React.useState(false);
-  const [productPopoverOpen, setProductPopoverOpen] = React.useState(false);
+  const [productDropdownOpen, setProductDropdownOpen] = React.useState(false);
   const { mutate, isPending } = useServerActionMutation(createSaleTableAction, {
     onSuccess() {
       toggleModal(MODAL_CREATE_SALE_TABLE);
@@ -140,7 +173,7 @@ export function ModalCreateSale({ products }: Props) {
 
   React.useEffect(() => {
     if (register && isSaleModalOpen) {
-      setProductPopoverOpen(false);
+      setProductDropdownOpen(false);
       form.reset({
         id: register.id,
         productId: register.productId,
@@ -170,16 +203,40 @@ export function ModalCreateSale({ products }: Props) {
       return;
     }
 
-    if (!isSaleModalOpen) {
-      setProductPopoverOpen(false);
-      return;
+    if (isSaleModalOpen) {
+      if (register) {
+        // Edit mode: populate form
+        form.reset({
+          id: register.id,
+          productId: register.productId,
+          tid: register.product.tid,
+          description: register.product.description,
+          lastImportationAt: register.lastImportationAt?.toISOString() ?? null,
+          lastImportationQuote:
+            register.lastImportationQuote?.toFixed(4).replace(".", ",") ?? null,
+          dollarQuote: register.dollarQuote.toFixed(4).replace(".", ","),
+          dollarQuoteDate: register.dollarQuoteDate?.toISOString() ?? new Date().toISOString(),
+          costPriceUsd: register.costPriceUsd.toFixed(2).replace(".", ","),
+          costPriceBrl: register.costPriceBrl.toFixed(2).replace(".", ","),
+        });
+        setImportInfo(
+          register.lastImportationAt && register.lastImportationQuote
+            ? {
+                createdAt: register.lastImportationAt.toISOString(),
+                quote: register.lastImportationQuote,
+              }
+            : null
+        );
+      } else {
+        // Create mode: reset to defaults
+        form.reset(defaultValues);
+        setImportInfo(null);
+      }
+    } else {
+      // Modal is closed: cleanup
+      setProductDropdownOpen(false);
     }
-
-    if (form.formState.isDirty || form.formState.isSubmitted) {
-      form.reset(defaultValues);
-      setImportInfo(null);
-    }
-  }, [register, isSaleModalOpen, form]);
+  }, [isSaleModalOpen, register, form.reset]);
 
   React.useEffect(() => {
     if (isSaleModalOpen && !register) {
@@ -309,11 +366,20 @@ export function ModalCreateSale({ products }: Props) {
         importInfo.quote ? ` • ${importInfo.quote.toFixed(4)}` : ""
       }`
     : "Nenhuma importação encontrada";
-
+  
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  React.useEffect(() => {
+    setDrawerOpen(isSaleModalOpen);
+  }, [isSaleModalOpen]);
+  
   return (
     <Drawer
-      open={isSaleModalOpen}
-      onOpenChange={(open) => toggleModal(MODAL_CREATE_SALE_TABLE, open)}
+      open={drawerOpen}
+      onOpenChange={(open) => {
+        setDrawerOpen(open);
+        if (!open) toggleModal(MODAL_CREATE_SALE_TABLE, false);
+      }
+    }
     >
       <DrawerContent>
         <div className="mx-auto w-full max-w-2xl">
@@ -332,70 +398,65 @@ export function ModalCreateSale({ products }: Props) {
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* Produto */}
                 <FormField
-                  control={form.control}
-                  name="productId"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Produto</FormLabel>
-                      <Popover open={productPopoverOpen} onOpenChange={setProductPopoverOpen}>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              role="combobox"
-                              className={cn(
-                                "w-full justify-between",
-                                !field.value && "text-muted-foreground"
-                              )}
-                              onClick={() => setProductPopoverOpen(true)}
-                            >
-                              {selectedProduct ? (
-                                <span className="truncate text-left">
-                                  {selectedProduct.name} • TID {selectedProduct.tid}
-                                </span>
-                              ) : (
-                                "Selecione um produto"
-                              )}
-                              <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
-                          <Command>
-                            <CommandInput placeholder="Pesquise pelo nome ou TID" />
-                            <CommandList>
-                              <CommandEmpty>Nenhum produto encontrado</CommandEmpty>
-                              <CommandGroup>
-                                {products.map((product) => (
-                                  <CommandItem
-                                    key={product.id}
-                                    value={`${product.name} ${product.tid}`}
-                                    onSelect={() => {
-                                      form.setValue("productId", product.id, {
-                                        shouldDirty: true,
-                                        shouldValidate: true,
-                                      });
-                                      setProductPopoverOpen(false);
-                                    }}
-                                  >
-                                    <div className="flex flex-col">
-                                      <span>{product.name}</span>
-                                      <span className="text-xs text-muted-foreground">
-                                         {product.tid}
-                                      </span>
-                                    </div>
-                                  </CommandItem>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                control={form.control}
+                name="productId"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Produto</FormLabel>
+                    <SimpleDropdown
+                      open={productDropdownOpen}
+                      onToggle={setProductDropdownOpen}
+                      trigger={
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-between",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {selectedProduct ? (
+                            <span className="truncate text-left">
+                              {selectedProduct.name} • TID {selectedProduct.tid}
+                            </span>
+                          ) : (
+                            "Selecione um produto"
+                          )}
+                          <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      }
+                    >
+                      <Command>
+                        <CommandInput placeholder="Pesquise pelo nome ou TID" />
+                        <CommandList>
+                          <CommandEmpty>Nenhum produto encontrado</CommandEmpty>
+                          <CommandGroup>
+                            {products.map(product => (
+                              <CommandItem
+                                key={product.id}
+                                value={`${product.name} ${product.tid}`}
+                                onSelect={() => {
+                                  form.setValue("productId", product.id, {
+                                    shouldDirty: true,
+                                    shouldValidate: true,
+                                  });
+                                  setProductDropdownOpen(false);
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <span>{product.name}</span>
+                                  <span className="text-xs text-muted-foreground">{product.tid}</span>
+                                </div>
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </SimpleDropdown>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               </div>
 
               {/* Descritivo */}

@@ -1,114 +1,22 @@
-import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper";
-import { Invoice } from "@/core/domain/entities/invoice";
-import { InvoiceProduct } from "@/core/domain/entities/invoice-product";
-import { NCM } from "@/core/domain/entities/ncm";
-import { Product } from "@/core/domain/entities/product";
-import { createDatabaseConnection } from "../database";
-import { invoiceEvents, invoiceProducts, invoices } from "../database/schemas";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm"
+import { randomUUID } from "crypto"
+import { db } from "../database" // ✅ conexão única (sem recriar a cada chamada)
+import { invoices, invoiceProducts, invoiceEvents } from "../database/schemas"
+import { FormatFloatNumberHelper } from "@/core/application/helpers/format-float-number-helper"
+import { Invoice } from "@/core/domain/entities/invoice"
+import { InvoiceProduct } from "@/core/domain/entities/invoice-product"
+import { Product } from "@/core/domain/entities/product"
+import { NCM } from "@/core/domain/entities/ncm"
 
-interface InvoiceRepository {
-  save(invoice: Invoice): Promise<void>;
-  update(invoice: Invoice): Promise<void>;
-  list(): Promise<Invoice[]>;
-  remove(id: string): Promise<void>;
-  retrieve(id: string): Promise<Invoice | null>;
-}
-
-type InvoiceRaw = {
-  id: string;
-  registration: string;
-  createdAt: Date;
-  quote: number;
-  enable: boolean;
-  status: "open" | "closed";
-  products: {
-    amount: number;
-    quantity: number;
-    product: {
-      id: string;
-      ncm: {
-        id: string;
-        ipi: number;
-        tax: number;
-        code: number;
-        icms: number;
-        pis: number;
-        cofins: number;
-        pisSales: number;
-        cofinsSales: number;
-        difal: boolean;
-        reductionCalculationBase: number;
-      };
-      tid: string;
-      name: string;
-      width: number;
-      height: number;
-      length: number;
-      weight: number;
-      description: string;
-    };
-  }[];
-};
-
-export class InvoiceDatabaseRepository implements InvoiceRepository {
-  async retrieve(id: string): Promise<Invoice | null> {
-    const db = createDatabaseConnection();
-
-    const [invoice] = await db.$client<InvoiceRaw[]>`
-			SELECT 
-        i.id,
-        i.registration,
-        i."createdAt",
-        i.quote,
-        i.status,
-        COALESCE(jsonb_agg(
-            jsonb_build_object(
-                'id', ip.id,
-                'amount', ip.amount,
-                'quantity', ip.quantity,
-                'product', jsonb_build_object(
-                    'id', p.id,
-                    'tid', p.tid,
-                    'name', p.name,
-                    'width', p.width,
-                    'height', p.height,
-                    'length', p.length,
-                    'weight', p.weight,
-                    'description', p.description,
-                    'ncm', jsonb_build_object(
-                        'id', n.id,
-                        'code', n.code,
-                        'tax', n.tax,
-                        'icms', n.icms,
-                        'pis', n.pis,
-                        'cofins', n.cofins,
-                        'ipi', n.ipi,
-                        'pisSales', n.pis_sales,
-                        'cofinsSales', n.cofins_sales,
-                        'difal', n.difal,
-                        'reductionCalculationBase', n.reduction_calculation_base_value
-                    )
-                )
-            )
-        ), '[]'::jsonb) AS products
-      FROM perfuratriz.invoices i
-      LEFT JOIN perfuratriz.invoice_products ip ON ip."invoiceId" = i.id
-      LEFT JOIN perfuratriz.products p ON p.id = ip."productId"
-      LEFT JOIN perfuratriz.ncms n ON n.id = p."ncmId"
-      WHERE i.id = ${id}
-      GROUP BY i.id, i.registration, i."createdAt", i.quote;
-		`;
-
-    if (!invoice) return null;
-
+export class InvoiceDatabaseRepository {
+  private mapRowToEntity(invoice: any): Invoice {
     return Invoice.instance({
       id: invoice.id,
-      status: invoice.status,
       registration: invoice.registration,
       createdAt: new Date(invoice.createdAt),
+      status: invoice.status,
       quote: FormatFloatNumberHelper.format(invoice.quote, 10000),
-      products: invoice.products.map((p) =>
+      products: (invoice.products ?? []).map((p: any) =>
         InvoiceProduct.create({
           ...p,
           amount: FormatFloatNumberHelper.format(p.amount, 10000),
@@ -118,194 +26,236 @@ export class InvoiceDatabaseRepository implements InvoiceRepository {
           }),
         })
       ),
-    });
+    })
+  }
+
+  async retrieve(id: string): Promise<Invoice | null> {
+    try {
+      // @ts-ignore
+      const [row] = await db.execute(sql`
+        SELECT 
+          i.id,
+          i.registration,
+          i."createdAt",
+          i.quote,
+          i.status,
+          COALESCE(
+            jsonb_agg(
+              jsonb_build_object(
+                'id', ip.id,
+                'amount', ip.amount,
+                'quantity', ip.quantity,
+                'product', jsonb_build_object(
+                  'id', p.id,
+                  'tid', p.tid,
+                  'name', p.name,
+                  'width', p.width,
+                  'height', p.height,
+                  'length', p.length,
+                  'weight', p.weight,
+                  'description', p.description,
+                  'ncm', jsonb_build_object(
+                    'id', n.id,
+                    'code', n.code,
+                    'tax', n.tax,
+                    'icms', n.icms,
+                    'pis', n.pis,
+                    'cofins', n.cofins,
+                    'ipi', n.ipi,
+                    'pisSales', n.pis_sales,
+                    'cofinsSales', n.cofins_sales,
+                    'difal', n.difal,
+                    'reductionCalculationBase', n.reduction_calculation_base_value
+                  )
+                )
+              )
+            ) FILTER (WHERE ip.id IS NOT NULL),
+            '[]'::jsonb
+          ) AS products
+        FROM perfuratriz.invoices i
+        LEFT JOIN perfuratriz.invoice_products ip ON ip."invoiceId" = i.id
+        LEFT JOIN perfuratriz.products p ON p.id = ip."productId"
+        LEFT JOIN perfuratriz.ncms n ON n.id = p."ncmId"
+        WHERE i.id = ${id}
+        GROUP BY i.id;
+      `)
+
+      if (!row) return null
+      return this.mapRowToEntity(row)
+    } catch (err) {
+      console.error("❌ Error retrieving invoice:", err)
+      throw new Error("Failed to retrieve invoice")
+    }
+  }
+
+  async list(): Promise<Invoice[]> {
+    try {
+      const result = await db.execute(sql`
+        SELECT 
+          i.id,
+          i.registration,
+          i."createdAt",
+          i.quote,
+          i.status,
+          COALESCE(
+            jsonb_agg(
+              jsonb_build_object(
+                'id', ip.id,
+                'amount', ip.amount,
+                'quantity', ip.quantity,
+                'product', jsonb_build_object(
+                  'id', p.id,
+                  'tid', p.tid,
+                  'name', p.name,
+                  'width', p.width,
+                  'height', p.height,
+                  'length', p.length,
+                  'weight', p.weight,
+                  'description', p.description,
+                  'ncm', jsonb_build_object(
+                    'id', n.id,
+                    'code', n.code,
+                    'tax', n.tax,
+                    'icms', n.icms,
+                    'pis', n.pis,
+                    'cofins', n.cofins,
+                    'ipi', n.ipi,
+                    'pisSales', n.pis_sales,
+                    'cofinsSales', n.cofins_sales,
+                    'difal', n.difal,
+                    'reductionCalculationBase', n.reduction_calculation_base_value
+                  )
+                )
+              )
+            ) FILTER (WHERE ip.id IS NOT NULL),
+            '[]'::jsonb
+          ) AS products
+        FROM perfuratriz.invoices i
+        LEFT JOIN perfuratriz.invoice_products ip ON ip."invoiceId" = i.id
+        LEFT JOIN perfuratriz.products p ON p.id = ip."productId"
+        LEFT JOIN perfuratriz.ncms n ON n.id = p."ncmId"
+        GROUP BY i.id;
+      `)
+    
+      return result.rows.map((row) => this.mapRowToEntity(row))
+    } catch (err) {
+      console.error("❌ Error listing invoices:", err)
+      throw new Error("Failed to list invoices")
+    }
+  }
+
+  async save(invoice: Invoice): Promise<void> {
+    try {
+      await db.transaction(async (tx) => {
+        await tx.insert(invoices).values({
+          id: invoice.id,
+          registration: invoice.registration,
+          createdAt: invoice.createdAt,
+          quote: FormatFloatNumberHelper.toPersist(invoice.quote, 10000),
+          status: invoice.status,
+        })
+
+        for (const p of invoice.products) {
+          await tx
+            .insert(invoiceProducts)
+            .values({
+              id: p.id,
+              amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
+              invoiceId: invoice.id,
+              productId: p.product.id,
+              quantity: p.quantity,
+            })
+            .onConflictDoUpdate({
+              target: invoiceProducts.id,
+              set: {
+                amount: sql`excluded.amount`,
+                invoiceId: sql`excluded."invoiceId"`,
+                productId: sql`excluded."productId"`,
+                quantity: sql`excluded.quantity`,
+              },
+            })
+        }
+
+        await tx.insert(invoiceEvents).values({
+          id: randomUUID(),
+          invoiceId: invoice.id,
+          type: "CREATED",
+          payload: invoice,
+        })
+      })
+    } catch (err) {
+      console.error("❌ Error saving invoice:", err)
+      throw new Error("Failed to save invoice")
+    }
   }
 
   async update(invoice: Invoice): Promise<void> {
-    const db = createDatabaseConnection();
     try {
       await db.transaction(async (tx) => {
         await tx
           .update(invoices)
           .set({
-            createdAt: invoice.createdAt,
-            quote: FormatFloatNumberHelper.toPersist(invoice.quote, 10000),
             registration: invoice.registration,
+            quote: FormatFloatNumberHelper.toPersist(invoice.quote, 10000),
+            createdAt: invoice.createdAt,
           })
-          .where(eq(invoices.id, invoice.id));
-        await Promise.all(
-          invoice.products.map(async (p) => {
-            await tx
-              .insert(invoiceProducts)
-              .values({
-                amount: BigInt(
-                  FormatFloatNumberHelper.toPersist(p.amount, 10000)
-                ),
-                invoiceId: invoice.id,
-                productId: p.product.id,
-                quantity: p.quantity,
-                id: p.id,
-              })
-              .onConflictDoUpdate({
-                set: {
-                  amount: sql`excluded.amount`,
-                  invoiceId: sql`excluded."invoiceId"`,
-                  productId: sql`excluded."productId"`,
-                  quantity: sql`excluded.quantity`,
-                },
-                target: invoiceProducts.id,
-              });
-          })
-        );
-        await tx.insert(invoiceEvents).values({
-          invoiceId: invoice.id,
-          payload: invoice,
-          type: "UPDATED",
-        });
-      });
-    } catch (err) {
-      console.error("Erro na atualização da invoice:");
-      if (err instanceof Error) {
-        console.error("Mensagem:", err);
-      }
-      // Se estiver usando pg diretamente via drizzle-pg:
-      // console.error("Detalhes Postgres:", (err as any).cause);
-      throw err; // se quiser propagar
-    }
-  }
+          .where(eq(invoices.id, invoice.id))
 
-  async save(invoice: Invoice): Promise<void> {
-    const db = createDatabaseConnection();
-    await db.transaction(async (tx) => {
-      await tx.insert(invoices).values({
-        createdAt: invoice.createdAt,
-        quote: FormatFloatNumberHelper.toPersist(invoice.quote, 10000),
-        registration: invoice.registration,
-        id: invoice.id,
-      });
-      await Promise.all(
-        invoice.products.map(async (p) => {
+        for (const p of invoice.products) {
           await tx
             .insert(invoiceProducts)
             .values({
-              amount: BigInt(
-                FormatFloatNumberHelper.toPersist(p.amount, 10000)
-              ),
+              id: p.id,
+              amount: BigInt(FormatFloatNumberHelper.toPersist(p.amount, 10000)),
               invoiceId: invoice.id,
               productId: p.product.id,
               quantity: p.quantity,
-              id: p.id,
             })
             .onConflictDoUpdate({
+              target: invoiceProducts.id,
               set: {
-                amount: BigInt(
-                  FormatFloatNumberHelper.toPersist(p.amount, 10000)
-                ),
-                invoiceId: invoice.id,
-                productId: p.product.id,
-                quantity: p.quantity,
+                amount: sql`excluded.amount`,
+                quantity: sql`excluded.quantity`,
               },
-              target: invoices.id,
-            });
+            })
+        }
+
+        await tx.insert(invoiceEvents).values({
+          id: randomUUID(),
+          invoiceId: invoice.id,
+          type: "UPDATED",
+          payload: invoice,
         })
-      );
-      await tx.insert(invoiceEvents).values({
-        invoiceId: invoice.id,
-        payload: invoice,
-        type: "CREATED",
-      });
-    });
-  }
-
-  async list(): Promise<Invoice[]> {
-    const db = createDatabaseConnection();
-
-    const allInvoices = await db.$client<InvoiceRaw[]>`
-			SELECT 
-        i.id,
-        i.registration,
-        i."createdAt",
-        i.quote,
-        i.status,
-        jsonb_agg(
-          jsonb_build_object(
-            'id', ip.id,
-            'amount', ip.amount,
-            'quantity', ip.quantity,
-            'product', jsonb_build_object(
-              'id', p.id,
-              'tid', p.tid,
-              'name', p.name,
-              'width', p.width,
-              'height', p.height,
-              'length', p.length,
-              'weight', p.weight,
-              'description', p.description,
-              'ncm', jsonb_build_object(
-                'id', n.id,
-                'code', n.code,
-                'tax', n.tax,
-                'icms', n.icms,
-                'pis', n.pis,
-                'cofins', n.cofins,
-                'ipi', n.ipi,
-                'pisSales', n.pis_sales,
-                'cofinsSales', n.cofins_sales,
-                'difal', n.difal,
-                'reductionCalculationBase', n.reduction_calculation_base_value
-              )
-            )
-          )
-        ) AS products
-      FROM perfuratriz.invoices i
-      LEFT JOIN perfuratriz.invoice_products ip 
-        ON ip."invoiceId" = i.id
-      LEFT JOIN perfuratriz.products p 
-        ON p.id = ip."productId"
-      LEFT JOIN perfuratriz.ncms n 
-        ON n.id = p."ncmId"
-      GROUP BY i.id, i.registration, i."createdAt", i.quote;
-		`;
-
-    return allInvoices.map((invoice) =>
-      Invoice.instance({
-        id: invoice.id,
-        registration: invoice.registration,
-        createdAt: new Date(invoice.createdAt),
-        quote: FormatFloatNumberHelper.format(invoice.quote, 10000),
-        status: invoice.status,
-        products: invoice.products.map((p) =>
-          InvoiceProduct.create({
-            ...p,
-            amount: FormatFloatNumberHelper.format(p.amount, 10000),
-            product: Product.instance({
-              ...p.product,
-              ncm: NCM.instance(p.product.ncm),
-            }),
-          })
-        ),
       })
-    );
+    } catch (err) {
+      console.error("❌ Error updating invoice:", err)
+      throw new Error("Failed to update invoice")
+    }
   }
 
   async remove(id: string): Promise<void> {
-    const db = createDatabaseConnection();
-    const invoice = await this.retrieve(id);
-    if (!invoice) {
-      return;
-    }
-    await db.transaction(async (tx) => {
-      await tx.delete(invoices).where(eq(invoices.id, id));
-      await tx.delete(invoiceProducts).where(eq(invoiceProducts.invoiceId, id));
-      await tx.insert(invoiceEvents).values({
-        invoiceId: invoice.id,
-        payload: invoice,
-        type: "DELETED",
-      });
-    });
-  }
+    try {
+      const invoice = await this.retrieve(id)
+      if (!invoice) return
 
+      await db.transaction(async (tx) => {
+        await tx.delete(invoiceProducts).where(eq(invoiceProducts.invoiceId, id))
+        await tx.delete(invoices).where(eq(invoices.id, id))
+        await tx.insert(invoiceEvents).values({
+          id: randomUUID(),
+          invoiceId: invoice.id,
+          type: "DELETED",
+          payload: invoice,
+        })
+      })
+    } catch (err) {
+      console.error("❌ Error removing invoice:", err)
+      throw new Error("Failed to remove invoice")
+    }
+  }
   static instance() {
-    return new InvoiceDatabaseRepository();
+    return new InvoiceDatabaseRepository()
   }
 }
+
+export const invoiceRepository = new InvoiceDatabaseRepository()

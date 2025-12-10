@@ -1,11 +1,16 @@
-import "dotenv/config";
-import { drizzle, PostgresJsDatabase } from "drizzle-orm/postgres-js";
-import { Sql } from "postgres";
+import { drizzle } from "drizzle-orm/node-postgres"
+import { Pool } from "pg"
 
-export const createDatabaseConnection = (): PostgresJsDatabase<
-  Record<string, never>
-> & {
-  $client: Sql<{}>;
-} => {
-  return drizzle(process.env.DATABASE_URL ?? "");
-};
+const globalForDb = global as unknown as { db?: ReturnType<typeof drizzle> }
+
+export const db =
+  globalForDb.db ??
+  drizzle(
+    new Pool({
+      connectionString: process.env.DATABASE_URL,
+      max: 10, // limite de conexões simultâneas
+      idleTimeoutMillis: 30000,
+    })
+  )
+
+if (process.env.NODE_ENV !== "production") globalForDb.db = db

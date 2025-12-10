@@ -12,7 +12,7 @@ import {
   saleTableImportInfoOutputSchema,
 } from "./sale-table-schema";
 
-const saleTableRepository = SaleTableDatabaseRepository.instance();
+const saleTableRepository = new SaleTableDatabaseRepository();
 
 export const createSaleTableAction = createServerAction()
   .input(createSaleTableInputSchema)
