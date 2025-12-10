@@ -18,5 +18,27 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run tests
-        run: bun test
+      - name: Run Vitest with report
+        run: bun x vitest run --reporter=junit --outputFile=test-results/junit.xml --coverage
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results
+          path: test-results/junit.xml
+
+      - name: Publish Test Results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Vitest Report
+          path: test-results/junit.xml
+          reporter: jest-junit
+      - name: Comment test summary
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: "🧪 Test Summary"
+          message: |
+            ✅ Tests completed!
+            - See [test results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
