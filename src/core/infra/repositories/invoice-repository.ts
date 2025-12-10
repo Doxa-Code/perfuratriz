@@ -90,7 +90,7 @@ export class InvoiceDatabaseRepository {
 
   async list(): Promise<Invoice[]> {
     try {
-      const rows = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT 
           i.id,
           i.registration,
@@ -136,8 +136,8 @@ export class InvoiceDatabaseRepository {
         LEFT JOIN perfuratriz.ncms n ON n.id = p."ncmId"
         GROUP BY i.id;
       `)
-    // @ts-ignore
-      return rows.map((row) => this.mapRowToEntity(row))
+    
+      return result.rows.map((row) => this.mapRowToEntity(row))
     } catch (err) {
       console.error("❌ Error listing invoices:", err)
       throw new Error("Failed to list invoices")
@@ -166,7 +166,7 @@ export class InvoiceDatabaseRepository {
               quantity: p.quantity,
             })
             .onConflictDoUpdate({
-              target: invoiceProducts.id, // ✅ corrigido
+              target: invoiceProducts.id,
               set: {
                 amount: sql`excluded.amount`,
                 invoiceId: sql`excluded."invoiceId"`,
@@ -252,6 +252,9 @@ export class InvoiceDatabaseRepository {
       console.error("❌ Error removing invoice:", err)
       throw new Error("Failed to remove invoice")
     }
+  }
+  static instance() {
+    return new InvoiceDatabaseRepository()
   }
 }
 

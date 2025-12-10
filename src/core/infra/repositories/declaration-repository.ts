@@ -185,8 +185,7 @@ export class DeclarationDatabaseRepository {
 
   async retrieve(id: string): Promise<Declaration | null> {
     try {
-      // @ts-ignore
-      const [raw] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT 
           d.id, d.registration, d.status, d."createdAt", d.quote,
           di.id AS invoice_id, di.registration AS invoice_registration,
@@ -218,17 +217,19 @@ export class DeclarationDatabaseRepository {
         GROUP BY d.id, di.id;
       `)
 
+      const raw = result.rows[0] as any
       if (!raw) return null
 
+      const rawData = raw as any
       const invoice = Invoice.instance({
-        id: raw.invoice_id ?? "",
-        registration: raw.invoice_registration ?? "",
-        createdAt: raw.invoice_createdAt
-          ? new Date(raw.invoice_createdAt)
+        id: rawData.invoice_id ?? "",
+        registration: rawData.invoice_registration ?? "",
+        createdAt: rawData.invoice_createdAt
+          ? new Date(rawData.invoice_createdAt)
           : new Date(),
-        quote: FormatFloatNumberHelper.format(raw.invoice_quote ?? 0, 10000),
-        status: raw.status,
-        products: (raw.products ?? []).map((p: any) =>
+        quote: FormatFloatNumberHelper.format(rawData.invoice_quote ?? 0, 10000),
+        status: rawData.status,
+        products: (rawData.products ?? []).map((p: any) =>
           InvoiceProduct.create({
             id: p.id ?? "",
             quantity: p.quantity ?? 0,
@@ -256,7 +257,7 @@ export class DeclarationDatabaseRepository {
         ),
       })
 
-      const expenses = (raw.expenses ?? [])
+      const expenses = ((raw.expenses ?? []) as any[])
         .filter((e: any) => !!e.id)
         .map((e: any) =>
           ExpenseDeclaration.create({
@@ -289,7 +290,7 @@ export class DeclarationDatabaseRepository {
 
   async list(): Promise<Declaration[]> {
     try {
-      const rows = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT 
           d.id, d.registration, d.status, d."createdAt", d.quote,
           di.id AS invoice_id, di.registration AS invoice_registration,
@@ -319,8 +320,7 @@ export class DeclarationDatabaseRepository {
         LEFT JOIN perfuratriz.declaration_expenses de ON de."declarationId" = d.id
         GROUP BY d.id, di.id;
       `)
-        // @ts-ignore
-      return rows.map((raw) =>
+      return result.rows.map((raw: any) =>
         Declaration.instance({
           id: raw.id ?? "",
           registration: raw.registration ?? "",
