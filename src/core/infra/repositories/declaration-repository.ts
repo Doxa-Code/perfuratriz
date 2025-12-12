@@ -401,11 +401,11 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
             ncm: ProductNCM.create({
               id: p.ncm?.id ?? "",
               code: p.ncm?.code ?? 0,
-              icms: p.ncm?.icms ?? 0,
-              pis: p.ncm?.pis ?? 0,
-              cofins: p.ncm?.cofins ?? 0,
-              ipi: p.ncm?.ipi ?? 0,
-              tax: p.ncm?.tax ?? 0,
+              icms: FormatFloatNumberHelper.format(p.ncm?.icms ?? 0, 100),
+              pis: FormatFloatNumberHelper.format(p.ncm?.pis ?? 0, 100),
+              cofins: FormatFloatNumberHelper.format(p.ncm?.cofins ?? 0, 100),
+              ipi: FormatFloatNumberHelper.format(p.ncm?.ipi ?? 0, 100),
+              tax: FormatFloatNumberHelper.format(p.ncm?.tax ?? 0, 100),
             }),
           }),
         })
