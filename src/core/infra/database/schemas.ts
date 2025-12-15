@@ -8,7 +8,14 @@ import {
   uuid,
   varchar,
   bigint,
+  pgEnum,
 } from "drizzle-orm/pg-core";
+
+export const typeDollarQuoteEnum = pgEnum("type_dollar_quote", [
+  "CURRENT",
+  "LAST_DI",
+  "FUTURE",
+]);
 
 const schemas = pgSchema("perfuratriz");
 
@@ -64,6 +71,9 @@ export const saleTables = schemas.table("sale_tables", {
   lastImportationQuote: integer("last_importation_quote"),
   dollarQuote: integer("dollar_quote").notNull().default(0),
   dollarQuoteDate: timestamp("dollar_quote_date"),
+  typeDollarQuote: typeDollarQuoteEnum("type_dollar_quote")
+    .notNull()
+    .default("CURRENT"),
   costPriceUsd: integer("cost_price_usd").notNull().default(0),
   costPriceBrl: integer("cost_price_brl").notNull().default(0),
   createdAt: timestamp("created_at").notNull().defaultNow(),

@@ -86,3 +86,10 @@ export const removeDeclarationAction = createServerAction()
     await Promise.all(input.ids.map((id) => declarationRepository.remove(id)));
     revalidatePath("/declarations", "page");
   });
+
+export const getAverageDollarQuoteLastDIAction = createServerAction().handler(
+  async () => {
+    const repository = DeclarationDatabaseRepository.instance();
+    return await repository.getAverageQuoteLastClosed(1);
+  }
+);

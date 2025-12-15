@@ -92,6 +92,13 @@
       "when": 1763735028563,
       "tag": "0012_mighty_sale_tables",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1765829528614,
+      "tag": "0013_update_sale_tables",
+      "breakpoints": true
     }
   ]
 }

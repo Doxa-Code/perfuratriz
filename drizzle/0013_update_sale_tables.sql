@@ -1,0 +1,2 @@
+CREATE TYPE "public"."type_dollar_quote" AS ENUM('CURRENT', 'LAST_DI', 'FUTURE');--> statement-breakpoint
+ALTER TABLE "perfuratriz"."sale_tables" ADD COLUMN "type_dollar_quote" "type_dollar_quote" DEFAULT 'CURRENT' NOT NULL;
