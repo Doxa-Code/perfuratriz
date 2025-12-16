@@ -23,6 +23,7 @@ export interface DeclarationRepository {
   retrieve(id: string): Promise<Declaration | null>;
   list(): Promise<Declaration[]>;
   remove(id: string): Promise<void>;
+  getAverageQuoteLastClosed(limit: number): Promise<number | null>;
 }
 
 export class DeclarationDatabaseRepository implements DeclarationRepository {
@@ -101,21 +102,21 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
               id: ncm.id,
               productId: p.id,
               code: ncm.code,
-              tax: ncm.tax,
-              icms: ncm.icms,
-              pis: ncm.pis,
-              cofins: ncm.cofins,
-              ipi: ncm.ipi,
+              icms: FormatFloatNumberHelper.format(ncm?.icms ?? 0, 100),
+              pis: FormatFloatNumberHelper.format(ncm?.pis ?? 0, 100),
+              cofins: FormatFloatNumberHelper.format(ncm?.cofins ?? 0, 100),
+              ipi: FormatFloatNumberHelper.format(ncm?.ipi ?? 0, 100),
+              tax: FormatFloatNumberHelper.format(ncm?.tax ?? 0, 100),
             })
             .onConflictDoUpdate({
               target: declarationInvoiceProductNcms.id,
               set: {
                 code: ncm.code,
-                tax: ncm.tax,
-                icms: ncm.icms,
-                pis: ncm.pis,
-                cofins: ncm.cofins,
-                ipi: ncm.ipi,
+                icms: FormatFloatNumberHelper.format(ncm?.icms ?? 0, 100),
+                pis: FormatFloatNumberHelper.format(ncm?.pis ?? 0, 100),
+                cofins: FormatFloatNumberHelper.format(ncm?.cofins ?? 0, 100),
+                ipi: FormatFloatNumberHelper.format(ncm?.ipi ?? 0, 100),
+                tax: FormatFloatNumberHelper.format(ncm?.tax ?? 0, 100),
               },
             });
         })
@@ -246,21 +247,21 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
               id: ncm.id,
               productId: p.id,
               code: ncm.code,
-              tax: ncm.tax,
-              icms: ncm.icms,
-              pis: ncm.pis,
-              cofins: ncm.cofins,
-              ipi: ncm.ipi,
+              tax: FormatFloatNumberHelper.toPersist(ncm.tax, 100),
+              icms: FormatFloatNumberHelper.toPersist(ncm.icms, 100),
+              pis: FormatFloatNumberHelper.toPersist(ncm.pis, 100),
+              cofins: FormatFloatNumberHelper.toPersist(ncm.cofins, 100),
+              ipi: FormatFloatNumberHelper.toPersist(ncm.ipi, 100),
             })
             .onConflictDoUpdate({
               target: declarationInvoiceProductNcms.id,
               set: {
                 code: ncm.code,
-                tax: ncm.tax,
-                icms: ncm.icms,
-                pis: ncm.pis,
-                cofins: ncm.cofins,
-                ipi: ncm.ipi,
+                tax: FormatFloatNumberHelper.toPersist(ncm.tax, 100),
+                icms: FormatFloatNumberHelper.toPersist(ncm.icms, 100),
+                pis: FormatFloatNumberHelper.toPersist(ncm.pis, 100),
+                cofins: FormatFloatNumberHelper.toPersist(ncm.cofins, 100),
+                ipi: FormatFloatNumberHelper.toPersist(ncm.ipi, 100),
               },
             });
         })
@@ -401,11 +402,11 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
             ncm: ProductNCM.create({
               id: p.ncm?.id ?? "",
               code: p.ncm?.code ?? 0,
-              icms: p.ncm?.icms ?? 0,
-              pis: p.ncm?.pis ?? 0,
-              cofins: p.ncm?.cofins ?? 0,
-              ipi: p.ncm?.ipi ?? 0,
-              tax: p.ncm?.tax ?? 0,
+              icms: FormatFloatNumberHelper.format(p.ncm?.icms ?? 0, 100),
+              pis: FormatFloatNumberHelper.format(p.ncm?.pis ?? 0, 100),
+              cofins: FormatFloatNumberHelper.format(p.ncm?.cofins ?? 0, 100),
+              ipi: FormatFloatNumberHelper.format(p.ncm?.ipi ?? 0, 100),
+              tax: FormatFloatNumberHelper.format(p.ncm?.tax ?? 0, 100),
             }),
           }),
         })
@@ -582,6 +583,26 @@ export class DeclarationDatabaseRepository implements DeclarationRepository {
         type: "DELETED",
       });
     });
+  }
+
+  async getAverageQuoteLastClosed(limit = 3): Promise<number | null> {
+    const db = createDatabaseConnection();
+
+    const [result] = await db.$client<any[]>`
+    SELECT AVG(d.quote) AS avg_quote
+    FROM (
+      SELECT quote
+      FROM perfuratriz.declarations
+      WHERE status = 'closed'
+      ORDER BY "createdAt" DESC
+      LIMIT ${limit}
+    ) d
+  `;
+
+    if (!result?.avg_quote) return null;
+
+    // 🔴 IMPORTANTE: converter do formato persistido
+    return FormatFloatNumberHelper.format(Number(result.avg_quote), 10000);
   }
 
   static instance(): DeclarationDatabaseRepository {

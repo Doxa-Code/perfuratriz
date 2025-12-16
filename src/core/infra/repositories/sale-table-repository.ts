@@ -22,13 +22,10 @@ interface SaleTableRepository {
   findLastImportation(
     productId: string,
     status?: "encerrada" | "em andamento"
-  ): Promise<
-    | {
-        createdAt: Date;
-        quote: number;
-      }
-    | null
-  >;
+  ): Promise<{
+    createdAt: Date;
+    quote: number;
+  } | null>;
 }
 
 export class SaleTableDatabaseRepository implements SaleTableRepository {
@@ -51,12 +48,25 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
         productId: row.saleTable.productId,
         lastImportationAt: row.saleTable.lastImportationAt,
         lastImportationQuote: row.saleTable.lastImportationQuote
-          ? FormatFloatNumberHelper.format(row.saleTable.lastImportationQuote, 10000)
+          ? FormatFloatNumberHelper.format(
+              row.saleTable.lastImportationQuote,
+              10000
+            )
           : null,
-        dollarQuote: FormatFloatNumberHelper.format(row.saleTable.dollarQuote, 10000),
+        dollarQuote: FormatFloatNumberHelper.format(
+          row.saleTable.dollarQuote,
+          10000
+        ),
         dollarQuoteDate: row.saleTable.dollarQuoteDate,
-        costPriceUsd: FormatFloatNumberHelper.format(row.saleTable.costPriceUsd, 100),
-        costPriceBrl: FormatFloatNumberHelper.format(row.saleTable.costPriceBrl, 100),
+        typeDollarQuote: row.saleTable.typeDollarQuote,
+        costPriceUsd: FormatFloatNumberHelper.format(
+          row.saleTable.costPriceUsd,
+          100
+        ),
+        costPriceBrl: FormatFloatNumberHelper.format(
+          row.saleTable.costPriceBrl,
+          100
+        ),
         createdAt: row.saleTable.createdAt,
         updatedAt: row.saleTable.updatedAt,
       });
@@ -97,12 +107,25 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
         productId: saleTable.productId,
         lastImportationAt: saleTable.lastImportationAt,
         lastImportationQuote: saleTable.lastImportationQuote
-          ? FormatFloatNumberHelper.toPersist(saleTable.lastImportationQuote, 10000)
+          ? FormatFloatNumberHelper.toPersist(
+              saleTable.lastImportationQuote,
+              10000
+            )
           : null,
-        dollarQuote: FormatFloatNumberHelper.toPersist(saleTable.dollarQuote, 10000),
+        dollarQuote: FormatFloatNumberHelper.toPersist(
+          saleTable.dollarQuote,
+          10000
+        ),
         dollarQuoteDate: saleTable.dollarQuoteDate,
-        costPriceUsd: FormatFloatNumberHelper.toPersist(saleTable.costPriceUsd, 100),
-        costPriceBrl: FormatFloatNumberHelper.toPersist(saleTable.costPriceBrl, 100),
+        typeDollarQuote: saleTable.typeDollarQuote,
+        costPriceUsd: FormatFloatNumberHelper.toPersist(
+          saleTable.costPriceUsd,
+          100
+        ),
+        costPriceBrl: FormatFloatNumberHelper.toPersist(
+          saleTable.costPriceBrl,
+          100
+        ),
         createdAt: saleTable.createdAt,
         updatedAt: saleTable.updatedAt,
       })
@@ -112,12 +135,25 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
           productId: saleTable.productId,
           lastImportationAt: saleTable.lastImportationAt,
           lastImportationQuote: saleTable.lastImportationQuote
-            ? FormatFloatNumberHelper.toPersist(saleTable.lastImportationQuote, 10000)
+            ? FormatFloatNumberHelper.toPersist(
+                saleTable.lastImportationQuote,
+                10000
+              )
             : null,
-          dollarQuote: FormatFloatNumberHelper.toPersist(saleTable.dollarQuote, 10000),
+          dollarQuote: FormatFloatNumberHelper.toPersist(
+            saleTable.dollarQuote,
+            10000
+          ),
           dollarQuoteDate: saleTable.dollarQuoteDate,
-          costPriceUsd: FormatFloatNumberHelper.toPersist(saleTable.costPriceUsd, 100),
-          costPriceBrl: FormatFloatNumberHelper.toPersist(saleTable.costPriceBrl, 100),
+          typeDollarQuote: saleTable.typeDollarQuote,
+          costPriceUsd: FormatFloatNumberHelper.toPersist(
+            saleTable.costPriceUsd,
+            100
+          ),
+          costPriceBrl: FormatFloatNumberHelper.toPersist(
+            saleTable.costPriceBrl,
+            100
+          ),
           updatedAt: new Date(),
         },
       });

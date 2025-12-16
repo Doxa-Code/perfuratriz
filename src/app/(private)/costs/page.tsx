@@ -14,7 +14,7 @@ export default async function Costs() {
   return (
     <main className="container mx-auto">
       <header className="flex w-full py-10 items-center justify-between">
-        <h1 className="font-bold text-2xl">Custos Administrador</h1>
+        <h1 className="font-bold text-2xl">Custos Administrativo</h1>
         <ButtonCreate modalName={MODAL_CREATE_COST} title="Novo Custo" />
       </header>
       <TableCost cost={costs ?? []} />

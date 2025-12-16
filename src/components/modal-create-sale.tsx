@@ -4,6 +4,7 @@ import {
   createSaleTableAction,
   getSaleTableImportInfoAction,
 } from "@/actions/sale-table-action";
+import { getAverageDollarQuoteLastDIAction } from "@/actions/declaration-action";
 import type { Product } from "@/core/domain/entities/product";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,7 +34,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useServerActionMutation } from "@/lib/hooks";
 import { useModais } from "@/lib/hooks/use-modais";
 import { useRegisterEdit } from "@/lib/hooks/use-register-edit";
@@ -47,18 +52,36 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const formSchema = z.object({
   id: z.string().nullable(),
-  productId: z.string({ required_error: "Produto obrigatório" }).min(1, "Produto obrigatório"),
-  tid: z.string({ required_error: "Campo obrigatório" }).min(1, "Campo obrigatório"),
+  productId: z
+    .string({ required_error: "Produto obrigatório" })
+    .min(1, "Produto obrigatório"),
+  tid: z
+    .string({ required_error: "Campo obrigatório" })
+    .min(1, "Campo obrigatório"),
   description: z.string().optional(),
   lastImportationAt: z.string().nullable(),
   lastImportationQuote: z.string().nullable(),
-  dollarQuote: z.string({ required_error: "Campo obrigatório" }).min(1, "Campo obrigatório"),
+  dollarQuote: z
+    .string({ required_error: "Campo obrigatório" })
+    .min(1, "Campo obrigatório"),
+  typeDollarQuote: z.enum(["CURRENT", "LAST_DI", "FUTURE"], {
+    required_error: "Selecione o tipo de cotação",
+  }),
   dollarQuoteDate: z.string().nullable(),
-  costPriceUsd: z.string({ required_error: "Campo obrigatório" }).min(1, "Campo obrigatório"),
-  costPriceBrl: z.string({ required_error: "Campo obrigatório" }).min(1, "Campo obrigatório"),
+  costPriceUsd: z
+    .string({ required_error: "Campo obrigatório" })
+    .min(1, "Campo obrigatório"),
+  costPriceBrl: z.string({ required_error: "Campo obrigatório" }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -75,6 +98,7 @@ const defaultValues: FormValues = {
   lastImportationAt: null,
   lastImportationQuote: null,
   dollarQuote: "",
+  typeDollarQuote: "CURRENT",
   dollarQuoteDate: null,
   costPriceUsd: "",
   costPriceBrl: "",
@@ -115,8 +139,15 @@ export function ModalCreateSale({ products }: Props) {
       form.reset(defaultValues);
     },
   });
-  const { mutateAsync: fetchImportInfoMutation, isPending: isLoadingImportInfo } =
-    useServerActionMutation(getSaleTableImportInfoAction);
+  const {
+    mutateAsync: fetchImportInfoMutation,
+    isPending: isLoadingImportInfo,
+  } = useServerActionMutation(getSaleTableImportInfoAction);
+
+  const {
+    mutateAsync: fetchAverageLastDIMutation,
+    isPending: isFetchingLastDI,
+  } = useServerActionMutation(getAverageDollarQuoteLastDIAction);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -128,34 +159,39 @@ export function ModalCreateSale({ products }: Props) {
   }, [products]);
 
   const productMapByTid = useMemo(() => {
-    return new Map(products.map((product) => [product.tid.toLowerCase(), product]));
+    return new Map(
+      products.map((product) => [product.tid.toLowerCase(), product])
+    );
   }, [products]);
 
   const productId = form.watch("productId");
   const tidValue = form.watch("tid");
+  const typeDollarQuote = form.watch("typeDollarQuote");
 
   const selectedProduct =
-    (productId ? productMapById.get(productId) : undefined) ?? register?.product;
-
+    (productId ? productMapById.get(productId) : undefined) ??
+    register?.product;
 
   React.useEffect(() => {
-    if (register && isSaleModalOpen) {
+    if (!isSaleModalOpen) {
       setProductPopoverOpen(false);
+      return;
+    }
+
+    if (register) {
+      // edição
       form.reset({
         id: register.id,
         productId: register.productId,
         tid: register.product.tid,
         description: register.product.description,
-        lastImportationAt: register.lastImportationAt
-          ? register.lastImportationAt.toISOString()
-          : null,
-        lastImportationQuote: register.lastImportationQuote
-          ? register.lastImportationQuote.toFixed(4).replace(".", ",")
-          : null,
+        lastImportationAt: register.lastImportationAt?.toISOString() ?? null,
+        lastImportationQuote:
+          register.lastImportationQuote?.toFixed(4).replace(".", ",") ?? null,
         dollarQuote: register.dollarQuote.toFixed(4).replace(".", ","),
-        dollarQuoteDate: register.dollarQuoteDate
-          ? register.dollarQuoteDate.toISOString()
-          : new Date().toISOString(),
+        dollarQuoteDate:
+          register.dollarQuoteDate?.toISOString() ?? new Date().toISOString(),
+        typeDollarQuote: register.typeDollarQuote,
         costPriceUsd: register.costPriceUsd.toFixed(2).replace(".", ","),
         costPriceBrl: register.costPriceBrl.toFixed(2).replace(".", ","),
       });
@@ -167,19 +203,44 @@ export function ModalCreateSale({ products }: Props) {
             }
           : null
       );
-      return;
-    }
-
-    if (!isSaleModalOpen) {
-      setProductPopoverOpen(false);
-      return;
-    }
-
-    if (form.formState.isDirty || form.formState.isSubmitted) {
+    } else {
+      // criação nova tabela
       form.reset(defaultValues);
       setImportInfo(null);
+      setProductPopoverOpen(false);
+      void handleRefreshDollarQuote();
     }
-  }, [register, isSaleModalOpen, form]);
+  }, [register, isSaleModalOpen]);
+
+  React.useEffect(() => {
+    if (typeDollarQuote === "CURRENT" && !isFetchingQuote) {
+      void handleRefreshDollarQuote();
+    }
+  }, [typeDollarQuote]);
+
+  React.useEffect(() => {
+    if (typeDollarQuote === "LAST_DI") {
+      (async () => {
+        try {
+          const avgQuote = await fetchAverageLastDIMutation(undefined);
+          if (avgQuote) {
+            form.setValue(
+              "dollarQuote",
+              avgQuote.toFixed(4).replace(".", ","),
+              {
+                shouldValidate: true,
+                shouldDirty: true,
+              }
+            );
+
+            form.setValue("dollarQuoteDate", new Date().toISOString());
+          }
+        } catch (err) {
+          console.error("Erro ao buscar média das DI:", err);
+        }
+      })();
+    }
+  }, [typeDollarQuote]);
 
   React.useEffect(() => {
     if (isSaleModalOpen && !register) {
@@ -193,7 +254,10 @@ export function ModalCreateSale({ products }: Props) {
     const normalized = tidValue.trim().toLowerCase();
     const product = productMapByTid.get(normalized);
     if (product && product.id !== productId) {
-      form.setValue("productId", product.id, { shouldValidate: true, shouldDirty: true });
+      form.setValue("productId", product.id, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
     }
   }, [tidValue, productMapByTid, productId, form, register]);
 
@@ -223,7 +287,10 @@ export function ModalCreateSale({ products }: Props) {
         }
         setImportInfo(result);
         form.setValue("lastImportationAt", result.createdAt);
-        form.setValue("lastImportationQuote", result.quote.toFixed(4).replace(".", ","));
+        form.setValue(
+          "lastImportationQuote",
+          result.quote.toFixed(4).replace(".", ",")
+        );
       } catch (error) {
         console.error(error);
         setImportInfo(null);
@@ -247,15 +314,6 @@ export function ModalCreateSale({ products }: Props) {
             });
             form.setValue("dollarQuoteDate", currentDate.toISOString());
 
-            const usd = parseFloat(form.getValues("costPriceUsd").replace(",", "."));
-            if (!isNaN(usd)) {
-              const brl = usd * quote;
-              form.setValue("costPriceBrl", brl.toFixed(2).replace(".", ","), {
-                shouldValidate: true,
-                shouldDirty: true,
-              });
-            }
-
             return;
           }
         } catch (error) {
@@ -274,22 +332,35 @@ export function ModalCreateSale({ products }: Props) {
   }
 
   React.useEffect(() => {
-    const subscription = form.watch((values) => {
-      const usd = parseFloat(values.costPriceUsd?.replace(",", ".") ?? "0");
-      const dollarQuote = parseFloat(values.dollarQuote?.replace(",", ".") ?? "0");
-      if (isNaN(usd) || isNaN(dollarQuote)) return;
-  
-      const brl = usd * dollarQuote;
-      const newValue = brl.toFixed(2).replace(".", ",");
-  
-      // Evita loop: só atualiza se o valor realmente mudou
-      if (values.costPriceBrl !== newValue) {
-        form.setValue("costPriceBrl", newValue, { shouldValidate: true });
+    const usdRaw = form.getValues("costPriceUsd");
+    const quoteRaw = form.getValues("dollarQuote");
+
+    // 👉 Se apagar o USD, limpa o BRL também
+    if (!usdRaw || !usdRaw.trim()) {
+      if (form.getValues("costPriceBrl")) {
+        form.setValue("costPriceBrl", "", {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
       }
-    });
-  
-    return () => subscription.unsubscribe();
-  }, [form]);
+      return;
+    }
+
+    const usd = parseFloat(usdRaw.replace(",", "."));
+    const quote = parseFloat(quoteRaw?.replace(",", ".") ?? "");
+
+    if (isNaN(usd) || isNaN(quote)) return;
+
+    const brl = usd * quote;
+    const formatted = brl.toFixed(2).replace(".", ",");
+
+    if (form.getValues("costPriceBrl") !== formatted) {
+      form.setValue("costPriceBrl", formatted, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [form.watch("costPriceUsd"), form.watch("dollarQuote")]);
 
   function onSubmit(values: FormValues) {
     mutate({
@@ -299,15 +370,16 @@ export function ModalCreateSale({ products }: Props) {
       lastImportationQuote: values.lastImportationQuote,
       dollarQuote: values.dollarQuote,
       dollarQuoteDate: values.dollarQuoteDate,
+      typeDollarQuote: values.typeDollarQuote,
       costPriceUsd: values.costPriceUsd,
       costPriceBrl: values.costPriceBrl,
     });
   }
 
   const lastImportationDisplay = importInfo
-    ? `${format(new Date(importInfo.createdAt), "dd/MM/yyyy", { locale: ptBR })}${
-        importInfo.quote ? ` • ${importInfo.quote.toFixed(4)}` : ""
-      }`
+    ? `${format(new Date(importInfo.createdAt), "dd/MM/yyyy", {
+        locale: ptBR,
+      })}${importInfo.quote ? ` • ${importInfo.quote.toFixed(4)}` : ""}`
     : "Nenhuma importação encontrada";
 
   return (
@@ -319,11 +391,17 @@ export function ModalCreateSale({ products }: Props) {
         <div className="mx-auto w-full max-w-2xl">
           <DrawerHeader>
             <DrawerTitle>Tabela de Venda</DrawerTitle>
-            <DrawerDescription>Cadastre uma nova tabela de venda</DrawerDescription>
+            <DrawerDescription>
+              Cadastre uma nova tabela de venda
+            </DrawerDescription>
           </DrawerHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 px-4 pb-6" autoComplete="off">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 px-4 pb-6"
+              autoComplete="off"
+            >
               <input type="hidden" {...form.register("id")} />
               <input type="hidden" {...form.register("lastImportationQuote")} />
               <input type="hidden" {...form.register("dollarQuoteDate")} />
@@ -337,7 +415,10 @@ export function ModalCreateSale({ products }: Props) {
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>Produto</FormLabel>
-                      <Popover open={productPopoverOpen} onOpenChange={setProductPopoverOpen}>
+                      <Popover
+                        open={productPopoverOpen}
+                        onOpenChange={setProductPopoverOpen}
+                      >
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
@@ -352,7 +433,8 @@ export function ModalCreateSale({ products }: Props) {
                             >
                               {selectedProduct ? (
                                 <span className="truncate text-left">
-                                  {selectedProduct.name} • TID {selectedProduct.tid}
+                                  {selectedProduct.name} • TID{" "}
+                                  {selectedProduct.tid}
                                 </span>
                               ) : (
                                 "Selecione um produto"
@@ -365,7 +447,9 @@ export function ModalCreateSale({ products }: Props) {
                           <Command>
                             <CommandInput placeholder="Pesquise pelo nome ou TID" />
                             <CommandList>
-                              <CommandEmpty>Nenhum produto encontrado</CommandEmpty>
+                              <CommandEmpty>
+                                Nenhum produto encontrado
+                              </CommandEmpty>
                               <CommandGroup>
                                 {products.map((product) => (
                                   <CommandItem
@@ -382,7 +466,7 @@ export function ModalCreateSale({ products }: Props) {
                                     <div className="flex flex-col">
                                       <span>{product.name}</span>
                                       <span className="text-xs text-muted-foreground">
-                                         {product.tid}
+                                        {product.tid}
                                       </span>
                                     </div>
                                   </CommandItem>
@@ -413,26 +497,54 @@ export function ModalCreateSale({ products }: Props) {
               />
 
               {/* Importação e Cotação */}
+              <FormField
+                control={form.control}
+                name="lastImportationAt"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Última importação</FormLabel>
+                    <input type="hidden" {...field} value={field.value ?? ""} />
+                    <FormControl>
+                      <Input value={lastImportationDisplay} disabled readOnly />
+                    </FormControl>
+                    {isLoadingImportInfo && (
+                      <p className="text-xs text-muted-foreground">
+                        Consultando declarações...
+                      </p>
+                    )}
+                  </FormItem>
+                )}
+              />
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
-                  name="lastImportationAt"
+                  name="typeDollarQuote"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Última importação</FormLabel>
-                      <input type="hidden" {...field} value={field.value ?? ""} />
-                      <FormControl>
-                        <Input value={lastImportationDisplay} disabled readOnly />
-                      </FormControl>
-                      {isLoadingImportInfo && (
-                        <p className="text-xs text-muted-foreground">
-                          Consultando declarações...
-                        </p>
-                      )}
+                      <FormLabel>Tipo de cotação</FormLabel>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Selecione o tipo" />
+                          </SelectTrigger>
+                        </FormControl>
+
+                        <SelectContent>
+                          <SelectItem value="CURRENT">Dólar atual</SelectItem>
+                          <SelectItem value="LAST_DI">
+                            Dólar última DI
+                          </SelectItem>
+                          <SelectItem value="FUTURE">Dólar futuro</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="dollarQuote"
@@ -441,13 +553,28 @@ export function ModalCreateSale({ products }: Props) {
                       <FormLabel>Cotação do dólar</FormLabel>
                       <FormControl>
                         <div className="flex items-center gap-2">
-                          <Input {...field} />
+                          <Input
+                            {...field}
+                            disabled={
+                              typeDollarQuote === "CURRENT" ||
+                              typeDollarQuote === "LAST_DI"
+                            }
+                            className={
+                              typeDollarQuote === "CURRENT"
+                                ? "bg-muted/50 cursor-not-allowed"
+                                : ""
+                            }
+                          />
+
                           <Button
                             type="button"
                             variant="outline"
                             size="icon"
+                            hidden={!(typeDollarQuote === "CURRENT")}
                             onClick={() => void handleRefreshDollarQuote()}
-                            disabled={isFetchingQuote}
+                            disabled={
+                              isFetchingQuote || typeDollarQuote !== "CURRENT"
+                            }
                           >
                             {isFetchingQuote ? (
                               <Loader2 className="h-4 w-4 animate-spin" />
@@ -486,7 +613,12 @@ export function ModalCreateSale({ products }: Props) {
                     <FormItem>
                       <FormLabel>Preço custo (BRL)</FormLabel>
                       <FormControl>
-                        <Input {...field} readOnly disabled className="bg-muted/50" />
+                        <Input
+                          {...field}
+                          readOnly
+                          disabled
+                          className="bg-muted/50"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -495,7 +627,11 @@ export function ModalCreateSale({ products }: Props) {
               </div>
 
               <DrawerFooter className="px-0">
-                <Button type="submit" disabled={isPending} className="cursor-pointer">
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="cursor-pointer"
+                >
                   {isPending ? "Salvando..." : "Salvar"}
                 </Button>
                 <DrawerClose asChild>

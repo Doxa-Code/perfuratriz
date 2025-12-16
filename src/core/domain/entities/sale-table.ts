@@ -10,6 +10,7 @@ export namespace SaleTable {
     costPriceBrl: number;
     createdAt: Date;
     updatedAt: Date;
+    typeDollarQuote: "CURRENT" | "LAST_DI" | "FUTURE";
   }
 
   export interface CreateProps {
@@ -39,6 +40,7 @@ export class SaleTable {
   public costPriceBrl: number;
   public createdAt: Date;
   public updatedAt: Date;
+  public typeDollarQuote: "CURRENT" | "LAST_DI" | "FUTURE";
 
   constructor(props: SaleTable.Props) {
     this.id = props.id;
@@ -47,6 +49,7 @@ export class SaleTable {
     this.lastImportationQuote = props.lastImportationQuote;
     this.dollarQuote = props.dollarQuote;
     this.dollarQuoteDate = props.dollarQuoteDate;
+    this.typeDollarQuote = props.typeDollarQuote;
     this.costPriceUsd = props.costPriceUsd;
     this.costPriceBrl = props.costPriceBrl;
     this.createdAt = props.createdAt;
@@ -65,7 +68,7 @@ export class SaleTable {
       costPriceBrl: props.costPriceBrl ?? 0,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
+      typeDollarQuote: props.typeDollarQuote ?? "CURRENT",
     });
   }
 }
-
