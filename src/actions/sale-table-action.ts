@@ -24,6 +24,7 @@ export const createSaleTableAction = createServerAction()
       lastImportationQuote: input.lastImportationQuote,
       dollarQuote: input.dollarQuote,
       dollarQuoteDate: input.dollarQuoteDate,
+      typeDollarQuote: input.typeDollarQuote,
       costPriceUsd: input.costPriceUsd,
       costPriceBrl: input.costPriceBrl,
     });

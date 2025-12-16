@@ -36,6 +36,7 @@ export const createSaleTableInputSchema = z.object({
     .string()
     .nullable()
     .transform((value) => (value ? new Date(value) : null)),
+  typeDollarQuote: z.enum(["CURRENT", "LAST_DI", "FUTURE"]),
   costPriceUsd: decimalTransformer(),
   costPriceBrl: decimalTransformer(),
 });
@@ -54,6 +55,7 @@ export const saleTableSchema = z.object({
     (value) => (value ? new Date(value as string) : null),
     z.date().nullable()
   ),
+  typeDollarQuote: z.enum(["CURRENT", "LAST_DI", "FUTURE"]),
   costPriceUsd: z.number(),
   costPriceBrl: z.number(),
   createdAt: z.preprocess((value) => new Date(value as string), z.date()),
@@ -76,4 +78,3 @@ export const saleTableImportInfoOutputSchema = z
     quote: z.number(),
   })
   .nullable();
-

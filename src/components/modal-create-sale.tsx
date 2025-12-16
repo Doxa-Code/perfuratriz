@@ -74,12 +74,9 @@ const formSchema = z.object({
   dollarQuote: z
     .string({ required_error: "Campo obrigatório" })
     .min(1, "Campo obrigatório"),
-  typeDollarQuote: z
-    .enum(["CURRENT", "LAST_DI", "FUTURE"], {
-      required_error: "Selecione o tipo de cotação",
-    })
-    .default("CURRENT")
-    .optional(),
+  typeDollarQuote: z.enum(["CURRENT", "LAST_DI", "FUTURE"], {
+    required_error: "Selecione o tipo de cotação",
+  }),
   dollarQuoteDate: z.string().nullable(),
   costPriceUsd: z
     .string({ required_error: "Campo obrigatório" })
@@ -176,23 +173,25 @@ export function ModalCreateSale({ products }: Props) {
     register?.product;
 
   React.useEffect(() => {
-    if (register && isSaleModalOpen) {
+    if (!isSaleModalOpen) {
       setProductPopoverOpen(false);
+      return;
+    }
+
+    if (register) {
+      // edição
       form.reset({
         id: register.id,
         productId: register.productId,
         tid: register.product.tid,
         description: register.product.description,
-        lastImportationAt: register.lastImportationAt
-          ? register.lastImportationAt.toISOString()
-          : null,
-        lastImportationQuote: register.lastImportationQuote
-          ? register.lastImportationQuote.toFixed(4).replace(".", ",")
-          : null,
+        lastImportationAt: register.lastImportationAt?.toISOString() ?? null,
+        lastImportationQuote:
+          register.lastImportationQuote?.toFixed(4).replace(".", ",") ?? null,
         dollarQuote: register.dollarQuote.toFixed(4).replace(".", ","),
-        dollarQuoteDate: register.dollarQuoteDate
-          ? register.dollarQuoteDate.toISOString()
-          : new Date().toISOString(),
+        dollarQuoteDate:
+          register.dollarQuoteDate?.toISOString() ?? new Date().toISOString(),
+        typeDollarQuote: register.typeDollarQuote,
         costPriceUsd: register.costPriceUsd.toFixed(2).replace(".", ","),
         costPriceBrl: register.costPriceBrl.toFixed(2).replace(".", ","),
       });
@@ -204,19 +203,14 @@ export function ModalCreateSale({ products }: Props) {
             }
           : null
       );
-      return;
-    }
-
-    if (!isSaleModalOpen) {
-      setProductPopoverOpen(false);
-      return;
-    }
-
-    if (form.formState.isDirty || form.formState.isSubmitted) {
+    } else {
+      // criação nova tabela
       form.reset(defaultValues);
       setImportInfo(null);
+      setProductPopoverOpen(false);
+      void handleRefreshDollarQuote();
     }
-  }, [register, isSaleModalOpen, form]);
+  }, [register, isSaleModalOpen]);
 
   React.useEffect(() => {
     if (typeDollarQuote === "CURRENT" && !isFetchingQuote) {
@@ -376,6 +370,7 @@ export function ModalCreateSale({ products }: Props) {
       lastImportationQuote: values.lastImportationQuote,
       dollarQuote: values.dollarQuote,
       dollarQuoteDate: values.dollarQuoteDate,
+      typeDollarQuote: values.typeDollarQuote,
       costPriceUsd: values.costPriceUsd,
       costPriceBrl: values.costPriceBrl,
     });

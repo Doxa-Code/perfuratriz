@@ -58,6 +58,7 @@ export class SaleTableDatabaseRepository implements SaleTableRepository {
           10000
         ),
         dollarQuoteDate: row.saleTable.dollarQuoteDate,
+        typeDollarQuote: row.saleTable.typeDollarQuote,
         costPriceUsd: FormatFloatNumberHelper.format(
           row.saleTable.costPriceUsd,
           100
